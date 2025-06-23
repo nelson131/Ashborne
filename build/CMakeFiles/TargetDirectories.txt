@@ -1,3 +1,0 @@
-/home/dima/Documents/vscode/Ashborne/build/CMakeFiles/Ashborne.dir
-/home/dima/Documents/vscode/Ashborne/build/CMakeFiles/edit_cache.dir
-/home/dima/Documents/vscode/Ashborne/build/CMakeFiles/rebuild_cache.dir

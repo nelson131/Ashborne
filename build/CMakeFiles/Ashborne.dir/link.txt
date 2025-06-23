@@ -1,1 +1,0 @@
-/usr/bin/g++ -g CMakeFiles/Ashborne.dir/src/main.cpp.o CMakeFiles/Ashborne.dir/src/Ashborne.cpp.o CMakeFiles/Ashborne.dir/src/character/Player.cpp.o CMakeFiles/Ashborne.dir/src/utils/Logger.cpp.o CMakeFiles/Ashborne.dir/src/utils/Config.cpp.o -o Ashborne  /usr/lib/x86_64-linux-gnu/libSDL2.so -lSDL2_image 
