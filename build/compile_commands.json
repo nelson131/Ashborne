@@ -1,0 +1,27 @@
+[
+{
+  "directory": "/home/dima/Documents/vscode/Ashborne/build",
+  "command": "/usr/bin/g++  -isystem /usr/include/SDL2 -g -o CMakeFiles/Ashborne.dir/src/main.cpp.o -c /home/dima/Documents/vscode/Ashborne/src/main.cpp",
+  "file": "/home/dima/Documents/vscode/Ashborne/src/main.cpp"
+},
+{
+  "directory": "/home/dima/Documents/vscode/Ashborne/build",
+  "command": "/usr/bin/g++  -isystem /usr/include/SDL2 -g -o CMakeFiles/Ashborne.dir/src/Ashborne.cpp.o -c /home/dima/Documents/vscode/Ashborne/src/Ashborne.cpp",
+  "file": "/home/dima/Documents/vscode/Ashborne/src/Ashborne.cpp"
+},
+{
+  "directory": "/home/dima/Documents/vscode/Ashborne/build",
+  "command": "/usr/bin/g++  -isystem /usr/include/SDL2 -g -o CMakeFiles/Ashborne.dir/src/character/Player.cpp.o -c /home/dima/Documents/vscode/Ashborne/src/character/Player.cpp",
+  "file": "/home/dima/Documents/vscode/Ashborne/src/character/Player.cpp"
+},
+{
+  "directory": "/home/dima/Documents/vscode/Ashborne/build",
+  "command": "/usr/bin/g++  -isystem /usr/include/SDL2 -g -o CMakeFiles/Ashborne.dir/src/utils/Logger.cpp.o -c /home/dima/Documents/vscode/Ashborne/src/utils/Logger.cpp",
+  "file": "/home/dima/Documents/vscode/Ashborne/src/utils/Logger.cpp"
+},
+{
+  "directory": "/home/dima/Documents/vscode/Ashborne/build",
+  "command": "/usr/bin/g++  -isystem /usr/include/SDL2 -g -o CMakeFiles/Ashborne.dir/src/utils/Config.cpp.o -c /home/dima/Documents/vscode/Ashborne/src/utils/Config.cpp",
+  "file": "/home/dima/Documents/vscode/Ashborne/src/utils/Config.cpp"
+}
+]
