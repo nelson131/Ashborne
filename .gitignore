@@ -1,6 +1,9 @@
 # Prerequisites
 *.d
 
+# .gitignore
+build/
+
 # Compiled Object files
 *.slo
 *.lo
