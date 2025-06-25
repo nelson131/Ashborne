@@ -4,6 +4,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <memory>
 
 class Ashborne {
     
@@ -21,6 +22,7 @@ class Ashborne {
     private:
     int count = 0;
     bool run;
+    
     SDL_Window *window;
     SDL_Renderer *renderer;
     SDL_Event event;

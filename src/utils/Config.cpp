@@ -39,3 +39,14 @@ std::string Config::config_parse(std::string key_title, std::string key_message)
     }
     return "";
 }
+
+int Config::config_parseInt(std::string key_title, std::string key_message){
+    int i = 0;
+    try {
+        i = std::stoi(config_parse(key_title, key_message));
+    } catch(...){
+        logger.print(logger.ERROR, "Cant convert string to integer from config file");
+    }
+
+    return i;
+}

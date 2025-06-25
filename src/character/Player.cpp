@@ -2,6 +2,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "Player.h"
+#include "../TextureManager.h"
 
 SDL_Texture *texture;
 SDL_Rect srcR, destR;

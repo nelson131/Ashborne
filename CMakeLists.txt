@@ -13,6 +13,8 @@ add_executable(Ashborne
  src/main.cpp
  src/Ashborne.cpp
  src/Ashborne.h
+ src/TextureManager.cpp
+ src/TextureManager.h
  src/character/Player.cpp
  src/character/Player.h
  src/utils/Logger.cpp

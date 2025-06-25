@@ -46,6 +46,14 @@ void Ashborne::eventManager(){
         case SDL_QUIT:
             run = false;
             break;
+        case SDLK_w:
+            break;
+        case SDLK_a:
+            break;
+        case SDLK_s:
+            break;
+        case SDLK_d:
+            break;
         default:
             break;
     }

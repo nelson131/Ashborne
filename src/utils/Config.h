@@ -11,6 +11,7 @@ class Config {
     void config_init();
 
     std::string config_parse(std::string key_title, std::string key_message);
+    int config_parseInt(std::string key_title, std::string key_message);
 
     private:
     Logger logger;
