@@ -12,6 +12,7 @@ class Config {
 
     std::string config_parse(std::string key_title, std::string key_message);
     int config_parseInt(std::string key_title, std::string key_message);
+    float config_parseFloat(std::string key_title, std::string key_message);
 
     private:
     Logger logger;

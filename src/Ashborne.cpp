@@ -40,22 +40,14 @@ void Ashborne::game_init(const char *title, int x, int y, int width, int height,
 }
 
 void Ashborne::eventManager(){
-    SDL_PollEvent(&event);
-
-    switch(event.type){
-        case SDL_QUIT:
-            run = false;
-            break;
-        case SDLK_w:
-            break;
-        case SDLK_a:
-            break;
-        case SDLK_s:
-            break;
-        case SDLK_d:
-            break;
-        default:
-            break;
+    while(SDL_PollEvent(&event)) {
+        switch(event.type){
+            case SDL_QUIT:
+                run = false;
+                break;
+            default:
+                break;
+        }
     }
 }
 
@@ -70,6 +62,7 @@ void Ashborne::render(){
 void Ashborne::update(){
     count++;
 
+    player.handleInput();
     player.update();
 
     //std::cout << count << std::endl;

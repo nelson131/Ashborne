@@ -6,6 +6,7 @@
 #include <iostream>
 
 class Player {
+
     public:
     Player();
 
@@ -13,7 +14,11 @@ class Player {
     void display(SDL_Renderer *renderer);
     void update();
 
+    void handleInput();
+
     private:
+    float x, y;
+    float speed;
     const char *texturePath = "assets/playertest.png";
     
 };

@@ -8,8 +8,8 @@ std::unique_ptr<Ashborne> ashborne;
 std::unique_ptr<Config> config;
 
 int main(int, char**){
-    auto ashborne = std::make_unique<Ashborne>();
-    auto config = std::make_unique<Config>();
+    ashborne = std::make_unique<Ashborne>();
+    config = std::make_unique<Config>();
 
     const float FPS = 60;
     const float frameDelay = 1000 / FPS;
