@@ -5,9 +5,6 @@
 #include "../TextureManager.h"
 #include "../utils/Config.h"
 
-SDL_Texture *texture;
-SDL_Rect srcR, destR;
-
 Player::Player(){
 
 }
@@ -29,14 +26,12 @@ void Player::display(SDL_Renderer *renderer){
 }
     
 void Player::update(){
-    Config config;
     destR.h = config.config_parseInt("player_info", "height");
     destR.w = config.config_parseInt("player_info", "width");
 }
 
 
 void Player::handleInput(){
-    Config config;
     speed = config.config_parseFloat("player_info", "speed");
     const Uint8 *keys = SDL_GetKeyboardState(NULL);
     

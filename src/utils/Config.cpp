@@ -54,7 +54,7 @@ int Config::config_parseInt(std::string key_title, std::string key_message){
 float Config::config_parseFloat(std::string key_title, std::string key_message){
     float f = 0;
     try {
-        f = std::stoi(config_parse(key_title, key_message));
+        f = std::stof(config_parse(key_title, key_message));
     } catch (...){
         logger.print(logger.ERROR, "Cant convert string to float from config file");
     }

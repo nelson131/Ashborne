@@ -5,6 +5,8 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <memory>
+#include "character/Player.h"
+#include "Tilemap.h"
 
 class Ashborne {
     
@@ -20,13 +22,16 @@ class Ashborne {
     bool isRunning();
 
     private:
-    int count = 0;
-    bool run;
-    
+    Player player;
+    Tilemap tilemap;
+
     SDL_Window *window;
     SDL_Renderer *renderer;
     SDL_Event event;
 
+    int count = 0;
+    bool run;
+    
 };
 
 #endif

@@ -8,10 +8,9 @@ TextureManager::TextureManager(){
 
 }
 
-SDL_Texture *TextureManager::load(const char *pathToFIle, SDL_Renderer *renderer){
+void TextureManager::load(const char *pathToFIle, SDL_Renderer *renderer){
     SDL_Surface *tempSurface = IMG_Load(pathToFIle);
 
     SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, tempSurface);
     SDL_FreeSurface(tempSurface);
-    return texture;
 }

@@ -15,12 +15,16 @@ add_executable(Ashborne
  src/Ashborne.h
  src/TextureManager.cpp
  src/TextureManager.h
+ src/Tilemap.cpp
+ src/Tilemap.h
  src/character/Player.cpp
  src/character/Player.h
  src/utils/Logger.cpp
  src/utils/Logger.h
  src/utils/Config.cpp
  src/utils/Config.h
+ src/scenes/SceneManager.cpp
+ src/scenes/SceneManager.h
  )
 
 target_link_libraries(Ashborne

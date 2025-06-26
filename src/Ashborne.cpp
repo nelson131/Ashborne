@@ -1,18 +1,18 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <memory>
 #include "Ashborne.h"
 #include "character/Player.h"
-
-Player player;
+#include "Tilemap.h"
 
 Ashborne::Ashborne(){
     
 }
 
-void Ashborne::game_init(const char *title, int x, int y, int width, int height, bool fullscrean){
+void Ashborne::game_init(const char *title, int x, int y, int width, int height, bool fullscreen){
     int flags = 0;
-    if(fullscrean){
+    if(fullscreen){
         flags = SDL_WINDOW_FULLSCREEN;
     }
 
@@ -37,6 +37,18 @@ void Ashborne::game_init(const char *title, int x, int y, int width, int height,
 
     player.init(renderer);
 
+      int a = 2;
+    std::vector<std::vector<int>> mapSet = {
+        {0, 0, 0, 0, 0},
+        {1, 1, 0, 0, 0},
+        {0, 1, 1, 1, 0},
+        {0, 0, 1, 1, 0}
+    };
+
+    tilemap.set(mapSet);
+    tilemap.load("assets/tilemaptest.png", renderer, a);
+
+   
 }
 
 void Ashborne::eventManager(){
@@ -54,6 +66,7 @@ void Ashborne::eventManager(){
 void Ashborne::render(){
     SDL_RenderClear(renderer);
     //...
+    tilemap.render(renderer);
     player.display(renderer);
     //...
     SDL_RenderPresent(renderer);
