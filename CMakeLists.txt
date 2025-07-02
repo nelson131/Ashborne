@@ -25,6 +25,9 @@ add_executable(Ashborne
  src/utils/Config.h
  src/scenes/SceneManager.cpp
  src/scenes/SceneManager.h
+ src/scenes/SceneHolder.cpp
+ src/game/ItemManager.cpp
+ src/game/ItemManager.h
  )
 
 target_link_libraries(Ashborne

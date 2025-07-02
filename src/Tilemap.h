@@ -4,17 +4,19 @@
 #include <iostream>
 #include <vector>
 #include <SDL2/SDL.h>
+#include "utils/Logger.h"
 
 class Tilemap {
 
     public:
     Tilemap();
 
-    void load(const char *filePath, SDL_Renderer *renderer, int &tilesSize);
+    void load(const char *filePath, SDL_Renderer *renderer, int tilesSize);
     void render(SDL_Renderer *renderer);
     void set(std::vector<std::vector<int>> &mapSet);
 
     private:
+    Logger logger;
     SDL_Texture *tileset;
     std::vector<std::vector<int>> map;
     

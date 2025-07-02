@@ -4,6 +4,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <iostream>
+#include <array>
 #include "../utils/Config.h"
 
 class Player {
@@ -17,6 +18,17 @@ class Player {
 
     void handleInput();
 
+    std::array<int, 6> getPlayerStats();
+
+    int getHP();
+    int getMana();
+    int getPhysDamage();
+    int getMagicDamage();
+    int getPhysRes();
+    int getMagicRes();
+
+    void stats_update();
+
     private:
     Config config;
 
@@ -26,7 +38,9 @@ class Player {
     float x, y;
     float speed;
     const char *texturePath = "assets/playertest.png";
-    
+
+    std::array<int, 6> player_stats;
+
 };
 
 #endif

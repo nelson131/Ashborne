@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "../TextureManager.h"
 #include "../utils/Config.h"
+#include "../game/ItemManager.h"
 
 Player::Player(){
 
@@ -47,4 +48,38 @@ void Player::handleInput(){
     if(keys[SDL_SCANCODE_D]){
         destR.x += speed;
     }
+}
+
+std::array<int, 6> Player::getPlayerStats(){
+    return player_stats;
+}
+
+int Player::getHP(){
+    return player_stats[0];
+}
+
+int Player::getMana(){
+    return player_stats[1];
+}
+
+int Player::getPhysDamage(){
+    return player_stats[2];
+}
+
+int Player::getMagicDamage(){
+    return player_stats[3];
+}
+
+int Player::getPhysRes(){
+    return player_stats[4];
+}
+
+int Player::getMagicRes(){
+    return player_stats[5];
+}
+
+void Player::stats_update(){
+    for(int i = 0; i<player_stats.size(); i++){
+        player_stats[i] += itemManager.update_parameters()[i];
+    };
 }

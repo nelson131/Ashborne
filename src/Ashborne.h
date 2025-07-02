@@ -7,6 +7,7 @@
 #include <memory>
 #include "character/Player.h"
 #include "Tilemap.h"
+#include "scenes/SceneManager.h"
 
 class Ashborne {
     
@@ -24,6 +25,8 @@ class Ashborne {
     private:
     Player player;
     Tilemap tilemap;
+    
+    std::unique_ptr<SceneManager> sceneManager;
 
     SDL_Window *window;
     SDL_Renderer *renderer;

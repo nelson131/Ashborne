@@ -5,9 +5,10 @@
 #include "Ashborne.h"
 #include "character/Player.h"
 #include "Tilemap.h"
+#include "scenes/SceneManager.h"
 
 Ashborne::Ashborne(){
-    
+
 }
 
 void Ashborne::game_init(const char *title, int x, int y, int width, int height, bool fullscreen){
@@ -17,6 +18,7 @@ void Ashborne::game_init(const char *title, int x, int y, int width, int height,
     }
 
     SDL_Init(SDL_INIT_EVERYTHING);
+    IMG_Init(IMG_INIT_PNG);
 
     window = SDL_CreateWindow(
         title,
@@ -34,21 +36,12 @@ void Ashborne::game_init(const char *title, int x, int y, int width, int height,
     } else {
         run = false;
     }
+    
+    sceneManager = std::make_unique<SceneManager>(renderer);
+    sceneManager->scenes_init();
+    sceneManager->setCurrentScene(&sceneManager->Testroom);
 
     player.init(renderer);
-
-      int a = 2;
-    std::vector<std::vector<int>> mapSet = {
-        {0, 0, 0, 0, 0},
-        {1, 1, 0, 0, 0},
-        {0, 1, 1, 1, 0},
-        {0, 0, 1, 1, 0}
-    };
-
-    tilemap.set(mapSet);
-    tilemap.load("assets/tilemaptest.png", renderer, a);
-
-   
 }
 
 void Ashborne::eventManager(){
@@ -66,7 +59,7 @@ void Ashborne::eventManager(){
 void Ashborne::render(){
     SDL_RenderClear(renderer);
     //...
-    tilemap.render(renderer);
+    sceneManager->ikuyo();
     player.display(renderer);
     //...
     SDL_RenderPresent(renderer);
