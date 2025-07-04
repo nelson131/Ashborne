@@ -27,7 +27,7 @@ class Player {
     int getPhysRes();
     int getMagicRes();
 
-    void stats_update();
+    void statsUpdate();
 
     private:
     Config config;
@@ -39,7 +39,7 @@ class Player {
     float speed;
     const char *texturePath = "assets/playertest.png";
 
-    std::array<int, 6> player_stats;
+    std::array<int, 6> playerStats;
 
 };
 

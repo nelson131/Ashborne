@@ -22,7 +22,7 @@ struct Scene {
 class SceneManager {
 
     public:
-    SceneManager(SDL_Renderer *sdl_renderer);
+    SceneManager(SDL_Renderer *sdlRenderer);
 
     void scenes_init();
 

@@ -32,10 +32,10 @@ class ItemManager {
     void addToInventory(Item item);
     void removeFromInventory(Item item);
 
-    std::array<int, 6> update_parameters();
+    std::array<int, 6> updateParameters();
 
     private:
-    std::list<Item> player_inventory;
+    std::list<Item> playerInventory;
 };
 
 extern ItemManager itemManager;

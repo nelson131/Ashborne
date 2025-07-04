@@ -8,11 +8,11 @@ class Config {
     
     public:
     Config();
-    void config_init();
+    void init();
 
-    std::string config_parse(std::string key_title, std::string key_message);
-    int config_parseInt(std::string key_title, std::string key_message);
-    float config_parseFloat(std::string key_title, std::string key_message);
+    std::string parse(std::string keyTitle, std::string keyMessage);
+    int parseInt(std::string keyTitle, std::string keyMessage);
+    float parseFloat(std::string keyTitle, std::string keyMessage);
 
     private:
     Logger logger;

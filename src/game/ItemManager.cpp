@@ -11,24 +11,24 @@ ItemManager::ItemManager(){
 }
 
 std::list<Item> ItemManager::getInventory(){
-    return player_inventory;
+    return playerInventory;
 }
 
 void ItemManager::addToInventory(Item item){
-    player_inventory.push_back(item);
+    playerInventory.push_back(item);
 }
 
 void ItemManager::removeFromInventory(Item item){
-    player_inventory.remove(item);
+    playerInventory.remove(item);
 }
 
-std::array<int, 6> ItemManager::update_parameters(){
-    std::array<int, 6> temp_parameters = {0, 0, 0, 0, 0, 0};
-    for(const Item &item : player_inventory){
-        for(size_t i = 0; i < temp_parameters.size(); i++){
-            temp_parameters[i] = item.parameters[i];
+std::array<int, 6> ItemManager::updateParameters(){
+    std::array<int, 6> tempParameters = {0, 0, 0, 0, 0, 0};
+    for(const Item &item : playerInventory){
+        for(size_t i = 0; i < tempParameters.size(); i++){
+            tempParameters[i] = item.parameters[i];
         }
     }
-    return temp_parameters;
+    return tempParameters;
 }
 

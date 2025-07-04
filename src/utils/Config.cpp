@@ -6,7 +6,7 @@ Config::Config(){
 
 }
 
-void Config::config_init(){
+void Config::init(){
     std::ifstream file("resources/config.ini");
     if(file.is_open()){
         logger.print(logger.INFO, "Config file already exist");
@@ -21,10 +21,10 @@ void Config::config_init(){
     }
 }
 
-std::string Config::config_parse(std::string key_title, std::string key_message){
+std::string Config::parse(std::string keyTitle, std::string keyMessage){
     std::ifstream cfg("resources/config.ini");
-    std::string title = "[" + key_title + "]";
-    std::string message = key_message + "=";
+    std::string title = "[" + keyTitle + "]";
+    std::string message = keyMessage + "=";
     std::string line;
     bool hasKey = false;
     while(std::getline (cfg, line)){
@@ -40,10 +40,10 @@ std::string Config::config_parse(std::string key_title, std::string key_message)
     return "";
 }
 
-int Config::config_parseInt(std::string key_title, std::string key_message){
+int Config::parseInt(std::string keyTitle, std::string keyMessage){
     int i = 0;
     try {
-        i = std::stoi(config_parse(key_title, key_message));
+        i = std::stoi(parse(keyTitle, keyMessage));
     } catch(...){
         logger.print(logger.ERROR, "Cant convert string to integer from config file");
     }
@@ -51,10 +51,10 @@ int Config::config_parseInt(std::string key_title, std::string key_message){
     return i;
 }
 
-float Config::config_parseFloat(std::string key_title, std::string key_message){
+float Config::parseFloat(std::string keyTitle, std::string keyMessage){
     float f = 0;
     try {
-        f = std::stof(config_parse(key_title, key_message));
+        f = std::stof(parse(keyTitle, keyMessage));
     } catch (...){
         logger.print(logger.ERROR, "Cant convert string to float from config file");
     }

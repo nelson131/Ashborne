@@ -16,13 +16,13 @@ int main(int, char**){
     Uint32 frameStart;
     float frameTime;
 
-    config->config_init();
+    config->init();
 
-    int WINDOW_WIDTH = config->config_parseInt("game_info", "width");
-    int WINDOW_HEIGHT = config->config_parseInt("game_info", "height");
+    int WINDOW_WIDTH = config->parseInt("game_info", "width");
+    int WINDOW_HEIGHT = config->parseInt("game_info", "height");
 
-    std::cout << config->config_parse("game_info", "version") << std::endl;
-    ashborne->game_init("Ashborne", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, false);
+    std::cout << config->parse("game_info", "version") << std::endl;
+    ashborne->gameInit("Ashborne", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, false);
     while(ashborne->isRunning()){
         frameStart = SDL_GetTicks();
 

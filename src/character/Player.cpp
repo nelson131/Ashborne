@@ -27,13 +27,13 @@ void Player::display(SDL_Renderer *renderer){
 }
     
 void Player::update(){
-    destR.h = config.config_parseInt("player_info", "height");
-    destR.w = config.config_parseInt("player_info", "width");
+    destR.h = config.parseInt("player_info", "height");
+    destR.w = config.parseInt("player_info", "width");
 }
 
 
 void Player::handleInput(){
-    speed = config.config_parseFloat("player_info", "speed");
+    speed = config.parseFloat("player_info", "speed");
     const Uint8 *keys = SDL_GetKeyboardState(NULL);
     
     if(keys[SDL_SCANCODE_W]){
@@ -51,35 +51,35 @@ void Player::handleInput(){
 }
 
 std::array<int, 6> Player::getPlayerStats(){
-    return player_stats;
+    return playerStats;
 }
 
 int Player::getHP(){
-    return player_stats[0];
+    return playerStats[0];
 }
 
 int Player::getMana(){
-    return player_stats[1];
+    return playerStats[1];
 }
 
 int Player::getPhysDamage(){
-    return player_stats[2];
+    return playerStats[2];
 }
 
 int Player::getMagicDamage(){
-    return player_stats[3];
+    return playerStats[3];
 }
 
 int Player::getPhysRes(){
-    return player_stats[4];
+    return playerStats[4];
 }
 
 int Player::getMagicRes(){
-    return player_stats[5];
+    return playerStats[5];
 }
 
-void Player::stats_update(){
-    for(int i = 0; i<player_stats.size(); i++){
-        player_stats[i] += itemManager.update_parameters()[i];
+void Player::statsUpdate(){
+    for(int i = 0; i<playerStats.size(); i++){
+        playerStats[i] += itemManager.updateParameters()[i];
     };
 }
