@@ -25,12 +25,11 @@ class SceneManager {
     SceneManager(SDL_Renderer *sdlRenderer);
 
     void scenes_init();
-
-    void ikuyo();
-    Scene findSceneById(int id);
+    void ikuyo(SDL_Rect &camera);
 
     void setCurrentScene(Scene *scene);
     Scene *getCurrentScene();
+    Scene findSceneById(int id);
 
     Scene Testroom;
 

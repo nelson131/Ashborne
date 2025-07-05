@@ -7,7 +7,7 @@ Tilemap::Tilemap(){
     
 }
 
-void Tilemap::render(SDL_Renderer *renderer){
+void Tilemap::render(SDL_Renderer *renderer, SDL_Rect &fuckingCamera){
     if (!tileset) {
         logger.print(logger.ERROR, "Failed to render this tileset");
         exit(1);
@@ -23,8 +23,8 @@ void Tilemap::render(SDL_Renderer *renderer){
             };
 
             SDL_Rect dstRect = {
-                x * 32,
-                y * 32,
+                x * 32 - fuckingCamera.x,
+                y * 32 - fuckingCamera.y,
                 32,
                 32
             };

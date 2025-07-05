@@ -15,8 +15,11 @@ class Player {
     void init(SDL_Renderer *renderer);
     void display(SDL_Renderer *renderer);
     void update();
-
     void handleInput();
+
+    float getX();
+    float getY();
+    SDL_Rect &getCamera();
 
     std::array<int, 6> getPlayerStats();
 
@@ -35,9 +38,12 @@ class Player {
     SDL_Texture *texture;
     SDL_Rect srcR, destR;
     
-    float x, y;
     float speed;
     const char *texturePath = "assets/playertest.png";
+
+    SDL_Rect camera = {0, 0, 640, 480};
+    int screen_width = config.parseInt("game_info", "screen_width");
+    int screen_height = config.parseInt("game_info", "screen_height");
 
     std::array<int, 6> playerStats;
 

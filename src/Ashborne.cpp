@@ -59,7 +59,7 @@ void Ashborne::eventManager(){
 void Ashborne::render(){
     SDL_RenderClear(renderer);
     //...
-    sceneManager->ikuyo();
+    sceneManager->ikuyo(player.getCamera());
     player.display(renderer);
     //...
     SDL_RenderPresent(renderer);

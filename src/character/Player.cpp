@@ -20,15 +20,25 @@ void Player::init(SDL_Renderer *renderer){
 
     texture = SDL_CreateTextureFromSurface(renderer, surface);
     SDL_FreeSurface(surface);
+
+    destR.h = config.parseInt("player_info", "height");
+    destR.w = config.parseInt("player_info", "width");
 }
 
 void Player::display(SDL_Renderer *renderer){
-    SDL_RenderCopy(renderer, texture, NULL, &destR);
+    SDL_Rect screenRect = {
+        destR.x - camera.x,
+        destR.y - camera.y,
+        destR.w,
+        destR.h
+    };
+
+    SDL_RenderCopy(renderer, texture, NULL, &screenRect);
 }
     
 void Player::update(){
-    destR.h = config.parseInt("player_info", "height");
-    destR.w = config.parseInt("player_info", "width");
+    camera.x = getX() + destR.w/2 - screen_width/2;
+    camera.y = getY() + destR.h/2 - screen_height/2;
 }
 
 
@@ -48,6 +58,18 @@ void Player::handleInput(){
     if(keys[SDL_SCANCODE_D]){
         destR.x += speed;
     }
+}
+
+float Player::getX(){
+    return destR.x;
+}
+
+float Player::getY(){
+    return destR.y;
+}
+
+SDL_Rect &Player::getCamera(){
+    return camera;
 }
 
 std::array<int, 6> Player::getPlayerStats(){

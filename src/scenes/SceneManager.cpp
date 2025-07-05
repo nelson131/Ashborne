@@ -7,13 +7,13 @@ SceneManager::SceneManager(SDL_Renderer *sdl_renderer)
     : renderer(sdl_renderer)
 {}
 
-void SceneManager::ikuyo(){
+void SceneManager::ikuyo(SDL_Rect &camera){
     if(!currentScene){
         logger.print(logger.ERROR, "No current scene set");
         exit(-1);
     }
     for(Tilemap& tilemap : currentScene->layers){
-        tilemap.render(renderer);
+        tilemap.render(renderer, camera);
     }
 }
 

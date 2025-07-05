@@ -12,7 +12,7 @@ class Tilemap {
     Tilemap();
 
     void load(const char *filePath, SDL_Renderer *renderer, int tilesSize);
-    void render(SDL_Renderer *renderer);
+    void render(SDL_Renderer *renderer, SDL_Rect &camera);
     void set(std::vector<std::vector<int>> &mapSet);
 
     private:
