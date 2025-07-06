@@ -27,7 +27,7 @@ class Vector {
     Vector getMultiplied(const Vector& v);
     
 
-    friend Vector& operator + (const Vector& v1, const  Vector& v2);
+    friend Vector& operator + (Vector& v1, const  Vector& v2);
     friend Vector& operator - (Vector& v1, const Vector& v2);
     friend Vector& operator / (Vector& v1, const Vector& v2);
     friend Vector& operator * (Vector& v1, const Vector& v2);

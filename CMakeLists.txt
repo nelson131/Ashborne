@@ -28,6 +28,8 @@ add_executable(Ashborne
  src/scenes/SceneHolder.cpp
  src/game/ItemManager.cpp
  src/game/ItemManager.h
+ src/alg/Vector.h
+ src/alg/Vector.cpp
  )
 
 target_link_libraries(Ashborne
