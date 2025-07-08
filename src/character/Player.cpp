@@ -5,6 +5,7 @@
 #include "../TextureManager.h"
 #include "../utils/Config.h"
 #include "../game/ItemManager.h"
+#include "../alg/Vector.h"
 
 Player::Player(){
 

@@ -7,7 +7,8 @@ class Vector {
     public:
     float x;
     float y;
-
+    
+    Vector();
     Vector(float x, float y);
 
     Vector& add(const Vector& v);
