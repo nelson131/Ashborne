@@ -4,6 +4,10 @@
 #include "Vector.h"
 #include "../utils/Logger.h"
 
+Vector::Vector()
+    : x(x), y(y)
+{}
+
 Vector::Vector(float x, float y){
     this->x = x;
     this->y = y;
@@ -89,6 +93,10 @@ Vector& operator * (Vector& v1, const Vector& v2){
     return v1.multiply(v2);
 }
 
+Vector operator * (Vector& v, float f){
+    return Vector(v.x * f, v.y * f);
+}
+
 Vector& Vector::set(float x, float y){
     this->x = x;
     this->y = y;
@@ -135,6 +143,7 @@ Vector Vector::getNormalized(){
         return Vector(this->x / l, this->y / l);
     }
     log.print(log.WARNING, "Couldnt normalize cause length of vector is zero");
+    return *this;
 }
 
 float Vector::dot(const Vector& v){

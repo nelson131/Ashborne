@@ -30,6 +30,9 @@ add_executable(Ashborne
  src/game/ItemManager.h
  src/alg/Vector.h
  src/alg/Vector.cpp
+ src/entity/Entity.h
+ src/entity/Entity.cpp
+ src/entity/EntityHolder.h
  )
 
 target_link_libraries(Ashborne

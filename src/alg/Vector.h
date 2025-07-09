@@ -32,6 +32,7 @@ class Vector {
     friend Vector& operator - (Vector& v1, const Vector& v2);
     friend Vector& operator / (Vector& v1, const Vector& v2);
     friend Vector& operator * (Vector& v1, const Vector& v2);
+    friend Vector operator * (Vector& v, float f);
 
     Vector& set(float x, float y);
 

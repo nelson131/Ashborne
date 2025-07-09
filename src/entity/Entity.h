@@ -10,11 +10,11 @@
 class Entity {
 
     public:
-    Entity(SDL_Renderer *sdlRenderer);
+    Entity();
 
-    void create(float x, float y, const char *pathToTexture, std::string entityName, bool &isVisible, bool &isCollisible);
+    void create(float x, float y, const char *pathToTexture, std::string entityName, bool isVisible, bool isCollisible);
     void update();
-    void render(SDL_Renderer *renderer, SDL_Rect& camera);
+    void render(SDL_Rect& camera);
     void kill(Entity& e);
 
     void setVisible(bool &b);
@@ -30,7 +30,6 @@ class Entity {
     SDL_Rect srcRect, destRect;
 
     private:
-    SDL_Renderer *renderer;
     SDL_Texture *texture;
     Logger log;
 

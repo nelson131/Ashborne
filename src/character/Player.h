@@ -6,6 +6,7 @@
 #include <iostream>
 #include <array>
 #include "../utils/Config.h"
+#include "../entity/Entity.h"
 
 class Player {
 
@@ -16,9 +17,7 @@ class Player {
     void display(SDL_Renderer *renderer);
     void update();
     void handleInput();
-
-    float getX();
-    float getY();
+    
     SDL_Rect &getCamera();
 
     std::array<int, 6> getPlayerStats();
@@ -33,6 +32,7 @@ class Player {
     void statsUpdate();
 
     private:
+    Entity ePlayer;
     Config config;
 
     SDL_Texture *texture;

@@ -7,11 +7,11 @@
 
 EntityHolder eHolder;
 
-Entity::Entity(SDL_Renderer *sdlRenderer)
-    : renderer(sdlRenderer)
-{}
+Entity::Entity(){
 
-void Entity::create(float x, float y, const char *pathToTexture, std::string entityName, bool &visible, bool &collisible){
+}
+
+void Entity::create(float x, float y, const char *pathToTexture, std::string entityName, bool visible, bool collisible){
     width = 32;
     height = 32;
     
@@ -34,7 +34,7 @@ void Entity::create(float x, float y, const char *pathToTexture, std::string ent
         exit(1);
     }
 
-    texture = SDL_CreateTextureFromSurface(renderer, surface);
+    texture = SDL_CreateTextureFromSurface(eHolder.getRenderer(), surface);
     SDL_FreeSurface(surface);
 
 }
@@ -47,7 +47,7 @@ void Entity::update(){
     hitBox.h = height;
 }
 
-void Entity::render(SDL_Renderer *renderer, SDL_Rect &camera){
+void Entity::render(SDL_Rect &camera){
     srcRect = {
         static_cast<int>(position.x - camera.x),
         static_cast<int>(position.y - camera.y),
@@ -55,7 +55,7 @@ void Entity::render(SDL_Renderer *renderer, SDL_Rect &camera){
         height
     };
 
-    SDL_RenderCopy(renderer, texture, NULL, &srcRect);
+    SDL_RenderCopy(eHolder.getRenderer(), texture, NULL, &srcRect);
 }
 
 void Entity::kill(Entity& e){
@@ -79,8 +79,12 @@ int Entity::getId(){
     return flagId;
 }
 
+EntityHolder::EntityHolder(){
+    sdlRenderer = nullptr;
+}
+
 Entity* EntityHolder::findEntityById(int id){
-    for(Entity* entity : eHolder.holder){
+    for(Entity* entity : holder){
         if(entity->getId() == id){
             return entity;
         }
@@ -90,7 +94,7 @@ Entity* EntityHolder::findEntityById(int id){
 }
 
 int EntityHolder::getIdBy(const Entity* e){
-    for(Entity* entity : eHolder.holder){
+    for(Entity* entity : holder){
         if(entity == e){
             return entity->getId();
         }
@@ -100,7 +104,7 @@ int EntityHolder::getIdBy(const Entity* e){
 }
 
 std::string EntityHolder::getNameBy(const Entity* e){
-    for(Entity* entity : eHolder.holder){
+    for(Entity* entity : holder){
         if(entity == e){
             return entity->getName();
         }
@@ -110,12 +114,12 @@ std::string EntityHolder::getNameBy(const Entity* e){
 }
 
 void EntityHolder::add(Entity* e){
-    eHolder.holder.insert(e);
+    holder.insert(e);
 }
 
 void EntityHolder::remove(Entity* e){
-    if(eHolder.holder.find(e) != eHolder.holder.end()){
-        eHolder.holder.erase(e);
+    if(holder.find(e) != holder.end()){
+        holder.erase(e);
     } else {
         log.print(log.ERROR, "Failed to remove entity from holder");
     }
@@ -124,14 +128,22 @@ void EntityHolder::remove(Entity* e){
 int EntityHolder::getUniqueId(){
     int uniqueId = 0;
 
-    if(eHolder.holder.empty()){
+    if(holder.empty()){
         return 1;
     }
 
-    for(Entity* entity : eHolder.holder){
+    for(Entity* entity : holder){
         if(entity->getId() > uniqueId){
             uniqueId = entity->getId();
         }
     }
     return uniqueId + 1;
+}
+
+SDL_Renderer* EntityHolder::getRenderer(){
+    return sdlRenderer;   
+}
+
+void EntityHolder::init(SDL_Renderer *renderer){
+    sdlRenderer = renderer;
 }

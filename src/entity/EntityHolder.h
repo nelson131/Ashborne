@@ -5,12 +5,13 @@
 #include "../utils/Logger.h"
 #include <set>
 
-extern EntityHolder entityHolder;
-
 class EntityHolder {
 
     public:
     EntityHolder();
+
+    void init(SDL_Renderer *renderer);
+
     Entity* findEntityById(int id);
 
     int getIdBy(const Entity* e);
@@ -19,12 +20,18 @@ class EntityHolder {
     void add(Entity* e);
     void remove(Entity* e);
 
+    SDL_Renderer* getRenderer();
+
     int getUniqueId();
 
     private:
     Logger log;
 
+    SDL_Renderer *sdlRenderer;
+
     std::set<Entity*> holder;
 };
+
+extern EntityHolder eHolder;
 
 #endif
