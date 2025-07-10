@@ -27,15 +27,7 @@ void Entity::create(float x, float y, const char *pathToTexture, std::string ent
 
     eHolder.add(this);
 
-    SDL_Surface *surface = IMG_Load(pathToTexture);
-
-    if(!surface){
-        log.print(log.ERROR, SDL_GetError());
-        exit(1);
-    }
-
-    texture = SDL_CreateTextureFromSurface(eHolder.getRenderer(), surface);
-    SDL_FreeSurface(surface);
+    setTexture(pathToTexture);
 
 }
 
@@ -69,6 +61,25 @@ void Entity::setVisible(bool &b){
 
 void Entity::setCollisible(bool &b){
     isCollisible = b;
+}
+
+void Entity::setTexture(const char *pathToTexture){
+    if(texture != nullptr){
+        SDL_DestroyTexture(texture);
+        texture = nullptr;
+    }
+    SDL_Surface *surface = IMG_Load(pathToTexture);
+    if(!surface){
+        log.print(log.ERROR, SDL_GetError());
+        exit(1);
+    }
+
+    texture = SDL_CreateTextureFromSurface(eHolder.getRenderer(), surface);
+    SDL_FreeSurface();
+    if(!texture){
+        log.print(log.ERROR, SDL_GetError());
+        exit(1);
+    }
 }
 
 std::string Entity::getName(){
@@ -132,7 +143,7 @@ int EntityHolder::getUniqueId(){
         return 1;
     }
 
-    for(Entity* entity : holder){
+    for(Entity* entity : eHolder.holder){
         if(entity->getId() > uniqueId){
             uniqueId = entity->getId();
         }

@@ -19,6 +19,7 @@ class Entity {
 
     void setVisible(bool &b);
     void setCollisible(bool &b);
+    void setTexture(const char *pathToTexture);
 
     std::string getName();
     int getId();
