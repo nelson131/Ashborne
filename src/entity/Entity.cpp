@@ -80,11 +80,11 @@ int Entity::getId(){
 }
 
 EntityHolder::EntityHolder(){
-    sdlRenderer = nullptr;
+    eHolder.sdlRenderer = nullptr;
 }
 
 Entity* EntityHolder::findEntityById(int id){
-    for(Entity* entity : holder){
+    for(Entity* entity : eHolder.holder){
         if(entity->getId() == id){
             return entity;
         }
@@ -94,7 +94,7 @@ Entity* EntityHolder::findEntityById(int id){
 }
 
 int EntityHolder::getIdBy(const Entity* e){
-    for(Entity* entity : holder){
+    for(Entity* entity : eHolder.holder){
         if(entity == e){
             return entity->getId();
         }
@@ -104,7 +104,7 @@ int EntityHolder::getIdBy(const Entity* e){
 }
 
 std::string EntityHolder::getNameBy(const Entity* e){
-    for(Entity* entity : holder){
+    for(Entity* entity : eHolder.holder){
         if(entity == e){
             return entity->getName();
         }
@@ -114,11 +114,11 @@ std::string EntityHolder::getNameBy(const Entity* e){
 }
 
 void EntityHolder::add(Entity* e){
-    holder.insert(e);
+    eHolder.holder.insert(e);
 }
 
 void EntityHolder::remove(Entity* e){
-    if(holder.find(e) != holder.end()){
+    if(holder.find(e) != eHolder.holder.end()){
         holder.erase(e);
     } else {
         log.print(log.ERROR, "Failed to remove entity from holder");
@@ -128,7 +128,7 @@ void EntityHolder::remove(Entity* e){
 int EntityHolder::getUniqueId(){
     int uniqueId = 0;
 
-    if(holder.empty()){
+    if(eHolder.holder.empty()){
         return 1;
     }
 
@@ -141,9 +141,9 @@ int EntityHolder::getUniqueId(){
 }
 
 SDL_Renderer* EntityHolder::getRenderer(){
-    return sdlRenderer;   
+    return eHolder.sdlRenderer;   
 }
 
 void EntityHolder::init(SDL_Renderer *renderer){
-    sdlRenderer = renderer;
+    eHolder.sdlRenderer = renderer;
 }
