@@ -75,7 +75,7 @@ void Entity::setTexture(const char *pathToTexture){
     }
 
     texture = SDL_CreateTextureFromSurface(eHolder.getRenderer(), surface);
-    SDL_FreeSurface();
+    SDL_FreeSurface(surface);
     if(!texture){
         log.print(log.ERROR, SDL_GetError());
         exit(1);
