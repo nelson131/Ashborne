@@ -11,7 +11,7 @@ Entity::Entity(){
 
 }
 
-void Entity::create(float x, float y, const char *pathToTexture, std::string entityName, bool visible, bool collisible){
+void Entity::create(float x, float y, const char *pathToTexture, std::string entityName, bool visible, bool collisible, bool debugMode){
     width = 32;
     height = 32;
     
@@ -19,35 +19,47 @@ void Entity::create(float x, float y, const char *pathToTexture, std::string ent
     position.y = y;
     destRect.w = width;
     destRect.h = height;
+    hitBox.w = width;
+    hitBox.h = height;
 
     flagName = entityName;
     flagId = eHolder.getUniqueId();
     isVisible = visible;
     isCollisible = collisible;
+    isDebugMode = debugMode;
 
     eHolder.add(this);
 
     setTexture(pathToTexture);
 
+    if(debugMode){
+        textName.ikuyo("assets/fonts/");
+        textId.ikuyo("assets/fonts/");
+    }
 }
 
 void Entity::update(){
     position = position + velocity;
     hitBox.x = destRect.x;
     hitBox.y = destRect.y;
-    hitBox.w = width;
-    hitBox.h = height;
 }
 
 void Entity::render(SDL_Rect &camera){
-    srcRect = {
+    destRect = {
         static_cast<int>(position.x - camera.x),
         static_cast<int>(position.y - camera.y),
         width,
         height
     };
 
-    SDL_RenderCopy(eHolder.getRenderer(), texture, NULL, &srcRect);
+    if(isDebugMode){
+        SDL_SetRenderDrawColor(eHolder.getRenderer(), 41, 182, 246, 0);
+        SDL_RenderDrawRect(eHolder.getRenderer(), &hitBox);
+        textName.render(eHolder.getRenderer(), flagName.c_str());
+        textId.render(eHolder.getRenderer(), std::to_string(flagId).c_str());
+    }
+
+    SDL_RenderCopy(eHolder.getRenderer(), texture, NULL, &destRect);
 }
 
 void Entity::kill(Entity& e){
@@ -55,12 +67,16 @@ void Entity::kill(Entity& e){
     //delete &e;
 }
 
-void Entity::setVisible(bool &b){
+void Entity::setVisible(bool b){
     isVisible = b;
 }
 
-void Entity::setCollisible(bool &b){
+void Entity::setCollisible(bool b){
     isCollisible = b;
+}
+
+void Entity::setDebugMode(bool b){
+    isDebugMode = b;
 }
 
 void Entity::setTexture(const char *pathToTexture){

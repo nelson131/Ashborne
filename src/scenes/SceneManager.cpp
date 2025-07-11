@@ -23,7 +23,7 @@ Scene SceneManager::findSceneById(int id){
             return element.first;
         }
     }
-    logger.print(logger.ERROR, "Cant find scene by id");
+    logger.print(logger.ERROR, "Failed to find scene by id");
     exit(1);
 }
 
@@ -33,5 +33,5 @@ Scene *SceneManager::getCurrentScene(){
 
 void SceneManager::setCurrentScene(Scene *scene) {
     currentScene = scene;
-    std::cout << "Set current scene: " << scene->name << std::endl;
+    logger.print(logger.INFO, scene->name);
 }
