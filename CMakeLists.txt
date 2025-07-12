@@ -2,8 +2,10 @@ cmake_minimum_required(VERSION 3.10.0)
 set(CMAKE_CXX_COMPILER g++)
 project(Ashborne VERSION 0.1.0 LANGUAGES C CXX)
 
-find_package(SDL2 REQUIRED)
-find_package(SDL2_ttf REQUIRED)
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(SDL2 REQUIRED sdl2)
+pkg_check_modules(SDL2_IMAGE REQUIRED SDL2_image)
+pkg_check_modules(SDL2_TTF REQUIRED SDL2_ttf)
 
 include_directories(
     ${SDL2_INCLUDE_DIRS}
@@ -26,6 +28,8 @@ add_executable(Ashborne
  src/utils/Logger.h
  src/utils/Config.cpp
  src/utils/Config.h
+ src/utils/Text.cpp
+ src/utils/Text.h
  src/scenes/SceneManager.cpp
  src/scenes/SceneManager.h
  src/scenes/SceneHolder.cpp

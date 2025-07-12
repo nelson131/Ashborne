@@ -14,7 +14,7 @@ void Text::ikuyo(const char *path){
         exit(1);
     }
 
-    font = TTF_OpenFont(path, 24);
+    font = TTF_OpenFont(path, 15);
     if(!font){
         log.print(log.ERROR, TTF_GetError());
         exit(1);
@@ -37,6 +37,11 @@ SDL_Texture *Text::create(SDL_Renderer *renderer, const char *message){
 void Text::render(SDL_Renderer *renderer, const char *message){
     texture = create(renderer, message);
     SDL_RenderCopy(renderer, texture, NULL, &rect);
+}
+
+void Text::move(float x, float y){
+    rect.x = x;
+    rect.y = y;
 }
 
 void Text::clear(){

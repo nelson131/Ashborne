@@ -24,7 +24,7 @@ class SceneManager {
     public:
     SceneManager(SDL_Renderer *sdlRenderer);
 
-    void scenes_init();
+    void scenesInit();
     void ikuyo(SDL_Rect &camera);
 
     void setCurrentScene(Scene *scene);

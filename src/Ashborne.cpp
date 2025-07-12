@@ -41,7 +41,7 @@ void Ashborne::gameInit(const char *title, int x, int y, int width, int height, 
     eHolder.init(renderer);
 
     sceneManager = std::make_unique<SceneManager>(renderer);
-    sceneManager->scenes_init();
+    sceneManager->scenesInit();
     sceneManager->setCurrentScene(&sceneManager->Testroom);
 
     player.init(renderer);

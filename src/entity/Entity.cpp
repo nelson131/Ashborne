@@ -4,6 +4,7 @@
 #include "Entity.h"
 #include "EntityHolder.h"
 #include "../TextureManager.h"
+#include "../utils/Text.h"
 
 EntityHolder eHolder;
 
@@ -33,15 +34,18 @@ void Entity::create(float x, float y, const char *pathToTexture, std::string ent
     setTexture(pathToTexture);
 
     if(debugMode){
-        textName.ikuyo("assets/fonts/");
-        textId.ikuyo("assets/fonts/");
+        textName.ikuyo("assets/fonts/Roboto-Black.ttf");
+        textId.ikuyo("assets/fonts/Roboto-Black.ttf");
     }
 }
 
 void Entity::update(){
     position = position + velocity;
-    hitBox.x = destRect.x;
-    hitBox.y = destRect.y;
+    hitBox.x = position.x;
+    hitBox.y = position.y;
+
+    textName.move(position.x, position.y - 40);
+    textId.move(position.x, position.y - 20);
 }
 
 void Entity::render(SDL_Rect &camera){
@@ -53,8 +57,8 @@ void Entity::render(SDL_Rect &camera){
     };
 
     if(isDebugMode){
-        SDL_SetRenderDrawColor(eHolder.getRenderer(), 41, 182, 246, 0);
-        SDL_RenderDrawRect(eHolder.getRenderer(), &hitBox);
+        //SDL_SetRenderDrawColor(eHolder.getRenderer(), 41, 182, 246, 255);
+        //SDL_RenderDrawRect(eHolder.getRenderer(), &hitBox);
         textName.render(eHolder.getRenderer(), flagName.c_str());
         textId.render(eHolder.getRenderer(), std::to_string(flagId).c_str());
     }

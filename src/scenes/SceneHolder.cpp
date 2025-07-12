@@ -3,7 +3,7 @@
 #include <list>
 #include "SceneManager.h"
 
-void SceneManager::scenes_init(){
+void SceneManager::scenesInit(){
         //Test room
         Tilemap testRoomTileMap;
 

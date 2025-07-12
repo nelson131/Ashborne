@@ -10,6 +10,7 @@ class Text {
 
     void ikuyo(const char *path);
     void render(SDL_Renderer *renderer, const char *message);
+    void move(float x, float y);
     void clear();
     SDL_Texture *create(SDL_Renderer *renderer, const char *message);
 
