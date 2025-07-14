@@ -16,7 +16,6 @@ class Tilemap {
     void set(std::vector<std::vector<int>> &mapSet);
 
     private:
-    Logger logger;
     SDL_Texture *tileset;
     std::vector<std::vector<int>> map;
     

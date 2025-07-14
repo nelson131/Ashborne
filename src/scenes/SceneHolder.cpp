@@ -21,6 +21,6 @@ void SceneManager::scenesInit(){
         Testroom.id = 0;
         Testroom.layers.clear();
         Testroom.layers.push_back(testRoomTileMap);
-        scenesKeeper[Testroom] = Testroom.id;
+        scenesKeeper.insert(Testroom);
         //
 };

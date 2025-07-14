@@ -25,10 +25,7 @@ class EntityHolder {
     int getUniqueId();
 
     private:
-    Logger log;
-
     SDL_Renderer *sdlRenderer;
-
     std::set<Entity*> holder;
 };
 

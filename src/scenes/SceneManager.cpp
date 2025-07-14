@@ -9,7 +9,7 @@ SceneManager::SceneManager(SDL_Renderer *sdl_renderer)
 
 void SceneManager::ikuyo(SDL_Rect &camera){
     if(!currentScene){
-        logger.print(logger.ERROR, "No current scene set");
+        Logger::print(Logger::ERROR, "No current scene set");
         exit(-1);
     }
     for(Tilemap& tilemap : currentScene->layers){
@@ -17,13 +17,13 @@ void SceneManager::ikuyo(SDL_Rect &camera){
     }
 }
 
-Scene SceneManager::findSceneById(int id){
-    for(const auto& element : scenesKeeper){
-        if(element.second == id){
-            return element.first;
+const Scene& SceneManager::findSceneById(int id){
+    for(const auto& scene : scenesKeeper){
+        if(scene.id == id){
+            return scene;
         }
     }
-    logger.print(logger.ERROR, "Failed to find scene by id");
+    Logger::print(Logger::ERROR, "Failed to find scene by id");
     exit(1);
 }
 
@@ -33,5 +33,5 @@ Scene *SceneManager::getCurrentScene(){
 
 void SceneManager::setCurrentScene(Scene *scene) {
     currentScene = scene;
-    logger.print(logger.INFO, scene->name);
+    Logger::print(Logger::INFO, "Current scene is: ", scene->name);
 }

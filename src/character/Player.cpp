@@ -27,7 +27,7 @@ void Player::update(){
 
 
 void Player::handleInput(){
-    speed = config.parseFloat("player_info", "speed");
+    speed = config.parse<float>("player_info", "speed");
     const Uint8 *keys = SDL_GetKeyboardState(NULL);
     ePlayer.velocity = {0, 0};
 

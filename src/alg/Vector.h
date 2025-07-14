@@ -57,9 +57,6 @@ class Vector {
     Vector clone(const Vector& v);
 
     bool equals(const Vector& v);
-
-    private:
-    Logger log;
 };
 
 

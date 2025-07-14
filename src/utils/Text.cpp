@@ -10,13 +10,13 @@ Text::Text(){
 
 void Text::ikuyo(const char *path){
     if(TTF_Init() == -1){
-        log.print(log.ERROR, TTF_GetError());
+        Logger::print(Logger::ERROR, "Failed to init sdl ttf: ", TTF_GetError());
         exit(1);
     }
 
     font = TTF_OpenFont(path, 15);
     if(!font){
-        log.print(log.ERROR, TTF_GetError());
+        Logger::print(Logger::ERROR, "Failed to load font: ", TTF_GetError());
         exit(1);
     }
 }
@@ -24,7 +24,7 @@ void Text::ikuyo(const char *path){
 SDL_Texture *Text::create(SDL_Renderer *renderer, const char *message){
     SDL_Surface *surface = TTF_RenderText_Blended(font, message, white);
     if(!surface){
-        log.print(log.ERROR, TTF_GetError());
+        Logger::print(Logger::ERROR, "Failed to load text surface: ", TTF_GetError());
         exit(1);
     }
     SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);

@@ -34,6 +34,7 @@ void Entity::create(float x, float y, const char *pathToTexture, std::string ent
     setTexture(pathToTexture);
 
     if(debugMode){
+        Logger::print(Logger::DEBUG, "Debug mode (", flagName, ") is active");
         textName.ikuyo("assets/fonts/Roboto-Black.ttf");
         textId.ikuyo("assets/fonts/Roboto-Black.ttf");
     }
@@ -90,14 +91,14 @@ void Entity::setTexture(const char *pathToTexture){
     }
     SDL_Surface *surface = IMG_Load(pathToTexture);
     if(!surface){
-        log.print(log.ERROR, SDL_GetError());
+        Logger::print(Logger::ERROR, "Failed to load entity surface: ", SDL_GetError());
         exit(1);
     }
 
     texture = SDL_CreateTextureFromSurface(eHolder.getRenderer(), surface);
     SDL_FreeSurface(surface);
     if(!texture){
-        log.print(log.ERROR, SDL_GetError());
+        Logger::print(Logger::ERROR, "Failed to load entity texture: ", IMG_GetError());
         exit(1);
     }
 }
@@ -120,7 +121,7 @@ Entity* EntityHolder::findEntityById(int id){
             return entity;
         }
     }
-    log.print(log.ERROR, "Failed to find entity by id");
+    Logger::print(Logger::ERROR, "Failed to find entity by id");
     return nullptr;
 }
 
@@ -130,7 +131,7 @@ int EntityHolder::getIdBy(const Entity* e){
             return entity->getId();
         }
     }
-    log.print(log.ERROR, "Failed to find id by entity");
+    Logger::print(Logger::ERROR, "Failed to id by entity");
     return -1;
 }
 
@@ -140,7 +141,7 @@ std::string EntityHolder::getNameBy(const Entity* e){
             return entity->getName();
         }
     }
-    log.print(log.ERROR, "Failed to find name by entity");
+    Logger::print(Logger::ERROR, "Failed to find name by entity");
     return "ERROR";
 }
 
@@ -152,7 +153,7 @@ void EntityHolder::remove(Entity* e){
     if(holder.find(e) != eHolder.holder.end()){
         holder.erase(e);
     } else {
-        log.print(log.ERROR, "Failed to remove entity from holder");
+        Logger::print(Logger::ERROR, "Failed to remove entity from holder");
     }
 }
 

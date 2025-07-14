@@ -33,7 +33,6 @@ class Entity {
     SDL_Rect srcRect, destRect;
 
     private:
-    Logger log;
     Text textName;
     Text textId;
     SDL_Texture *texture;

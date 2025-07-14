@@ -133,7 +133,7 @@ void Vector::normalize(){
         this->x /= l;
         this->y /= l;
     } else {
-        log.print(log.WARNING, "Couldnt normalize cause length of vector is zero");
+        Logger::print(Logger::WARNING, "Couldnt normalize cause length of vector is zero");
     }
 }
 
@@ -142,7 +142,7 @@ Vector Vector::getNormalized(){
     if(l != 0){
         return Vector(this->x / l, this->y / l);
     }
-    log.print(log.WARNING, "Couldnt normalize cause length of vector is zero");
+    Logger::print(Logger::WARNING, "Couldnt normalize cause length of vector is zero");
     return *this;
 }
 

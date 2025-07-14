@@ -4,7 +4,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <list>
-#include <map>
+#include <set>
 #include <memory>
 #include "../Tilemap.h"
 #include "../utils/Logger.h"
@@ -29,20 +29,18 @@ class SceneManager {
 
     void setCurrentScene(Scene *scene);
     Scene *getCurrentScene();
-    Scene findSceneById(int id);
+
+    const Scene& findSceneById(int id);
 
     Scene Testroom;
 
 
     private:
-    SDL_Renderer *renderer;
-
     Tilemap tilemap;
-    Logger logger;
 
+    SDL_Renderer *renderer;
     Scene *currentScene = nullptr;
-
-    std::map<Scene, int> scenesKeeper;
+    std::set<Scene> scenesKeeper;
     
 };
 

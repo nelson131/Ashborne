@@ -18,10 +18,11 @@ int main(int, char**){
 
     config->init();
 
-    int WINDOW_WIDTH = config->parseInt("game_info", "width");
-    int WINDOW_HEIGHT = config->parseInt("game_info", "height");
+    int WINDOW_WIDTH = config->parse<int>("game_info", "width");
+    int WINDOW_HEIGHT = config->parse<int>("game_info", "height");
 
-    std::cout << config->parse("game_info", "version") << std::endl;
+    Logger::print(Logger::DEBUG, "Current game version: ", config->parse<std::string>("game_info", "version"));
+
     ashborne->gameInit("Ashborne", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, false);
     while(ashborne->isRunning()){
         frameStart = SDL_GetTicks();

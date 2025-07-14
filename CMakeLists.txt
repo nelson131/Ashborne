@@ -24,7 +24,6 @@ add_executable(Ashborne
  src/Tilemap.h
  src/character/Player.cpp
  src/character/Player.h
- src/utils/Logger.cpp
  src/utils/Logger.h
  src/utils/Config.cpp
  src/utils/Config.h

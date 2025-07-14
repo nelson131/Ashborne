@@ -42,8 +42,8 @@ class Player {
     const char *texturePath = "assets/playertest.png";
 
     SDL_Rect camera = {0, 0, 640, 480};
-    int screen_width = config.parseInt("game_info", "screen_width");
-    int screen_height = config.parseInt("game_info", "screen_height");
+    int screen_width = config.parse<int>("game_info", "screen_width");
+    int screen_height = config.parse<int>("game_info", "screen_height");
 
     std::array<int, 6> playerStats;
 

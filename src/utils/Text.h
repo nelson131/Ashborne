@@ -15,8 +15,6 @@ class Text {
     SDL_Texture *create(SDL_Renderer *renderer, const char *message);
 
     private:
-    Logger log;
-
     TTF_Font *font;
     SDL_Texture *texture;
     SDL_Color white = {255, 255, 255, 255};
