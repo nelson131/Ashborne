@@ -9,6 +9,7 @@
 #define RESET   "\033[0m"
 
 #include <iostream>
+#include <sstream>
 
 class Logger {
     

@@ -1,0 +1,49 @@
+#ifndef ITEMHOLDER_H
+#define ITEMHOLDER_H
+
+#include <array>
+#include <set>
+
+struct Item
+{
+    const char *name;
+    int id;
+    std::array<int, 7> parameters;
+    /*
+    1. HP
+    2. Mana
+    3. Movespeed
+    4. Phys damage
+    5. Magic damage
+    6. Phys res
+    7. Magic res
+    */
+
+    bool operator==(const Item& other) const {
+        return parameters == other.parameters;
+    }
+};
+
+class ItemHolder {
+
+    public:
+    ItemHolder();
+
+    void init();
+
+    const std::set<const Item*>& get();
+    const Item* findBy(const char* name);
+    const Item* findBy(int id);
+
+    void add(const Item *item);
+    void remove(const Item *item);
+
+    private:
+    int getUniqueId();
+
+    std::set<const Item*> holder;
+};
+
+extern ItemHolder itemHolder;
+
+#endif

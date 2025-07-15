@@ -4,7 +4,6 @@
 #include "Player.h"
 #include "../TextureManager.h"
 #include "../utils/Config.h"
-#include "../game/ItemManager.h"
 #include "../alg/Vector.h"
 
 Player::Player(){
@@ -48,38 +47,4 @@ void Player::handleInput(){
 
 SDL_Rect &Player::getCamera(){
     return camera;
-}
-
-std::array<int, 6> Player::getPlayerStats(){
-    return playerStats;
-}
-
-int Player::getHP(){
-    return playerStats[0];
-}
-
-int Player::getMana(){
-    return playerStats[1];
-}
-
-int Player::getPhysDamage(){
-    return playerStats[2];
-}
-
-int Player::getMagicDamage(){
-    return playerStats[3];
-}
-
-int Player::getPhysRes(){
-    return playerStats[4];
-}
-
-int Player::getMagicRes(){
-    return playerStats[5];
-}
-
-void Player::statsUpdate(){
-    for(int i = 0; i<playerStats.size(); i++){
-        playerStats[i] += itemManager.updateParameters()[i];
-    };
 }

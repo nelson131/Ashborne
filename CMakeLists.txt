@@ -32,8 +32,10 @@ add_executable(Ashborne
  src/scenes/SceneManager.cpp
  src/scenes/SceneManager.h
  src/scenes/SceneHolder.cpp
- src/game/ItemManager.cpp
- src/game/ItemManager.h
+ src/item/Inventory.cpp
+ src/item/Inventory.h
+ src/item/ItemHolder.cpp
+ src/item/ItemHolder.h
  src/alg/Vector.h
  src/alg/Vector.cpp
  src/entity/Entity.h

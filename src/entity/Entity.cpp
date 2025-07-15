@@ -25,13 +25,14 @@ void Entity::create(float x, float y, const char *pathToTexture, std::string ent
 
     flagName = entityName;
     flagId = eHolder.getUniqueId();
+    file = pathToTexture;
     isVisible = visible;
     isCollisible = collisible;
     isDebugMode = debugMode;
 
     eHolder.add(this);
 
-    setTexture(pathToTexture);
+    setTexture();
 
     if(debugMode){
         Logger::print(Logger::DEBUG, "Debug mode (", flagName, ") is active");
@@ -84,12 +85,12 @@ void Entity::setDebugMode(bool b){
     isDebugMode = b;
 }
 
-void Entity::setTexture(const char *pathToTexture){
+void Entity::setTexture(){
     if(texture != nullptr){
         SDL_DestroyTexture(texture);
         texture = nullptr;
     }
-    SDL_Surface *surface = IMG_Load(pathToTexture);
+    SDL_Surface *surface = IMG_Load(file);
     if(!surface){
         Logger::print(Logger::ERROR, "Failed to load entity surface: ", SDL_GetError());
         exit(1);
@@ -103,12 +104,68 @@ void Entity::setTexture(const char *pathToTexture){
     }
 }
 
-std::string Entity::getName(){
+const std::string Entity::getName(){
     return flagName;
 }
 
-int Entity::getId(){
+const int Entity::getId(){
     return flagId;
+}
+
+const bool Entity::hasVisible(){
+    return isVisible;
+}
+
+const bool Entity::hasCollisible(){
+    return isCollisible;
+}
+
+const bool Entity::hasDebugMode(){
+    return isDebugMode;
+}
+
+void Entity::setDefaultStats(){
+    stats = {200, 200, 150, 55, 0, 0, 0};
+}
+
+void Entity::setStats(const std::array<int, 7> s){
+    for(int i = 0; i < stats.size(); i++){
+        stats[i] = s[i];
+    }
+}
+
+void Entity::updateStats(){
+    for(int i = 0; i < stats.size(); i++){
+        stats[i] += inventory.getStats()[i];
+    }
+}
+
+const int Entity::getHP(){
+    return stats[1];
+}
+
+const int Entity::getMana(){
+    return stats[2];
+}
+
+const int Entity::getMS(){
+    return stats[3];
+}
+
+const int Entity::getPDamage(){
+    return stats[4];
+}
+
+const int Entity::getMDamage(){
+    return stats[5];
+}
+
+const int Entity::getPRes(){
+    return stats[6];
+}
+
+const int Entity::getMRes(){
+    return stats[7];
 }
 
 EntityHolder::EntityHolder(){
@@ -178,4 +235,5 @@ SDL_Renderer* EntityHolder::getRenderer(){
 
 void EntityHolder::init(SDL_Renderer *renderer){
     eHolder.sdlRenderer = renderer;
+    Logger::print(Logger::SUCCESS, "Entity holder initialized");
 }

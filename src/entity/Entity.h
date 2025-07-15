@@ -6,6 +6,7 @@
 #include <array>
 #include "../alg/Vector.h"
 #include "../TextureManager.h"
+#include "../item/Inventory.h"
 #include "../utils/Text.h"
 
 class Entity {
@@ -21,10 +22,26 @@ class Entity {
     void setVisible(bool b);
     void setCollisible(bool b);
     void setDebugMode(bool b);
-    void setTexture(const char *pathToTexture);
 
-    std::string getName();
-    int getId();
+    const std::string getName();
+    const int getId();
+    const bool hasVisible();
+    const bool hasCollisible();
+    const bool hasDebugMode();
+
+    Inventory inventory;
+    
+    void setDefaultStats();
+    void setStats(const std::array<int, 7> s);
+    void updateStats();
+
+    const int getHP();
+    const int getMana();
+    const int getMS();
+    const int getPDamage();
+    const int getMDamage();
+    const int getPRes();
+    const int getMRes();
 
     Vector position;
     Vector velocity;
@@ -39,10 +56,14 @@ class Entity {
 
     std::string flagName;
     int flagId;
-
+    const char *file;
     bool isVisible, isCollisible, isDebugMode;
 
     int width, height;
+
+    void setTexture();
+
+    std::array<int, 7> stats;
 };
 
 #endif

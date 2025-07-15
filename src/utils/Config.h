@@ -26,7 +26,7 @@ class Config {
             } else if(hasKey && line.rfind(message, 0) == 0){
                 std::istringstream str(line.substr(message.length()));
                 T res;
-                std >> res;
+                str >> res;
                 return res;
             }
         }

@@ -2,6 +2,7 @@
 #include <SDL2/SDL.h>
 #include <list>
 #include "SceneManager.h"
+#include "../utils/Logger.h"
 
 void SceneManager::scenesInit(){
         //Test room
@@ -23,4 +24,5 @@ void SceneManager::scenesInit(){
         Testroom.layers.push_back(testRoomTileMap);
         scenesKeeper.insert(Testroom);
         //
+        Logger::print(Logger::SUCCESS, "Scene manager initialized");
 };

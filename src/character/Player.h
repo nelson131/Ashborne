@@ -20,17 +20,6 @@ class Player {
     
     SDL_Rect &getCamera();
 
-    std::array<int, 6> getPlayerStats();
-
-    int getHP();
-    int getMana();
-    int getPhysDamage();
-    int getMagicDamage();
-    int getPhysRes();
-    int getMagicRes();
-
-    void statsUpdate();
-
     private:
     Entity ePlayer;
     Config config;
@@ -44,8 +33,6 @@ class Player {
     SDL_Rect camera = {0, 0, 640, 480};
     int screen_width = config.parse<int>("game_info", "screen_width");
     int screen_height = config.parse<int>("game_info", "screen_height");
-
-    std::array<int, 6> playerStats;
 
 };
 
