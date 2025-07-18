@@ -104,23 +104,23 @@ void Entity::setTexture(){
     }
 }
 
-const std::string Entity::getName(){
+std::string Entity::getName() const{
     return flagName;
 }
 
-const int Entity::getId(){
+int Entity::getId() const{
     return flagId;
 }
 
-const bool Entity::hasVisible(){
+bool Entity::hasVisible() const{
     return isVisible;
 }
 
-const bool Entity::hasCollisible(){
+bool Entity::hasCollisible() const{
     return isCollisible;
 }
 
-const bool Entity::hasDebugMode(){
+bool Entity::hasDebugMode() const{
     return isDebugMode;
 }
 
@@ -140,31 +140,31 @@ void Entity::updateStats(){
     }
 }
 
-const int Entity::getHP(){
+int Entity::getHP() const{
     return stats[1];
 }
 
-const int Entity::getMana(){
+int Entity::getMana() const{
     return stats[2];
 }
 
-const int Entity::getMS(){
+int Entity::getMS() const{
     return stats[3];
 }
 
-const int Entity::getPDamage(){
+int Entity::getPDamage() const{
     return stats[4];
 }
 
-const int Entity::getMDamage(){
+int Entity::getMDamage() const{
     return stats[5];
 }
 
-const int Entity::getPRes(){
+int Entity::getPRes() const{
     return stats[6];
 }
 
-const int Entity::getMRes(){
+int Entity::getMRes() const{
     return stats[7];
 }
 
@@ -182,7 +182,7 @@ Entity* EntityHolder::findEntityById(int id){
     return nullptr;
 }
 
-int EntityHolder::getIdBy(const Entity* e){
+int EntityHolder::getIdBy(const Entity* e) const{
     for(Entity* entity : eHolder.holder){
         if(entity == e){
             return entity->getId();
@@ -192,7 +192,7 @@ int EntityHolder::getIdBy(const Entity* e){
     return -1;
 }
 
-std::string EntityHolder::getNameBy(const Entity* e){
+std::string EntityHolder::getNameBy(const Entity* e) const{
     for(Entity* entity : eHolder.holder){
         if(entity == e){
             return entity->getName();

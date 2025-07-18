@@ -17,7 +17,7 @@ void SceneManager::ikuyo(SDL_Rect &camera){
     }
 }
 
-const Scene& SceneManager::findSceneById(int id){
+const Scene& SceneManager::findSceneById(int id) const{
     for(const auto& scene : scenesKeeper){
         if(scene.id == id){
             return scene;

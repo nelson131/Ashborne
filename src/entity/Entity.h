@@ -23,11 +23,11 @@ class Entity {
     void setCollisible(bool b);
     void setDebugMode(bool b);
 
-    const std::string getName();
-    const int getId();
-    const bool hasVisible();
-    const bool hasCollisible();
-    const bool hasDebugMode();
+    std::string getName() const;
+    int getId() const;
+    bool hasVisible() const;
+    bool hasCollisible() const;
+    bool hasDebugMode() const;
 
     Inventory inventory;
     
@@ -35,13 +35,13 @@ class Entity {
     void setStats(const std::array<int, 7> s);
     void updateStats();
 
-    const int getHP();
-    const int getMana();
-    const int getMS();
-    const int getPDamage();
-    const int getMDamage();
-    const int getPRes();
-    const int getMRes();
+    int getHP() const;
+    int getMana() const;
+    int getMS() const;
+    int getPDamage() const;
+    int getMDamage() const;
+    int getPRes() const;
+    int getMRes() const;
 
     Vector position;
     Vector velocity;

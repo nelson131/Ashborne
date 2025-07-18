@@ -14,8 +14,8 @@ class EntityHolder {
 
     Entity* findEntityById(int id);
 
-    int getIdBy(const Entity* e);
-    std::string getNameBy(const Entity* e);
+    int getIdBy(const Entity* e) const;
+    std::string getNameBy(const Entity* e) const;
 
     void add(Entity* e);
     void remove(Entity* e);

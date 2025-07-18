@@ -18,11 +18,11 @@ void ItemHolder::init(){
     add(&sword);
 }
 
-const std::set<const Item*>& ItemHolder::get(){
+std::set<const Item*>& ItemHolder::get() const{
     return itemHolder.holder;
 }
 
-const Item* ItemHolder::findBy(const char *name){
+const Item* ItemHolder::findBy(const char *name) const{
     for(const Item* item : itemHolder.holder){
         if(item->name == name){
             return item;
@@ -31,7 +31,7 @@ const Item* ItemHolder::findBy(const char *name){
     Logger::print(Logger::ERROR, "Failed to find item by his name: ", name);
 }
 
-const Item* ItemHolder::findBy(int id){
+const Item* ItemHolder::findBy(int id) const{
     for(const Item* item : itemHolder.holder){
         if(item->id == id){
             return item;

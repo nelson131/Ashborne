@@ -31,9 +31,9 @@ class ItemHolder {
 
     void init();
 
-    const std::set<const Item*>& get();
-    const Item* findBy(const char* name);
-    const Item* findBy(int id);
+    std::set<const Item*>& get() const;
+    const Item* findBy(const char* name) const;
+    const Item* findBy(int id) const;
 
     void add(const Item *item);
     void remove(const Item *item);

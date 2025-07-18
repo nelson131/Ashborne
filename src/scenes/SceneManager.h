@@ -30,7 +30,7 @@ class SceneManager {
     void setCurrentScene(Scene *scene);
     Scene *getCurrentScene();
 
-    const Scene& findSceneById(int id);
+    const Scene& findSceneById(int id) const;
 
     Scene Testroom;
 

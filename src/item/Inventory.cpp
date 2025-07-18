@@ -16,7 +16,7 @@ void Inventory::update(){
     }
 }
 
-const std::list<Item>& Inventory::getInventory(){
+std::list<Item>& Inventory::getInventory(){
     return inventory;
 }
 
@@ -30,6 +30,6 @@ void Inventory::remove(Item &item){
     update();
 }
 
-const std::array<int, 7>& Inventory::getStats(){
+std::array<int, 7>& Inventory::getStats(){
     return stats;
 }
