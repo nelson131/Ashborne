@@ -12,7 +12,7 @@ Entity::Entity(){
 
 }
 
-void Entity::create(float x, float y, const char *pathToTexture, std::string entityName, bool visible, bool collisible, bool debugMode){
+void Entity::create(float x, float y, const char *pathToTexture, std::string entityName, bool visible, bool collisible, bool animated, bool debugMode){
     width = 32;
     height = 32;
     
@@ -38,6 +38,11 @@ void Entity::create(float x, float y, const char *pathToTexture, std::string ent
         Logger::print(Logger::DEBUG, "Debug mode (", flagName, ") is active");
         textName.ikuyo("assets/fonts/Roboto-Black.ttf");
         textId.ikuyo("assets/fonts/Roboto-Black.ttf");
+    }
+
+    if(animated){
+        animation.fps(2);
+        animation.add(Animation::Type::IDLE, 3);
     }
 }
 
@@ -65,7 +70,8 @@ void Entity::render(SDL_Rect &camera){
         textId.render(eHolder.getRenderer(), std::to_string(flagId).c_str());
     }
 
-    SDL_RenderCopy(eHolder.getRenderer(), texture, NULL, &destRect);
+    animation.play(Animation::Type::IDLE, srcRect);
+    SDL_RenderCopy(eHolder.getRenderer(), texture, &srcRect, &destRect);
 }
 
 void Entity::kill(Entity& e){

@@ -28,7 +28,7 @@ class Player {
     SDL_Rect srcR, destR;
     
     float speed;
-    const char *texturePath = "assets/playertest.png";
+    const char *texturePath = "assets/playertestanim.png";
 
     SDL_Rect camera = {0, 0, 640, 480};
     int screen_width = config.parse<int>("game_info", "screen_width");

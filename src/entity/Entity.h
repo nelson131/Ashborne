@@ -4,6 +4,7 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <array>
+#include "Animation.h"
 #include "../alg/Vector.h"
 #include "../TextureManager.h"
 #include "../item/Inventory.h"
@@ -14,7 +15,7 @@ class Entity {
     public:
     Entity();
 
-    void create(float x, float y, const char *pathToTexture, std::string entityName, bool isVisible, bool isCollisible, bool debugMode);
+    void create(float x, float y, const char *pathToTexture, std::string entityName, bool isVisible, bool isCollisible, bool isAnimated, bool debugMode);
     void update();
     void render(SDL_Rect& camera);
     void kill(Entity& e);
@@ -29,8 +30,10 @@ class Entity {
     bool hasCollisible() const;
     bool hasDebugMode() const;
 
+    Animation animation;
+
     Inventory inventory;
-    
+
     void setDefaultStats();
     void setStats(const std::array<int, 7> s);
     void updateStats();
@@ -50,6 +53,7 @@ class Entity {
     SDL_Rect srcRect, destRect;
 
     private:
+
     Text textName;
     Text textId;
     SDL_Texture *texture;
@@ -57,7 +61,7 @@ class Entity {
     std::string flagName;
     int flagId;
     const char *file;
-    bool isVisible, isCollisible, isDebugMode;
+    bool isVisible, isCollisible, isDebugMode, isAnimated;
 
     int width, height;
 

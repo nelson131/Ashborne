@@ -11,7 +11,7 @@ Player::Player(){
 }
 
 void Player::init(SDL_Renderer *renderer){
-    ePlayer.create(0, 0, texturePath, "Player", true, true, true);
+    ePlayer.create(0, 0, texturePath, "Player", true, true, true, true);
 }
 
 void Player::display(SDL_Renderer *renderer){
