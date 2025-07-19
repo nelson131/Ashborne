@@ -32,6 +32,8 @@ class Entity {
 
     Animation animation;
 
+    void setActiveAnim(Animation::Type &type);
+
     Inventory inventory;
 
     void setDefaultStats();
@@ -53,7 +55,6 @@ class Entity {
     SDL_Rect srcRect, destRect;
 
     private:
-
     Text textName;
     Text textId;
     SDL_Texture *texture;
@@ -68,6 +69,8 @@ class Entity {
     void setTexture();
 
     std::array<int, 7> stats;
+
+    Animation::Type activeAnim;
 };
 
 #endif

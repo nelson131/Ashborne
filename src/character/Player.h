@@ -21,7 +21,7 @@ class Player {
     SDL_Rect &getCamera();
 
     private:
-    Entity ePlayer;
+    Entity player;
     Config config;
 
     SDL_Texture *texture;

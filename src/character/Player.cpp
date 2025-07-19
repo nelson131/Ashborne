@@ -11,15 +11,18 @@ Player::Player(){
 }
 
 void Player::init(SDL_Renderer *renderer){
-    ePlayer.create(0, 0, texturePath, "Player", true, true, true, true);
+    player.create(0, 0, texturePath, "Player", true, true, true, true);
+
+    player.animation.fps(300);
+    player.animation.add(Animation::Type::IDLE, 3);
 }
 
 void Player::display(SDL_Renderer *renderer){
-    ePlayer.render(camera);
+    player.render(camera);
 }
     
 void Player::update(){
-    ePlayer.update();
+    player.update();
     //camera.x = getX() + destR.w/2 - screen_width/2;
     //camera.y = getY() + destR.h/2 - screen_height/2;
 }
@@ -28,19 +31,19 @@ void Player::update(){
 void Player::handleInput(){
     speed = config.parse<float>("player_info", "speed");
     const Uint8 *keys = SDL_GetKeyboardState(NULL);
-    ePlayer.velocity = {0, 0};
+    player.velocity = {0, 0};
 
     if(keys[SDL_SCANCODE_W]){
-        ePlayer.velocity.y -= speed;
+        player.velocity.y -= speed;
     }
     if(keys[SDL_SCANCODE_A]){
-        ePlayer.velocity.x -= speed;
+        player.velocity.x -= speed;
     }
     if(keys[SDL_SCANCODE_S]){
-        ePlayer.velocity.y += speed;
+        player.velocity.y += speed;
     }
     if(keys[SDL_SCANCODE_D]){
-        ePlayer.velocity.x += speed;
+        player.velocity.x += speed;
     }
     
 }

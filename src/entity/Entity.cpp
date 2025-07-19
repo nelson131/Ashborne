@@ -29,6 +29,7 @@ void Entity::create(float x, float y, const char *pathToTexture, std::string ent
     file = pathToTexture;
     isVisible = visible;
     isCollisible = collisible;
+    isAnimated = animated;
     isDebugMode = debugMode;
 
     eHolder.add(this);
@@ -39,11 +40,6 @@ void Entity::create(float x, float y, const char *pathToTexture, std::string ent
         Logger::print(Logger::DEBUG, "Debug mode (", flagName, ") is active");
         textName.ikuyo("assets/fonts/Roboto-Black.ttf");
         textId.ikuyo("assets/fonts/Roboto-Black.ttf");
-    }
-
-    if(animated){
-        animation.fps(300);
-        animation.add(Animation::Type::IDLE, 3);
     }
 }
 
@@ -71,7 +67,10 @@ void Entity::render(SDL_Rect &camera){
         textId.render(eHolder.getRenderer(), std::to_string(flagId).c_str());
     }
 
-    animation.play(Animation::Type::IDLE, srcRect);
+    if(isAnimated){
+        animation.play(activeAnim, srcRect);
+    }
+    
     SDL_RenderCopy(eHolder.getRenderer(), texture, &srcRect, &destRect);
 }
 
@@ -129,6 +128,10 @@ bool Entity::hasCollisible() const{
 
 bool Entity::hasDebugMode() const{
     return isDebugMode;
+}
+
+void Entity::setActiveAnim(Animation::Type &type){
+    activeAnim = type;
 }
 
 void Entity::setDefaultStats(){
