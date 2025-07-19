@@ -3,6 +3,7 @@
 #include <SDL2/SDL_image.h>
 #include "Entity.h"
 #include "EntityHolder.h"
+#include "Animation.h"
 #include "../TextureManager.h"
 #include "../utils/Text.h"
 
@@ -41,7 +42,7 @@ void Entity::create(float x, float y, const char *pathToTexture, std::string ent
     }
 
     if(animated){
-        animation.fps(2);
+        animation.fps(300);
         animation.add(Animation::Type::IDLE, 3);
     }
 }
