@@ -23,8 +23,8 @@ void Player::display(SDL_Renderer *renderer){
     
 void Player::update(){
     player.update();
-    //camera.x = getX() + destR.w/2 - screen_width/2;
-    //camera.y = getY() + destR.h/2 - screen_height/2;
+    camera.x = player.position.x + destR.w/2 - screen_width/2;
+    camera.y = player.position.y + destR.h/2 - screen_height/2;
 }
 
 

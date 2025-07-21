@@ -20,6 +20,8 @@ class Tilemap {
     std::vector<std::vector<int>> map;
     
     int tilesPerRow;
+
+    bool isCollisible;
 };
 
 #endif
