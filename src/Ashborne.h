@@ -24,9 +24,7 @@ class Ashborne {
 
     private:
     Player player;
-    Tilemap tilemap;
-    
-    std::unique_ptr<SceneManager> sceneManager;
+    TilemapLayer tilemap;
 
     SDL_Window *window;
     SDL_Renderer *renderer;

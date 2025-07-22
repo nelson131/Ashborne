@@ -13,7 +13,7 @@ Entity::Entity(){
 
 }
 
-void Entity::create(float x, float y, const char *pathToTexture, std::string entityName, bool visible, bool collisible, bool animated, bool debugMode){
+void Entity::create(float x, float y, const char *pathToTexture, std::string entityName, Relationship r, bool visible, bool collisible, bool animated, bool debugMode){
     width = 32;
     height = 32;
     
@@ -27,6 +27,7 @@ void Entity::create(float x, float y, const char *pathToTexture, std::string ent
     flagName = entityName;
     flagId = eHolder.getUniqueId();
     file = pathToTexture;
+    rel = r;
     isVisible = visible;
     isCollisible = collisible;
     isAnimated = animated;
@@ -43,13 +44,13 @@ void Entity::create(float x, float y, const char *pathToTexture, std::string ent
     }
 }
 
-void Entity::update(){
+void Entity::update(SDL_Rect& camera){
     position = position + velocity;
     hitBox.x = position.x;
     hitBox.y = position.y;
 
-    textName.move(position.x, position.y - 40);
-    textId.move(position.x, position.y - 20);
+    textName.move(position.x - camera.x, position.y - 40 - camera.y);
+    textId.move(position.x - camera.x, position.y - 20 - camera.y);
 }
 
 void Entity::render(SDL_Rect &camera){
@@ -77,6 +78,14 @@ void Entity::render(SDL_Rect &camera){
 void Entity::kill(Entity& e){
     eHolder.remove(&e);
     //delete &e;
+}
+
+Entity::Relationship& Entity::getRelationship(){
+    return rel;
+}
+
+void Entity::setRelationship(Entity::Relationship &r){
+    rel = r;
 }
 
 void Entity::setVisible(bool b){

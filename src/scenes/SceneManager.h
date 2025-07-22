@@ -12,7 +12,7 @@
 struct Scene {
     const char *name;
     int id;
-    std::list<Tilemap> layers;
+    std::list<TilemapLayer> layers;
 
     bool operator<(const Scene &other) const {
         return id < other.id;
@@ -22,26 +22,30 @@ struct Scene {
 class SceneManager {
 
     public:
-    SceneManager(SDL_Renderer *sdlRenderer);
+    SceneManager();
 
-    void scenesInit();
+    void scenesInit(SDL_Renderer *r);
     void ikuyo(SDL_Rect &camera);
 
     void setCurrentScene(Scene *scene);
     Scene *getCurrentScene();
+    const Scene* findSceneById(int id) const;
 
-    const Scene& findSceneById(int id) const;
+    std::set<Scene*>& getHolder();
+    std::set<TilemapLayer*>& getCmaps();
 
     Scene Testroom;
 
-
     private:
-    Tilemap tilemap;
+    TilemapLayer tilemap;
 
     SDL_Renderer *renderer;
     Scene *currentScene = nullptr;
-    std::set<Scene> scenesKeeper;
+    std::set<Scene*> holder;
+    std::set<TilemapLayer*> cmaps;
     
 };
+
+extern SceneManager sceneManager;
 
 #endif

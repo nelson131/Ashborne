@@ -3,23 +3,25 @@
 #include "SceneManager.h"
 #include "../utils/Logger.h"
 
-SceneManager::SceneManager(SDL_Renderer *sdl_renderer)
-    : renderer(sdl_renderer)
-{}
+SceneManager sceneManager;
+
+SceneManager::SceneManager(){
+    
+}
 
 void SceneManager::ikuyo(SDL_Rect &camera){
-    if(!currentScene){
+    if(!sceneManager.currentScene){
         Logger::print(Logger::ERROR, "No current scene set");
         exit(-1);
     }
-    for(Tilemap& tilemap : currentScene->layers){
-        tilemap.render(renderer, camera);
+    for(TilemapLayer& layer : sceneManager.currentScene->layers){
+        layer.render(renderer, camera);
     }
 }
 
-const Scene& SceneManager::findSceneById(int id) const{
-    for(const auto& scene : scenesKeeper){
-        if(scene.id == id){
+const Scene* SceneManager::findSceneById(int id) const{
+    for(const Scene *scene : holder){
+        if(scene->id == id){
             return scene;
         }
     }
@@ -28,10 +30,10 @@ const Scene& SceneManager::findSceneById(int id) const{
 }
 
 Scene *SceneManager::getCurrentScene(){
-    return currentScene;
+    return sceneManager.currentScene;
 }
 
 void SceneManager::setCurrentScene(Scene *scene) {
-    currentScene = scene;
+    sceneManager.currentScene = scene;
     Logger::print(Logger::INFO, "Current scene is: ", scene->name);
 }

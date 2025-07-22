@@ -40,9 +40,8 @@ void Ashborne::gameInit(const char *title, int x, int y, int width, int height, 
 
     eHolder.init(renderer);
 
-    sceneManager = std::make_unique<SceneManager>(renderer);
-    sceneManager->scenesInit();
-    sceneManager->setCurrentScene(&sceneManager->Testroom);
+    sceneManager.scenesInit(renderer);
+    sceneManager.setCurrentScene(&sceneManager.Testroom);
 
     player.init(renderer);
 }
@@ -62,7 +61,7 @@ void Ashborne::eventManager(){
 void Ashborne::render(){
     SDL_RenderClear(renderer);
     //...
-    sceneManager->ikuyo(player.getCamera());
+    sceneManager.ikuyo(player.getCamera());
     player.display(renderer);
     //...
     SDL_RenderPresent(renderer);

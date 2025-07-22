@@ -3,11 +3,16 @@
 #include <SDL2/SDL_image.h>
 #include "Tilemap.h"
 
-Tilemap::Tilemap(){
+TilemapLayer::TilemapLayer(){
     
 }
 
-void Tilemap::render(SDL_Renderer *renderer, SDL_Rect &fuckingCamera){
+void TilemapLayer::init(int mapid, bool collisible){
+    id = mapid;
+    isCollisible = collisible;
+}
+
+void TilemapLayer::render(SDL_Renderer *renderer, SDL_Rect &fuckingCamera){
     if (!tileset) {
         Logger::print(Logger::ERROR, "Failed to render this tileset");
         exit(1);
@@ -15,9 +20,12 @@ void Tilemap::render(SDL_Renderer *renderer, SDL_Rect &fuckingCamera){
 
     for(int y = 0; y<map.size(); y++){
         for(int x = 0; x<map[y].size(); x++){
+
+            if(map[y][x] == TILE_EMPTY) continue;
+
             SDL_Rect srcRect = {
-                (map[y][x] % tilesPerRow) * 32,
-                (map[y][x] / tilesPerRow) * 32,
+                ((map[y][x]-1) % tilesPerRow) * 32,
+                ((map[y][x]-1) / tilesPerRow) * 32,
                 32,
                 32
             };
@@ -34,11 +42,11 @@ void Tilemap::render(SDL_Renderer *renderer, SDL_Rect &fuckingCamera){
     }
 }
 
-void Tilemap::set(std::vector<std::vector<int>> &mapSet){
+void TilemapLayer::set(std::vector<std::vector<int>> &mapSet){
     map = mapSet;
 }
 
-void Tilemap::load(const  char *filePath, SDL_Renderer *renderer, int tilesSize){
+void TilemapLayer::load(const  char *filePath, SDL_Renderer *renderer, int tilesSize){
     SDL_Surface *surface = IMG_Load(filePath);
 
     if(!surface) {
@@ -55,4 +63,23 @@ void Tilemap::load(const  char *filePath, SDL_Renderer *renderer, int tilesSize)
     }
 
     this->tilesPerRow = tilesSize;
+}
+
+bool TilemapLayer::isBlocked(float x, float y){
+    if(isCollisible){
+        if(map.size() == 0){
+            Logger::print(Logger::ERROR, "Failed to check collision of map");
+            exit(-1);
+        }
+        int tileX = static_cast<int>(x / 32);
+        int tileY = static_cast<int>(y / 32);
+
+        if(tileY < 0 || tileY >= map.size()) return false;
+        if(map[tileY].empty()) return false;
+        if(tileX < 0 || tileX >= map[tileY].size()) return false;
+
+        return map[static_cast<int>(x / 32)][static_cast<int>(y / 32)] != 0;
+    }
+    //Logger::print(Logger::ERROR, "Tried to check a blocked tile but tilemap is not collisible");
+    return false;
 }

@@ -15,10 +15,20 @@ class Entity {
     public:
     Entity();
 
-    void create(float x, float y, const char *pathToTexture, std::string entityName, bool isVisible, bool isCollisible, bool isAnimated, bool debugMode);
-    void update();
+    enum class Relationship {
+        FRIENDLY,
+        ENEMY,
+        NEUTRAL,
+        PLAYER
+    };
+
+    void create(float x, float y, const char *pathToTexture, std::string entityName, Relationship relationship, bool isVisible, bool isCollisible, bool isAnimated, bool debugMode);
+    void update(SDL_Rect& camera);
     void render(SDL_Rect& camera);
     void kill(Entity& e);
+
+    Relationship& getRelationship();
+    void setRelationship(Relationship &rel);
 
     void setVisible(bool b);
     void setCollisible(bool b);
@@ -62,6 +72,7 @@ class Entity {
     std::string flagName;
     int flagId;
     const char *file;
+    Relationship rel;
     bool isVisible, isCollisible, isDebugMode, isAnimated;
 
     int width, height;
