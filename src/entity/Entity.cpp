@@ -4,6 +4,8 @@
 #include "Entity.h"
 #include "EntityHolder.h"
 #include "Animation.h"
+#include "../scenes/SceneManager.h"
+#include "../Tilemap.h"
 #include "../TextureManager.h"
 #include "../utils/Text.h"
 
@@ -29,7 +31,7 @@ void Entity::create(float x, float y, const char *pathToTexture, std::string ent
     file = pathToTexture;
     rel = r;
     isVisible = visible;
-    isCollisible = collisible;
+    isCollidable = collisible;
     isAnimated = animated;
     isDebugMode = debugMode;
 
@@ -45,6 +47,13 @@ void Entity::create(float x, float y, const char *pathToTexture, std::string ent
 }
 
 void Entity::update(SDL_Rect& camera){
+    for(TilemapLayer* t : sceneManager.getCurrentScene()->colliders){
+        if(hasCollider(t)){
+            Logger::print(Logger::DEBUG, "FUCKED UP");
+            return;
+        }
+    }
+
     position = position + velocity;
     hitBox.x = position.x;
     hitBox.y = position.y;
@@ -93,7 +102,7 @@ void Entity::setVisible(bool b){
 }
 
 void Entity::setCollisible(bool b){
-    isCollisible = b;
+    isCollidable = b;
 }
 
 void Entity::setDebugMode(bool b){
@@ -132,7 +141,7 @@ bool Entity::hasVisible() const{
 }
 
 bool Entity::hasCollisible() const{
-    return isCollisible;
+    return isCollidable;
 }
 
 bool Entity::hasDebugMode() const{
@@ -185,6 +194,24 @@ int Entity::getPRes() const{
 
 int Entity::getMRes() const{
     return stats[7];
+}
+
+bool Entity::hasCollider(TilemapLayer* t){
+     SDL_Rect nextRect = {
+        static_cast<int>(hitBox.x + velocity.x),
+        static_cast<int>(hitBox.y + velocity.y),
+        hitBox.w,
+        hitBox.h
+    };
+
+    float x1 = nextRect.x;
+    float y1 = nextRect.y;
+    float x2 = nextRect.x + hitBox.w -1;
+    float y2 = nextRect.y + hitBox.h -1;
+
+    Logger::print(Logger::DEBUG, "Checking corners: ", x1, " | ", x2, " | ", y1, " | ", y2, " | ");
+
+    return t->isBlocked(x1, y1) || t->isBlocked(x2, y2) || t->isBlocked(x1, y2) || t->isBlocked(x2, y1);
 }
 
 EntityHolder::EntityHolder(){

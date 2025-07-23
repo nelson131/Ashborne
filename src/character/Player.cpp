@@ -34,11 +34,6 @@ void Player::handleInput(){
     const Uint8 *keys = SDL_GetKeyboardState(NULL);
     player.velocity = {0, 0};
 
-    for(TilemapLayer* t : sceneManager.getCmaps()){
-        std::cout << t->id << std::endl;
-        if(t->isBlocked(player.position.x, player.position.y)) return;
-    }
-
     if(keys[SDL_SCANCODE_W]){
         player.velocity.y -= speed;
     }
@@ -51,7 +46,6 @@ void Player::handleInput(){
     if(keys[SDL_SCANCODE_D]){
         player.velocity.x += speed;
     }
-    
 }
 
 SDL_Rect &Player::getCamera(){

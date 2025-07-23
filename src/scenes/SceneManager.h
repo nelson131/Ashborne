@@ -13,6 +13,7 @@ struct Scene {
     const char *name;
     int id;
     std::list<TilemapLayer> layers;
+    std::set<TilemapLayer*> colliders;
 
     bool operator<(const Scene &other) const {
         return id < other.id;
@@ -37,12 +38,12 @@ class SceneManager {
     Scene Testroom;
 
     private:
-    TilemapLayer tilemap;
-
     SDL_Renderer *renderer;
     Scene *currentScene = nullptr;
     std::set<Scene*> holder;
-    std::set<TilemapLayer*> cmaps;
+
+    TilemapLayer layer1;
+    TilemapLayer layer2;
     
 };
 

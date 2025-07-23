@@ -13,7 +13,7 @@ class TilemapLayer {
     public:
     TilemapLayer();
 
-    void init(int id, bool collisble);
+    void init(bool collisble);
 
     void load(const char *filePath, SDL_Renderer *renderer, int tilesSize);
     void render(SDL_Renderer *renderer, SDL_Rect &camera);

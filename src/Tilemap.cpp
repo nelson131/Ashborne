@@ -7,8 +7,7 @@ TilemapLayer::TilemapLayer(){
     
 }
 
-void TilemapLayer::init(int mapid, bool collisible){
-    id = mapid;
+void TilemapLayer::init(bool collisible){
     isCollisible = collisible;
 }
 
@@ -71,15 +70,14 @@ bool TilemapLayer::isBlocked(float x, float y){
             Logger::print(Logger::ERROR, "Failed to check collision of map");
             exit(-1);
         }
-        int tileX = static_cast<int>(x / 32);
-        int tileY = static_cast<int>(y / 32);
+        int tileX = static_cast<int>(x / 32.0f);
+        int tileY = static_cast<int>(y / 32.0f);
 
         if(tileY < 0 || tileY >= map.size()) return false;
         if(map[tileY].empty()) return false;
         if(tileX < 0 || tileX >= map[tileY].size()) return false;
-
-        return map[static_cast<int>(x / 32)][static_cast<int>(y / 32)] != 0;
+        return map[tileY][tileX] != 0;
     }
-    //Logger::print(Logger::ERROR, "Tried to check a blocked tile but tilemap is not collisible");
+    Logger::print(Logger::ERROR, "Tried to check a blocked tile but tilemap is not collidable");
     return false;
 }

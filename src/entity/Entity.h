@@ -5,6 +5,7 @@
 #include <SDL2/SDL.h>
 #include <array>
 #include "Animation.h"
+#include "../Tilemap.h"
 #include "../alg/Vector.h"
 #include "../TextureManager.h"
 #include "../item/Inventory.h"
@@ -58,6 +59,8 @@ class Entity {
     int getPRes() const;
     int getMRes() const;
 
+    bool hasCollider(TilemapLayer* t);
+
     Vector position;
     Vector velocity;
 
@@ -73,7 +76,7 @@ class Entity {
     int flagId;
     const char *file;
     Relationship rel;
-    bool isVisible, isCollisible, isDebugMode, isAnimated;
+    bool isVisible, isCollidable, isDebugMode, isAnimated;
 
     int width, height;
 
