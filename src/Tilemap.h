@@ -18,6 +18,7 @@ class TilemapLayer {
     void load(const char *filePath, SDL_Renderer *renderer, int tilesSize);
     void render(SDL_Renderer *renderer, SDL_Rect &camera);
     void set(std::vector<std::vector<int>> &mapSet);
+    void setFromCSV(const char *csvName);
 
     bool isBlocked(float x, float y);
 
@@ -32,7 +33,7 @@ class TilemapLayer {
     
     int tilesPerRow;
 
-    bool isCollisible;
+    bool isCollidable;
 };
 
 #endif

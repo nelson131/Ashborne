@@ -23,8 +23,8 @@ void Entity::create(float x, float y, const char *pathToTexture, std::string ent
     position.y = y;
     destRect.w = width;
     destRect.h = height;
-    hitBox.w = width;
-    hitBox.h = height;
+    hitbox.w = width;
+    hitbox.h = height;
 
     flagName = entityName;
     flagId = eHolder.getUniqueId();
@@ -34,7 +34,7 @@ void Entity::create(float x, float y, const char *pathToTexture, std::string ent
     isCollidable = collisible;
     isAnimated = animated;
     isDebugMode = debugMode;
-
+    
     eHolder.add(this);
 
     setTexture();
@@ -47,19 +47,40 @@ void Entity::create(float x, float y, const char *pathToTexture, std::string ent
 }
 
 void Entity::update(SDL_Rect& camera){
-    for(TilemapLayer* t : sceneManager.getCurrentScene()->colliders){
+   position.x += velocity.x;
+   hitbox.x = position.x;
+
+   for(TilemapLayer* t : sceneManager.getCurrentScene()->colliders){
         if(hasCollider(t)){
-            Logger::print(Logger::DEBUG, "FUCKED UP");
-            return;
+            if(velocity.x > 0){
+                position.x = (int)(position.x / 32) * 32;
+            }
+            if(velocity.x < 0){
+                position.x = (int)(position.x / 32 + 1) * 32;
+            }
+            hitbox.x = position.x;
+            break;
         }
-    }
+   }
 
-    position = position + velocity;
-    hitBox.x = position.x;
-    hitBox.y = position.y;
+   position.y += velocity.y;
+   hitbox.y = position.y;
 
-    textName.move(position.x - camera.x, position.y - 40 - camera.y);
-    textId.move(position.x - camera.x, position.y - 20 - camera.y);
+   for(TilemapLayer* t : sceneManager.getCurrentScene()->colliders){
+        if(hasCollider(t)){
+            if(velocity.y > 0){
+                position.y = (int)(position.y / 32) * 32;
+            }
+            if(velocity.y < 0){
+                position.y = (int)(position.y / 32 + 1) * 32;
+            }
+            hitbox.y = position.y;
+            break;
+        }
+   }
+
+   textName.move(position.x - camera.x, position.y - 40 - camera.y);
+   textId.move(position.x - camera.x, position.y - 20 - camera.y);
 }
 
 void Entity::render(SDL_Rect &camera){
@@ -71,8 +92,6 @@ void Entity::render(SDL_Rect &camera){
     };
 
     if(isDebugMode){
-        //SDL_SetRenderDrawColor(eHolder.getRenderer(), 41, 182, 246, 255);
-        //SDL_RenderDrawRect(eHolder.getRenderer(), &hitBox);
         textName.render(eHolder.getRenderer(), flagName.c_str());
         textId.render(eHolder.getRenderer(), std::to_string(flagId).c_str());
     }
@@ -197,21 +216,15 @@ int Entity::getMRes() const{
 }
 
 bool Entity::hasCollider(TilemapLayer* t){
-     SDL_Rect nextRect = {
-        static_cast<int>(hitBox.x + velocity.x),
-        static_cast<int>(hitBox.y + velocity.y),
-        hitBox.w,
-        hitBox.h
-    };
+    float x1 = hitbox.x;
+    float y1 = hitbox.y;
+    float x2 = hitbox.x + hitbox.w - 1;
+    float y2 = hitbox.y + hitbox.h - 1;
 
-    float x1 = nextRect.x;
-    float y1 = nextRect.y;
-    float x2 = nextRect.x + hitBox.w -1;
-    float y2 = nextRect.y + hitBox.h -1;
-
-    Logger::print(Logger::DEBUG, "Checking corners: ", x1, " | ", x2, " | ", y1, " | ", y2, " | ");
-
-    return t->isBlocked(x1, y1) || t->isBlocked(x2, y2) || t->isBlocked(x1, y2) || t->isBlocked(x2, y1);
+    return t->isBlocked(x1, y1)
+        || t->isBlocked(x2, y2)
+        || t->isBlocked(x1, y2)
+        || t->isBlocked(x2, y1);
 }
 
 EntityHolder::EntityHolder(){

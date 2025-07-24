@@ -4,12 +4,8 @@
 #include <array>
 #include <set>
 
-struct Item
-{
-    const char *name;
-    int id;
-    std::array<int, 7> parameters;
-    /*
+/*
+    parameters meanings:
     1. HP
     2. Mana
     3. Movespeed
@@ -17,7 +13,14 @@ struct Item
     5. Magic damage
     6. Phys res
     7. Magic res
-    */
+*/
+
+struct Item
+{
+    const char *name;
+    int id;
+    std::array<int, 7> parameters;
+    bool isEquipable;
 
     bool operator==(const Item& other) const {
         return parameters == other.parameters;

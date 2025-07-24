@@ -33,7 +33,6 @@ class SceneManager {
     const Scene* findSceneById(int id) const;
 
     std::set<Scene*>& getHolder();
-    std::set<TilemapLayer*>& getCmaps();
 
     Scene Testroom;
 

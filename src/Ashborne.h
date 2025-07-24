@@ -14,7 +14,7 @@ class Ashborne {
     public:
     Ashborne();
 
-    void gameInit(const char *title, int x, int y, int width, int height, bool fullscreen);
+    void init(const char *title, int x, int y, int width, int height, bool fullscreen);
     void eventManager();
     void update();
     void render();

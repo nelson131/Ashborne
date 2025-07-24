@@ -19,9 +19,9 @@ void SceneManager::scenesInit(SDL_Renderer *r){
 
         layer2.init(true);
         std::vector<std::vector<int>> mapSet2 = {
-        {0, 0, 0, 0, 0, 1},
-        {0, 0, 0, 0, 0, 2},
         {0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 2},
+        {0, 0, 0, 0, 0, 1},
         {0, 0, 0, 0, 0, 0}
         };
         layer2.load("assets/tilemaptest.png", renderer, 2);

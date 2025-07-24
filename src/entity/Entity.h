@@ -64,7 +64,7 @@ class Entity {
     Vector position;
     Vector velocity;
 
-    SDL_Rect hitBox;
+    SDL_Rect hitbox;
     SDL_Rect srcRect, destRect;
 
     private:

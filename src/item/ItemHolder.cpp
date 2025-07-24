@@ -13,7 +13,8 @@ void ItemHolder::init(){
     const Item sword {
         "Sword",
         getUniqueId(),
-        {0, 0, 0, 10, 0, 0, 0}
+        {0, 0, 0, 10, 0, 0, 0},
+        true
     };
     add(&sword);
 }
@@ -29,6 +30,7 @@ const Item* ItemHolder::findBy(const char *name) const{
         }
     }
     Logger::print(Logger::ERROR, "Failed to find item by his name: ", name);
+    return nullptr;
 }
 
 const Item* ItemHolder::findBy(int id) const{
@@ -38,6 +40,7 @@ const Item* ItemHolder::findBy(int id) const{
         }
     }
     Logger::print(Logger::ERROR, "Failed to find item by his id: ", id);
+    return nullptr;
 }
 
 void ItemHolder::add(const Item *item){

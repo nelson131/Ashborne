@@ -12,7 +12,7 @@ Ashborne::Ashborne(){
 
 }
 
-void Ashborne::gameInit(const char *title, int x, int y, int width, int height, bool fullscreen){
+void Ashborne::init(const char *title, int x, int y, int width, int height, bool fullscreen){
     int flags = 0;
     if(fullscreen){
         flags = SDL_WINDOW_FULLSCREEN;
