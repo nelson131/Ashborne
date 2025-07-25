@@ -37,6 +37,8 @@ class SceneManager {
     Scene Testroom;
 
     private:
+    const char *transform(const char *name);
+
     SDL_Renderer *renderer;
     Scene *currentScene = nullptr;
     std::set<Scene*> holder;

@@ -18,7 +18,8 @@ class TilemapLayer {
     void load(const char *filePath, SDL_Renderer *renderer, int tilesSize);
     void render(SDL_Renderer *renderer, SDL_Rect &camera);
     void set(std::vector<std::vector<int>> &mapSet);
-    void setFromCSV(const char *csvName);
+    void setFromCSV(const char *csvName, const char *keyTitle);
+    void debug();
 
     bool isBlocked(float x, float y);
 

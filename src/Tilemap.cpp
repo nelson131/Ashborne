@@ -2,6 +2,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <fstream>
+#include <sstream>
 #include "Tilemap.h"
 
 TilemapLayer::TilemapLayer(){
@@ -46,33 +47,59 @@ void TilemapLayer::set(std::vector<std::vector<int>> &mapSet){
     map = mapSet;
 }
 
-void TilemapLayer::setFromCSV(const char *csvName){
-    std::string path = "resources/maps/" + std::string(csvName);
-    std::ifstream file (path);
+void TilemapLayer::setFromCSV(const char *csvName, const char *keyTitle){
+    std::string path = "resources/maps/" + std::string(csvName) + ".csv";
+    std::ifstream file(path);
     if(!file.is_open()){
-        Logger::print(Logger::ERROR, "CSV map does not exist");
+        Logger::print(Logger::ERROR, "CSV map (", csvName, "does not exist");
         return;
     }
 
     std::vector<std::vector<int>> result;
     int y = 0;
+
+    std::string title = '[' + std::string(keyTitle) + ']';
     std::string line;
+    bool hasTitle = false;
+
     while(getline(file, line)){
         if(line.empty() || line[0] == ' ' || line[0] == '#'){
             continue;
         }
         
-        for(int i = 0; i < line.length(); i++){
-            int x = 0;
-            if(x != 0 && line[i] == ' ' && line[i+1] == ' ') break;
-            if(line[i] == ' ') continue;
-            result[y][x] = line[i];
-            x++;
+        if(line[0] == '['){
+            hasTitle = (line == title);
+            continue;
         }
-        y++;
-    }
 
-    set(result);
+        if(hasTitle){
+            std::vector<int> row;
+            std::stringstream ss(line);
+            int value;
+            while(ss >> value){
+                row.push_back(value);
+            }
+            if(!row.empty()){
+                result.push_back(row);
+            }
+        }
+    }
+    
+    map = result;
+}
+
+void TilemapLayer::debug(){
+    if(map.empty()){
+        Logger::print(Logger::ERROR, "Map is empty");
+        return;
+    }
+    Logger::print(Logger::DEBUG, "Tileset: ");
+    for(int y = 0; y < map.size(); y++){
+        for(int x = 0; x < map[y].size(); x++){
+            std::cout << map[y][x] << " ";
+        }
+        std::cout << std::endl;
+    }
 }
 
 void TilemapLayer::load(const  char *filePath, SDL_Renderer *renderer, int tilesSize){

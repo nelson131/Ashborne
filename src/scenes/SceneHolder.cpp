@@ -4,32 +4,22 @@
 #include "SceneManager.h"
 #include "../utils/Logger.h"
 
+
 void SceneManager::scenesInit(SDL_Renderer *r){
         renderer = r;
         //Test room
-        layer1.init(false);
-        std::vector<std::vector<int>> mapSet1 = {
-        {1, 1, 1, 1, 1, 0},
-        {2, 2, 1, 1, 1, 0},
-        {1, 2, 0, 2, 1, 0},
-        {1, 1, 2, 2, 1, 0}
-        };
-        layer1.load("assets/tilemaptest.png", renderer, 2);
-        layer1.set(mapSet1);
-
-        layer2.init(true);
-        std::vector<std::vector<int>> mapSet2 = {
-        {0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 2},
-        {0, 0, 0, 0, 0, 1},
-        {0, 0, 0, 0, 0, 0}
-        };
-        layer2.load("assets/tilemaptest.png", renderer, 2);
-        layer2.set(mapSet2);
-
         Testroom.name = "Test Room";
         Testroom.id = 0;
         Testroom.layers.clear();
+
+        layer1.init(false);
+        layer1.load("assets/tilemaptest.png", renderer, 2);
+        layer1.setFromCSV(transform(Testroom.name), "layer1");
+
+        layer2.init(true);
+        layer2.load("assets/tilemaptest.png", renderer, 2);
+        layer2.setFromCSV(transform(Testroom.name), "layer2");
+        
         Testroom.layers.push_back(layer1);
         Testroom.layers.push_back(layer2);
         
@@ -42,4 +32,15 @@ void SceneManager::scenesInit(SDL_Renderer *r){
 
 std::set<Scene*>& SceneManager::getHolder(){
         return sceneManager.holder;
+}
+
+const char *SceneManager::transform(const char *name){
+        std::string result;
+        for(int i = 0; name[i] != '\0'; i++){
+                char c = name[i];
+                if(c != ' '){
+                        result += std::tolower(static_cast<unsigned char>(c));
+                }
+        }
+        return result.c_str();
 }
