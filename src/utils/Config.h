@@ -13,7 +13,7 @@ class Config {
     void init();
 
     template<typename T>
-    T parse(std::string keyTitle, std::string keyMessage){
+    static T parse(std::string keyTitle, std::string keyMessage){
         std::ifstream file("resources/config.ini");
         std::string title = "[" + keyTitle + "]";
         std::string message = keyMessage + "=";

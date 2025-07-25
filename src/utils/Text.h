@@ -12,6 +12,7 @@ class Text {
     void render(SDL_Renderer *renderer, const char *message);
     void move(float x, float y);
     void clear();
+    void quit();
     SDL_Texture *create(SDL_Renderer *renderer, const char *message);
 
     private:

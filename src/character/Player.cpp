@@ -16,21 +16,28 @@ void Player::init(SDL_Renderer *renderer){
 
     player.animation.fps(300);
     player.animation.add(Animation::Type::IDLE, 3);
+
+    if(player.hasDebugMode()){
+        cursor.init();
+    }
 }
 
 void Player::display(SDL_Renderer *renderer){
     player.render(camera);
+    cursor.render("X: ", cursor.getX(), " | Y: ", cursor.getY());
 }
     
 void Player::update(){
     player.update(camera);
     camera.x = player.position.x + destR.w/2 - screen_width/2;
     camera.y = player.position.y + destR.h/2 - screen_height/2;
+
+    cursor.update();
 }
 
 
 void Player::handleInput(){
-    speed = config.parse<float>("player_info", "speed");
+    speed = Config::parse<float>("player_info", "speed");
     const Uint8 *keys = SDL_GetKeyboardState(NULL);
     player.velocity = {0, 0};
 

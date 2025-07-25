@@ -45,7 +45,16 @@ void Text::move(float x, float y){
 }
 
 void Text::clear(){
-    SDL_DestroyTexture(texture);
-    TTF_CloseFont(font);
+    if(texture){
+        SDL_DestroyTexture(texture);
+    }
+}
+
+void Text::quit(){
+    clear();
+    if(font){
+        TTF_CloseFont(font);
+        font = nullptr;
+    }
     TTF_Quit();
 }
