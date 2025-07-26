@@ -31,7 +31,9 @@ void ItemHolder::init(){
         if(hasObject){
             if(line[0] == ';'){
                 hasObject = false;
-                add(result);
+                if(!(result.name == "example")){
+                    add(result);
+                }
                 result = Item{};
             }
 

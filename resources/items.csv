@@ -1,12 +1,12 @@
-[iron_sword]
-name=Iron Sword
-desc=Just an iron sword
-parameters=[0, 0, 0, 10, 0, 0, 0]
-isEquipable=true
--
 [example]
 name=example
 desc=just example
 parameters=[0, 0, 0, 0, 0, 0, 0]
 isEquipable=false
--
+;
+[iron_sword]
+name=Iron Sword
+desc=Just an iron sword
+parameters=[0, 0, 0, 10, 0, 0, 0]
+isEquipable=true
+;
