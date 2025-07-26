@@ -24,13 +24,14 @@ class Player {
     SDL_Rect &getCamera();
 
     private:
+    float getSpeed() const;
+
     Entity player;
     Cursor cursor;
 
     SDL_Texture *texture;
     SDL_Rect srcR, destR;
     
-    float speed;
     const char *texturePath = "assets/playertestanim.png";
 
     SDL_Rect camera = {0, 0, 640, 480};

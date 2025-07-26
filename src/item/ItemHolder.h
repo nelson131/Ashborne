@@ -1,8 +1,10 @@
 #ifndef ITEMHOLDER_H
 #define ITEMHOLDER_H
 
+#include <iostream>
 #include <array>
 #include <set>
+#include <memory>
 
 /*
     parameters meanings:
@@ -15,15 +17,22 @@
     7. Magic res
 */
 
+class Csv;
+
 struct Item
 {
-    const char *name;
+    std::string name;
+    std::string desc;
     int id;
     std::array<int, 7> parameters;
     bool isEquipable;
 
     bool operator==(const Item& other) const {
         return parameters == other.parameters;
+    }
+
+    bool operator<(const Item& other) const {
+    return this->id < other.id;
     }
 };
 
@@ -34,17 +43,19 @@ class ItemHolder {
 
     void init();
 
-    std::set<const Item*>& get() const;
-    const Item* findBy(const char* name) const;
-    const Item* findBy(int id) const;
+    std::set<Item>& get() const;
+    const Item& findBy(const char* name) const;
+    const Item& findBy(int id) const;
 
-    void add(const Item *item);
-    void remove(const Item *item);
+    void add(const Item item);
+    void remove(const Item &item);
 
-    private:
     int getUniqueId();
 
-    std::set<const Item*> holder;
+    private:
+    std::set<Item> holder;
+
+    const char *path = "resources/items.csv";
 };
 
 extern ItemHolder itemHolder;

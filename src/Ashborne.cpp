@@ -7,6 +7,7 @@
 #include "Tilemap.h"
 #include "scenes/SceneManager.h"
 #include "entity/EntityHolder.h"
+#include "item/ItemHolder.h"
 
 Ashborne::Ashborne(){
 
@@ -44,6 +45,8 @@ void Ashborne::init(const char *title, int x, int y, int width, int height, bool
     sceneManager.setCurrentScene(&sceneManager.Testroom);
 
     player.init(renderer);
+
+    itemHolder.init();
 }
 
 void Ashborne::eventManager(){

@@ -44,6 +44,8 @@ void Entity::create(float x, float y, const char *pathToTexture, std::string ent
         textName.ikuyo("assets/fonts/Roboto-Black.ttf");
         textId.ikuyo("assets/fonts/Roboto-Black.ttf");
     }
+
+    setDefaultStats();
 }
 
 void Entity::update(SDL_Rect& camera){
@@ -172,7 +174,7 @@ void Entity::setActiveAnim(Animation::Type &type){
 }
 
 void Entity::setDefaultStats(){
-    stats = {200, 200, 150, 55, 0, 0, 0};
+    stats = {300, 200, 4, 10, 0, 0, 0};
 }
 
 void Entity::setStats(const std::array<int, 7> s){
@@ -188,31 +190,31 @@ void Entity::updateStats(){
 }
 
 int Entity::getHP() const{
-    return stats[1];
+    return stats[0];
 }
 
 int Entity::getMana() const{
-    return stats[2];
+    return stats[1];
 }
 
 int Entity::getMS() const{
-    return stats[3];
+    return stats[2];
 }
 
 int Entity::getPDamage() const{
-    return stats[4];
+    return stats[3];
 }
 
 int Entity::getMDamage() const{
-    return stats[5];
+    return stats[4];
 }
 
 int Entity::getPRes() const{
-    return stats[6];
+    return stats[5];
 }
 
 int Entity::getMRes() const{
-    return stats[7];
+    return stats[6];
 }
 
 bool Entity::hasCollider(TilemapLayer* t){

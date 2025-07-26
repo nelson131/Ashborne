@@ -24,7 +24,10 @@ void Player::init(SDL_Renderer *renderer){
 
 void Player::display(SDL_Renderer *renderer){
     player.render(camera);
-    cursor.render("X: ", cursor.getX(), " | Y: ", cursor.getY());
+
+    if(player.hasDebugMode()){
+        cursor.render("X: ", cursor.getX(), " | Y: ", cursor.getY());
+    }
 }
     
 void Player::update(){
@@ -32,29 +35,34 @@ void Player::update(){
     camera.x = player.position.x + destR.w/2 - screen_width/2;
     camera.y = player.position.y + destR.h/2 - screen_height/2;
 
-    cursor.update();
+    if(player.hasDebugMode()){
+        cursor.update();
+    }
 }
 
 
 void Player::handleInput(){
-    speed = Config::parse<float>("player_info", "speed");
     const Uint8 *keys = SDL_GetKeyboardState(NULL);
     player.velocity = {0, 0};
 
     if(keys[SDL_SCANCODE_W]){
-        player.velocity.y -= speed;
+        player.velocity.y -= getSpeed();
     }
     if(keys[SDL_SCANCODE_A]){
-        player.velocity.x -= speed;
+        player.velocity.x -= getSpeed();
     }
     if(keys[SDL_SCANCODE_S]){
-        player.velocity.y += speed;
+        player.velocity.y += getSpeed();
     }
     if(keys[SDL_SCANCODE_D]){
-        player.velocity.x += speed;
+        player.velocity.x += getSpeed();
     }
 }
 
 SDL_Rect &Player::getCamera(){
     return camera;
+}
+
+float Player::getSpeed() const{
+    return static_cast<float>(player.getMS());
 }
