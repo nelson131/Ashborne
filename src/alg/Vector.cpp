@@ -113,7 +113,7 @@ float Vector::getDistance(float x, float y){
     return sqrt(x * x + y * y);
 }
 
-float Vector::getDistance(const Vector& v){
+float Vector::getDistance(const Vector& v) const{
     float x = v.x - this->x;
     float y = v.y - this->y;
     return sqrt(x * x + y * y);
@@ -123,7 +123,7 @@ float Vector::getAngle(){
     return atan2(this->y, this->x);
 }
 
-float Vector::getAngle(const Vector& v){
+float Vector::getAngle(const Vector& v) const{
     return atan2(v.y, v.x);
 }
 
@@ -178,4 +178,20 @@ Vector Vector::clone(const Vector& v){
 
 bool Vector::equals(const Vector& v){
     return this->x == v.x && this->y == v.y;
+}
+
+float Vector::sin(float& f){
+    return asin(f);
+}
+
+float Vector::dsin(float& f){
+    return asin(f) *(180.0 / M_PI);
+}
+
+float Vector::cos(float& f){
+    return acos(f);
+}
+
+float Vector::dcos(float& f){
+    return acos(f) * (180.0 / M_PI);
 }

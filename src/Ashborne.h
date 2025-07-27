@@ -8,6 +8,7 @@
 #include "character/Player.h"
 #include "Tilemap.h"
 #include "scenes/SceneManager.h"
+#include "entity/Npc.h"
 
 class Ashborne {
     
@@ -25,6 +26,7 @@ class Ashborne {
     private:
     Player player;
     TilemapLayer tilemap;
+    Npc npc;
 
     SDL_Window *window;
     SDL_Renderer *renderer;

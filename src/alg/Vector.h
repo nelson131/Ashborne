@@ -39,10 +39,10 @@ class Vector {
     float getLength();
 
     float getDistance(float x, float y);
-    float getDistance(const Vector& v);
+    float getDistance(const Vector& v) const;
 
     float getAngle();
-    float getAngle(const Vector& v);
+    float getAngle(const Vector& v) const;
 
     void normalize();
     Vector getNormalized();
@@ -57,6 +57,11 @@ class Vector {
     Vector clone(const Vector& v);
 
     bool equals(const Vector& v);
+
+    float sin(float& f);
+    float dsin(float& f);
+    float cos(float& f);
+    float dcos(float& f);
 };
 
 

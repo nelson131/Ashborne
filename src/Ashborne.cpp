@@ -8,6 +8,8 @@
 #include "scenes/SceneManager.h"
 #include "entity/EntityHolder.h"
 #include "item/ItemHolder.h"
+#include "entity/Npc.h"
+#include "entity/Entity.h"
 
 Ashborne::Ashborne(){
 
@@ -39,6 +41,8 @@ void Ashborne::init(const char *title, int x, int y, int width, int height, bool
         run = false;
     }
 
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");
+
     eHolder.init(renderer);
 
     sceneManager.scenesInit(renderer);
@@ -47,6 +51,8 @@ void Ashborne::init(const char *title, int x, int y, int width, int height, bool
     player.init(renderer);
 
     itemHolder.init();
+
+    npc.spawn(500, 500, "assets/playertest.png", "npc", Entity::Relationship::NEUTRAL, true, true, false, true);
 }
 
 void Ashborne::eventManager(){
@@ -66,6 +72,7 @@ void Ashborne::render(){
     //...
     sceneManager.ikuyo(player.getCamera());
     player.display(renderer);
+    npc.render();
     //...
     SDL_RenderPresent(renderer);
 }
@@ -75,6 +82,7 @@ void Ashborne::update(){
 
     player.handleInput();
     player.update();
+    npc.update();
 
     //std::cout << count << std::endl;
 }

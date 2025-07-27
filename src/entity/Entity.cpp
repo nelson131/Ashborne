@@ -1,9 +1,12 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <cmath>
+#include <unordered_map>
 #include "Entity.h"
 #include "EntityHolder.h"
 #include "Animation.h"
+#include "../alg/Vector.h"
 #include "../scenes/SceneManager.h"
 #include "../Tilemap.h"
 #include "../TextureManager.h"
@@ -16,15 +19,15 @@ Entity::Entity(){
 }
 
 void Entity::create(float x, float y, const char *pathToTexture, std::string entityName, Relationship r, bool visible, bool collisible, bool animated, bool debugMode){
-    width = 32;
-    height = 32;
+    width = 32 * SCALE;
+    height = 32 * SCALE;
     
     position.x = x;
     position.y = y;
     destRect.w = width;
     destRect.h = height;
-    hitbox.w = width;
-    hitbox.h = height;
+    hitbox.w = destRect.w;
+    hitbox.h = destRect.h;
 
     flagName = entityName;
     flagId = eHolder.getUniqueId();
@@ -48,7 +51,7 @@ void Entity::create(float x, float y, const char *pathToTexture, std::string ent
     setDefaultStats();
 }
 
-void Entity::update(SDL_Rect& camera){
+void Entity::update(){
    position.x += velocity.x;
    hitbox.x = position.x;
 
@@ -85,7 +88,7 @@ void Entity::update(SDL_Rect& camera){
    textId.move(position.x - camera.x, position.y - 20 - camera.y);
 }
 
-void Entity::render(SDL_Rect &camera){
+void Entity::render(){
     destRect = {
         static_cast<int>(position.x - camera.x),
         static_cast<int>(position.y - camera.y),
@@ -106,8 +109,9 @@ void Entity::render(SDL_Rect &camera){
 }
 
 void Entity::kill(Entity& e){
+    SDL_DestroyTexture(texture);
     eHolder.remove(&e);
-    //delete &e;
+    delete &e;
 }
 
 Entity::Relationship& Entity::getRelationship(){
@@ -130,15 +134,25 @@ void Entity::setDebugMode(bool b){
     isDebugMode = b;
 }
 
+void Entity::updateCamera(SDL_Rect& c){
+    camera = c;
+}
+
 void Entity::setTexture(){
     if(texture != nullptr){
         SDL_DestroyTexture(texture);
         texture = nullptr;
     }
+
     SDL_Surface *surface = IMG_Load(file);
     if(!surface){
         Logger::print(Logger::ERROR, "Failed to load entity surface: ", SDL_GetError());
         exit(1);
+    }
+
+    if(!eHolder.getRenderer()){
+        Logger::print(Logger::ERROR, "EntityHolder renderer is nullptr");
+        exit(-1);
     }
 
     texture = SDL_CreateTextureFromSurface(eHolder.getRenderer(), surface);
@@ -229,24 +243,34 @@ bool Entity::hasCollider(TilemapLayer* t){
         || t->isBlocked(x2, y1);
 }
 
+void Entity::setFOV(float f){
+    fov = f;
+}
+
+bool Entity::inView(Entity* e){
+    
+}
+
 EntityHolder::EntityHolder(){
     eHolder.sdlRenderer = nullptr;
 }
 
+std::unordered_map<int, Entity*>& EntityHolder::get(){
+    return eHolder.holder;
+}
+
 Entity* EntityHolder::findEntityById(int id){
-    for(Entity* entity : eHolder.holder){
-        if(entity->getId() == id){
-            return entity;
-        }
+    if(eHolder.get().count(id)){
+        return eHolder.get()[id];
     }
     Logger::print(Logger::ERROR, "Failed to find entity by id");
     return nullptr;
 }
 
 int EntityHolder::getIdBy(const Entity* e) const{
-    for(Entity* entity : eHolder.holder){
-        if(entity == e){
-            return entity->getId();
+    for(size_t i = 0; i < eHolder.get().size(); i++){
+        if(eHolder.get()[i] == e){
+            return static_cast<int>(i);
         }
     }
     Logger::print(Logger::ERROR, "Failed to id by entity");
@@ -254,9 +278,9 @@ int EntityHolder::getIdBy(const Entity* e) const{
 }
 
 std::string EntityHolder::getNameBy(const Entity* e) const{
-    for(Entity* entity : eHolder.holder){
-        if(entity == e){
-            return entity->getName();
+    for(size_t i = 0; i < eHolder.get().size(); i++){
+        if(eHolder.get()[i]->getName() == e->getName()){
+            return eHolder.get()[i]->getName();
         }
     }
     Logger::print(Logger::ERROR, "Failed to find name by entity");
@@ -264,15 +288,16 @@ std::string EntityHolder::getNameBy(const Entity* e) const{
 }
 
 void EntityHolder::add(Entity* e){
-    eHolder.holder.insert(e);
+    eHolder.get()[getUniqueId()] = e;
 }
 
 void EntityHolder::remove(Entity* e){
-    if(holder.find(e) != eHolder.holder.end()){
-        holder.erase(e);
-    } else {
-        Logger::print(Logger::ERROR, "Failed to remove entity from holder");
+    int id = getIdBy(e);
+    if(id == -1){
+        Logger::print(Logger::ERROR, "Failed to find entity in remove func");
+        return;
     }
+    eHolder.get().erase(id);
 }
 
 int EntityHolder::getUniqueId(){
@@ -282,9 +307,9 @@ int EntityHolder::getUniqueId(){
         return 1;
     }
 
-    for(Entity* entity : eHolder.holder){
-        if(entity->getId() > uniqueId){
-            uniqueId = entity->getId();
+    for(const auto& [id, Entity] : eHolder.get()){
+        if(id > uniqueId){
+            uniqueId = id;
         }
     }
     return uniqueId + 1;
@@ -297,4 +322,8 @@ SDL_Renderer* EntityHolder::getRenderer(){
 void EntityHolder::init(SDL_Renderer *renderer){
     eHolder.sdlRenderer = renderer;
     Logger::print(Logger::SUCCESS, "Entity holder initialized");
+}
+
+bool EntityHolder::inRange(const Entity* e1, const Entity* e2){
+    return e1->position.getDistance(e2->position) <= avr;
 }

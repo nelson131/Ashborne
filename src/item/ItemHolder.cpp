@@ -15,7 +15,7 @@ void ItemHolder::init(){
     std::ifstream file(path);
 
     if(!file.is_open()){
-        Logger::print(Logger::ERROR, "Failed to find items.csv file");
+        Logger::print(Logger::ERROR, "Failed to find items.ini file");
         return;
     }
     Item result;

@@ -5,6 +5,7 @@
 #include <vector>
 #include <SDL2/SDL.h>
 #include "utils/Logger.h"
+#include "utils/Config.h"
 
 #define TILE_EMPTY 0
 
@@ -33,6 +34,7 @@ class TilemapLayer {
     std::vector<std::vector<int>> map;
     
     int tilesPerRow;
+    int SCALE = Config::parse<int>("game_info", "scale");
 
     bool isCollidable;
 };

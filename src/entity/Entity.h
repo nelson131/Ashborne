@@ -24,8 +24,8 @@ class Entity {
     };
 
     void create(float x, float y, const char *pathToTexture, std::string entityName, Relationship relationship, bool isVisible, bool isCollisible, bool isAnimated, bool debugMode);
-    void update(SDL_Rect& camera);
-    void render(SDL_Rect& camera);
+    void update();
+    void render();
     void kill(Entity& e);
 
     Relationship& getRelationship();
@@ -34,6 +34,8 @@ class Entity {
     void setVisible(bool b);
     void setCollisible(bool b);
     void setDebugMode(bool b);
+
+    void updateCamera(SDL_Rect& c);
 
     std::string getName() const;
     int getId() const;
@@ -61,8 +63,13 @@ class Entity {
 
     bool hasCollider(TilemapLayer* t);
 
+    void setFOV(float f);
+    bool inView(Entity* e);
+
     Vector position;
     Vector velocity;
+
+    Vector lookdir;
 
     SDL_Rect hitbox;
     SDL_Rect srcRect, destRect;
@@ -71,6 +78,7 @@ class Entity {
     Text textName;
     Text textId;
     SDL_Texture *texture;
+    int SCALE = Config::parse<int>("game_info", "scale");
 
     std::string flagName;
     int flagId;
@@ -85,6 +93,11 @@ class Entity {
     std::array<int, 7> stats;
 
     Animation::Type activeAnim;
+
+    SDL_Rect camera;
+
+    float vr = Config::parse<float>("npc_info", "absolute_view_range");
+    float fov;
 };
 
 #endif

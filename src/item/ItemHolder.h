@@ -55,7 +55,7 @@ class ItemHolder {
     private:
     std::set<Item> holder;
 
-    const char *path = "resources/items.csv";
+    const char *path = "resources/items.ini";
 };
 
 extern ItemHolder itemHolder;

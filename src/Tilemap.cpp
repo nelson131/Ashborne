@@ -32,10 +32,10 @@ void TilemapLayer::render(SDL_Renderer *renderer, SDL_Rect &fuckingCamera){
             };
 
             SDL_Rect dstRect = {
-                x * 32 - fuckingCamera.x,
-                y * 32 - fuckingCamera.y,
-                32,
-                32
+                x * 32 * SCALE - fuckingCamera.x,
+                y * 32 * SCALE - fuckingCamera.y,
+                32 * SCALE,
+                32 * SCALE
             };
 
             SDL_RenderCopy(renderer, tileset, &srcRect, &dstRect);
@@ -132,8 +132,8 @@ bool TilemapLayer::isBlocked(float x, float y){
         return false;
     }
 
-    int tileX = x / 32;
-    int tileY = y / 32;
+    int tileX = x / (32 * SCALE);
+    int tileY = y / (32 * SCALE);
 
     if(tileY < 0 || tileY >= map.size()) return false;
     if(tileX < 0 || tileX >= map[0].size()) return false;
