@@ -1,6 +1,7 @@
 #include "Cursor.h"
 #include "../alg/Vector.h"
 #include "../entity/EntityHolder.h"
+#include "../Camera.h"
 #include <iostream>
 #include <SDL2/SDL.h>
 
@@ -14,17 +15,27 @@ void Cursor::init(){
 }
 
 void Cursor::update(){
-    SDL_GetMouseState(&mouseX, &mouseY);
+    SDL_GetMouseState(&screenX, &screenY);
+    worldX = screenX + camera.get().x;
+    worldY = screenY + camera.get().y;
 }
 
 void Cursor::quit(){
     text.quit();
 }
 
-int& Cursor::getX(){
-    return mouseX;
+int& Cursor::getScreenX(){
+    return screenX;
 }
 
-int& Cursor::getY(){
-    return mouseY;
+int& Cursor::getScreenY(){
+    return screenY; 
+}
+
+int& Cursor::getWorldX(){
+    return worldX;
+}
+
+int& Cursor::getWorldY(){
+    return worldY;
 }

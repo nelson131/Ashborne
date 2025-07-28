@@ -300,7 +300,7 @@ void EntityHolder::add(Entity* e){
 void EntityHolder::remove(Entity* e){
     int id = getIdBy(e);
     if(id == -1){
-        Logger::print(Logger::ERROR, "Failed to find entity in remove func");
+        Logger::print(Logger::ERROR, "Failed to ыfind entity in remove func");
         return;
     }
     eHolder.get().erase(id);

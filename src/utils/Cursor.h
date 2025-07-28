@@ -14,15 +14,18 @@ class Cursor {
     void update();
     void quit();
 
-    int& getX();
-    int& getY();
+    int& getScreenX();
+    int& getScreenY();
+
+    int& getWorldX();
+    int& getWorldY();
 
     template<typename... Targs>
     void render(const Targs&... args){
         std::ostringstream str;
         (str << ... << args);
         text.render(renderer, str.str().c_str());
-        text.move(getX()-20, getY()-20);
+        text.move(getScreenX()-20, getScreenY()-20);
         text.clear();
     }
 
@@ -34,7 +37,8 @@ class Cursor {
     SDL_Renderer* renderer;
 
     const char *path = "assets/fonts/Roboto-Black.ttf";
-    int mouseX, mouseY;
+    int screenX, screenY;
+    int worldX, worldY;
 };
 
 #endif

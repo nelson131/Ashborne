@@ -27,7 +27,7 @@ void Player::display(SDL_Renderer *renderer){
     player.render();
 
     if(player.hasDebugMode()){
-        cursor.render("X: ", cursor.getX(), " | Y: ", cursor.getY());
+        cursor.render("X: ", cursor.getWorldX(), " | Y: ", cursor.getWorldY());
     }
 }
     

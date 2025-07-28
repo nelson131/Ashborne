@@ -10,6 +10,7 @@
 #include "item/ItemHolder.h"
 #include "entity/Npc.h"
 #include "entity/Entity.h"
+#include "utils/Tile.h"
 
 Ashborne::Ashborne(){
 
@@ -51,8 +52,9 @@ void Ashborne::init(const char *title, int x, int y, int width, int height, bool
     player.init(renderer);
 
     itemHolder.init();
-
-    npc.spawn(200, 200, "assets/playertest.png", "npc", Entity::Relationship::NEUTRAL, true, true, false, true);
+    
+    Tile t(2, 0, 64);
+    npc.spawn(t.getWorldX(), t.getWorldY(), "assets/playertest.png", "npc", Entity::Relationship::NEUTRAL, true, true, false, true);
 }
 
 void Ashborne::eventManager(){

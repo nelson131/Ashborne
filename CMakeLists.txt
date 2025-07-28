@@ -33,6 +33,8 @@ add_executable(Ashborne
  src/utils/Text.h
  src/utils/Cursor.h
  src/utils/Cursor.cpp
+ src/utils/Tile.cpp
+ src/utils/Tile.h
  src/scenes/SceneManager.cpp
  src/scenes/SceneManager.h
  src/scenes/SceneHolder.cpp
