@@ -9,13 +9,13 @@ SceneManager::SceneManager(){
     
 }
 
-void SceneManager::ikuyo(SDL_Rect &camera){
+void SceneManager::ikuyo(){
     if(!sceneManager.currentScene){
         Logger::print(Logger::ERROR, "No current scene set");
         exit(-1);
     }
     for(TilemapLayer& layer : sceneManager.currentScene->layers){
-        layer.render(renderer, camera);
+        layer.render(renderer);
     }
 }
 

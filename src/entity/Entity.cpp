@@ -84,14 +84,14 @@ void Entity::update(){
         }
    }
 
-   textName.move(position.x - camera.x, position.y - 40 - camera.y);
-   textId.move(position.x - camera.x, position.y - 20 - camera.y);
+   textName.move(position.x, position.y - 40);
+   textId.move(position.x, position.y - 20);
 }
 
 void Entity::render(){
     destRect = {
-        static_cast<int>(position.x - camera.x),
-        static_cast<int>(position.y - camera.y),
+        static_cast<int>(position.x),
+        static_cast<int>(position.y),
         width,
         height
     };
@@ -104,7 +104,7 @@ void Entity::render(){
     if(isAnimated){
         animation.play(activeAnim, srcRect);
     }
-    
+
     SDL_RenderCopy(eHolder.getRenderer(), texture, &srcRect, &destRect);
 }
 
@@ -134,11 +134,8 @@ void Entity::setDebugMode(bool b){
     isDebugMode = b;
 }
 
-void Entity::updateCamera(SDL_Rect& c){
-    camera = c;
-}
-
 void Entity::setTexture(){
+    srcRect = {0, 0, width, height};
     if(texture != nullptr){
         SDL_DestroyTexture(texture);
         texture = nullptr;
@@ -248,7 +245,7 @@ void Entity::setFOV(float f){
 }
 
 bool Entity::inView(Entity* e){
-    
+    return true;
 }
 
 EntityHolder::EntityHolder(){
@@ -288,7 +285,7 @@ std::string EntityHolder::getNameBy(const Entity* e) const{
 }
 
 void EntityHolder::add(Entity* e){
-    eHolder.get()[getUniqueId()] = e;
+    eHolder.get()[e->getId()] = e;
 }
 
 void EntityHolder::remove(Entity* e){

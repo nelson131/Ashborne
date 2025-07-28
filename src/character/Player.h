@@ -21,8 +21,6 @@ class Player {
     
     void updateMousePos();
 
-    SDL_Rect &getCamera();
-
     private:
     float getSpeed() const;
 
@@ -36,9 +34,6 @@ class Player {
 
     int screenWidth = Config::parse<int>("game_info", "screen_width");
     int screenHeight = Config::parse<int>("game_info", "screen_height");
-    int cameraWidth = Config::parse<int>("game_info", "camera_width");
-    int cameraHeight = Config::parse<int>("game_info", "camera_height");
-    SDL_Rect camera = {0, 0, cameraWidth, cameraHeight};
 };
 
 #endif

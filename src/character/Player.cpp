@@ -23,7 +23,6 @@ void Player::init(SDL_Renderer *renderer){
 }
 
 void Player::display(SDL_Renderer *renderer){
-    player.updateCamera(camera);
     player.render();
 
     if(player.hasDebugMode()){
@@ -32,10 +31,7 @@ void Player::display(SDL_Renderer *renderer){
 }
     
 void Player::update(){
-    player.updateCamera(camera);
     player.update();
-    camera.x = (player.position.x + destR.w/2) - screenWidth/2;
-    camera.y = (player.position.y + destR.h/2) - screenHeight/2;
 
     if(player.hasDebugMode()){
         cursor.update();
@@ -59,10 +55,6 @@ void Player::handleInput(){
     if(keys[SDL_SCANCODE_D]){
         player.velocity.x += getSpeed();
     }
-}
-
-SDL_Rect &Player::getCamera(){
-    return camera;
 }
 
 float Player::getSpeed() const{

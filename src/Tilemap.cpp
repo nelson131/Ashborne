@@ -13,7 +13,7 @@ void TilemapLayer::init(bool collisible){
     isCollidable = collisible;
 }
 
-void TilemapLayer::render(SDL_Renderer *renderer, SDL_Rect &fuckingCamera){
+void TilemapLayer::render(SDL_Renderer *renderer){
     if (!tileset) {
         Logger::print(Logger::ERROR, "Failed to render this tileset");
         exit(1);
@@ -32,8 +32,8 @@ void TilemapLayer::render(SDL_Renderer *renderer, SDL_Rect &fuckingCamera){
             };
 
             SDL_Rect dstRect = {
-                x * 32 * SCALE - fuckingCamera.x,
-                y * 32 * SCALE - fuckingCamera.y,
+                x * 32 * SCALE,
+                y * 32 * SCALE,
                 32 * SCALE,
                 32 * SCALE
             };

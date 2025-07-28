@@ -52,7 +52,7 @@ void Ashborne::init(const char *title, int x, int y, int width, int height, bool
 
     itemHolder.init();
 
-    npc.spawn(500, 500, "assets/playertest.png", "npc", Entity::Relationship::NEUTRAL, true, true, false, true);
+    npc.spawn(200, 200, "assets/playertest.png", "npc", Entity::Relationship::NEUTRAL, true, true, false, true);
 }
 
 void Ashborne::eventManager(){
@@ -70,7 +70,7 @@ void Ashborne::eventManager(){
 void Ashborne::render(){
     SDL_RenderClear(renderer);
     //...
-    sceneManager.ikuyo(player.getCamera());
+    sceneManager.ikuyo();
     player.display(renderer);
     npc.render();
     //...

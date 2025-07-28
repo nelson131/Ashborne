@@ -35,8 +35,6 @@ class Entity {
     void setCollisible(bool b);
     void setDebugMode(bool b);
 
-    void updateCamera(SDL_Rect& c);
-
     std::string getName() const;
     int getId() const;
     bool hasVisible() const;
@@ -93,8 +91,6 @@ class Entity {
     std::array<int, 7> stats;
 
     Animation::Type activeAnim;
-
-    SDL_Rect camera;
 
     float vr = Config::parse<float>("npc_info", "absolute_view_range");
     float fov;
