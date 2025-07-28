@@ -10,6 +10,7 @@
 #include "../TextureManager.h"
 #include "../item/Inventory.h"
 #include "../utils/Text.h"
+#include "../Camera.h"
 
 class Entity {
 
@@ -40,6 +41,9 @@ class Entity {
     bool hasVisible() const;
     bool hasCollisible() const;
     bool hasDebugMode() const;
+
+    int& getWidth();
+    int& getHeight();
 
     Animation animation;
 
@@ -76,7 +80,7 @@ class Entity {
     Text textName;
     Text textId;
     SDL_Texture *texture;
-    int SCALE = Config::parse<int>("game_info", "scale");
+    int SCALE = Config::parse<float>("game_info", "scale");
 
     std::string flagName;
     int flagId;

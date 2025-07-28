@@ -22,6 +22,8 @@ add_executable(Ashborne
  src/TextureManager.h
  src/Tilemap.cpp
  src/Tilemap.h
+ src/Camera.h
+ src/Camera.cpp
  src/character/Player.cpp
  src/character/Player.h
  src/utils/Logger.h

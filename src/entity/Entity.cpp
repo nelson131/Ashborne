@@ -11,6 +11,7 @@
 #include "../Tilemap.h"
 #include "../TextureManager.h"
 #include "../utils/Text.h"
+#include "../Camera.h"
 
 EntityHolder eHolder;
 
@@ -84,14 +85,14 @@ void Entity::update(){
         }
    }
 
-   textName.move(position.x, position.y - 40);
-   textId.move(position.x, position.y - 20);
+   textName.move(position.x - camera.get().x, position.y - camera.get().y - 40);
+   textId.move(position.x - camera.get().x, position.y - camera.get().y - 20);
 }
 
 void Entity::render(){
     destRect = {
-        static_cast<int>(position.x),
-        static_cast<int>(position.y),
+        static_cast<int>(position.x - camera.get().x),
+        static_cast<int>(position.y - camera.get().y),
         width,
         height
     };
@@ -178,6 +179,14 @@ bool Entity::hasCollisible() const{
 
 bool Entity::hasDebugMode() const{
     return isDebugMode;
+}
+
+int& Entity::getWidth(){
+    return width;
+}
+
+int& Entity::getHeight(){
+    return height;
 }
 
 void Entity::setActiveAnim(Animation::Type &type){

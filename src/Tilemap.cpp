@@ -4,6 +4,7 @@
 #include <fstream>
 #include <sstream>
 #include "Tilemap.h"
+#include "Camera.h"
 
 TilemapLayer::TilemapLayer(){
     
@@ -32,8 +33,8 @@ void TilemapLayer::render(SDL_Renderer *renderer){
             };
 
             SDL_Rect dstRect = {
-                x * 32 * SCALE,
-                y * 32 * SCALE,
+                x * 32 * SCALE - camera.get().x,
+                y * 32 * SCALE - camera.get().y,
                 32 * SCALE,
                 32 * SCALE
             };

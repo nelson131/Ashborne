@@ -6,6 +6,7 @@
 #include "../utils/Config.h"
 #include "../alg/Vector.h"
 #include "../scenes/SceneManager.h"
+#include "../Camera.h"
 
 Player::Player(){
 
@@ -32,6 +33,8 @@ void Player::display(SDL_Renderer *renderer){
     
 void Player::update(){
     player.update();
+    camera.update(player.position.x, player.position.y, player.getWidth());
+    
 
     if(player.hasDebugMode()){
         cursor.update();

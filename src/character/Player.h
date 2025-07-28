@@ -8,6 +8,7 @@
 #include "../utils/Config.h"
 #include "../utils/Cursor.h"
 #include "../entity/Entity.h"
+#include "../Camera.h"
 
 class Player {
 
@@ -22,8 +23,6 @@ class Player {
     void updateMousePos();
 
     private:
-    float getSpeed() const;
-
     Entity player;
     Cursor cursor;
 
@@ -34,6 +33,8 @@ class Player {
 
     int screenWidth = Config::parse<int>("game_info", "screen_width");
     int screenHeight = Config::parse<int>("game_info", "screen_height");
+
+    float getSpeed() const;
 };
 
 #endif

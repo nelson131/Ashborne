@@ -34,7 +34,7 @@ class TilemapLayer {
     std::vector<std::vector<int>> map;
     
     int tilesPerRow;
-    int SCALE = Config::parse<int>("game_info", "scale");
+    int SCALE = Config::parse<float>("game_info", "scale");
 
     bool isCollidable;
 };
