@@ -84,6 +84,12 @@ void Entity::update(){
             break;
         }
    }
+
+   if(velocity.x != 0 || velocity.y != 0){
+        velocity = velocity.getNormalized();
+        velocity.x *= getMS();
+        velocity.y *= getMS();
+   }
 }
 
 void Entity::render(){

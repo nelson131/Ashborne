@@ -58,8 +58,8 @@ void Ashborne::init(const char *title, int x, int y, int width, int height, bool
 
     npc.setPathing(true);
     npc.addDot(Tile(4, 2, 64));
-    npc.addDot(Tile(4, 4, 64));
-    npc.addDot(Tile(4, 10, 64));
+    npc.addDot(Tile(0, 2, 64));
+    npc.addDot(Tile(0, 0, 64));
 }
 
 void Ashborne::eventManager(){

@@ -7,6 +7,7 @@
 #include <memory>
 
 /*
+    OLD
     parameters meanings:
     1. HP
     2. Mana
@@ -15,6 +16,17 @@
     5. Magic damage
     6. Phys res
     7. Magic res
+
+    NEW
+    parameters meanings:
+    1. Strength
+    2. Agility
+    3. Intelligence
+    4. Movespeed
+    5. Attack (Phys damage)
+    6. Magic (Magic damage)
+    7. Physical resistance
+    8. Magic resistance
 */
 
 class Csv;

@@ -32,9 +32,8 @@ void Npc::update(){
         Tile t = dots[index];
         float dx = t.getWorldX() - npc.position.x;
         float dy = t.getWorldY() - npc.position.y;
-        float distance = npc.position.getDistance(dx, dy);
 
-        if(dx < 1.0f && dy < 1.0f){
+        if(std::abs(dx) < 1.0f && std::abs(dy) < 1.0f){
             npc.position.x = t.getWorldX();
             npc.position.y = t.getWorldY();
             index++;
