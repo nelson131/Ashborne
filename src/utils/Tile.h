@@ -22,6 +22,10 @@ class Tile {
     static int tileToWorldX(Tile& t);
     static int tileToWorldY(Tile& t);
 
+    bool operator==(const Tile& other){
+        return x = other.x && y == other.y;
+    }
+
     private:
     int x, y;
     int size;

@@ -13,7 +13,7 @@ void SceneManager::scenesInit(SDL_Renderer *r){
         Testroom.layers.clear();
 
         layer1.init(false);
-        layer1.load("assets/floor/grass.png", renderer, 2);
+        layer1.load("assets/floor/grass.png", renderer, 3);
         layer1.setFromCSV(transform(Testroom.name), "layer1");
 
         layer2.init(true);

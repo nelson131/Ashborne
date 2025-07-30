@@ -7,6 +7,7 @@
 #include "../alg/Vector.h"
 #include "../scenes/SceneManager.h"
 #include "../Camera.h"
+#include "../utils/Tile.h"
 
 Player::Player(){
 
@@ -27,7 +28,9 @@ void Player::display(SDL_Renderer *renderer){
     player.render();
 
     if(player.hasDebugMode()){
-        cursor.render("X: ", cursor.getWorldX(), " | Y: ", cursor.getWorldY());
+        //cursor.render("X: ", cursor.getWorldX(), " | Y: ", cursor.getWorldY());
+        Tile t = Tile::worldToTile(cursor.getWorldX(), cursor.getWorldY(), 64);
+        cursor.render("X: ", t.getTileX(), "Y: ", t.getTileY());
     }
 }
     

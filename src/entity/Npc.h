@@ -2,6 +2,7 @@
 #define NPC_H
 
 #include "Entity.h"
+#include "../utils/Tile.h"
 
 class Npc {
 
@@ -19,8 +20,21 @@ class Npc {
     bool scanTargets();
     bool inView();
 
+    std::vector<Tile>& getDots();
+    void addDot(Tile t);
+    void removeDot(Tile t);
+
+    void setPathing(bool b);
+    bool& getPathing();
+
     private:
     Entity npc;
+
+    int index = 0;
+
+    bool pathing;
+    std::vector<Tile> dots;
+
 };
 
 #endif

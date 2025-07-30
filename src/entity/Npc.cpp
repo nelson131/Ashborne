@@ -2,8 +2,10 @@
 #include "Entity.h"
 #include "EntityHolder.h"
 #include "../utils/Logger.h"
+#include "../alg/Vector.h"
 #include <iostream>
 #include <SDL2/SDL.h>
+#include <list>
 
 Npc::Npc(){
 
@@ -21,13 +23,42 @@ void Npc::spawn(float x, float y, const char *pathToTexture, std::string entityN
 }
 
 void Npc::update(){
-    npc.update();
-    
-    /*
-    if(npc.inView(eHolder.findEntityById(1))){
-        Logger::print(Logger::DEBUG, eHolder.findEntityById(1), " in view of ", npc.getName());
+    if(pathing){
+        if(index >= dots.size()){
+            npc.velocity = {0, 0};
+            return;
+        }
+        npc.velocity = {0, 0};
+        Tile t = dots[index];
+        float dx = t.getWorldX() - npc.position.x;
+        float dy = t.getWorldY() - npc.position.y;
+        float distance = npc.position.getDistance(dx, dy);
+
+        if(dx < 1.0f && dy < 1.0f){
+            npc.position.x = t.getWorldX();
+            npc.position.y = t.getWorldY();
+            index++;
+            return;
+        }
+
+        if(t.getWorldX() > npc.position.x){
+            npc.velocity.x += npc.getMS();
+        } else if(t.getWorldX() < npc.position.x){
+            npc.velocity.x -= npc.getMS();
+        } else {
+            npc.velocity.x = 0;
+        }
+
+        if(t.getWorldY() > npc.position.y){
+            npc.velocity.y += npc.getMS();
+        } else if(t.getWorldY() < npc.position.y){
+            npc.velocity.y -= npc.getMS();
+        } else {
+            npc.velocity.y = 0;
+        }
     }
-    */
+    Logger::print(Logger::DEBUG, "Current dot: ", index);
+    npc.update();
 }
 
 void Npc::render(){
@@ -50,5 +81,35 @@ void Npc::removeFromInventory(Item& item){
 
 bool Npc::scanTargets(){
     //scan around logic
-    return true;
+    return false;
+}
+
+std::vector<Tile>& Npc::getDots(){
+    return dots;
+}
+
+void Npc::addDot(Tile t){
+    dots.push_back(t);
+}
+
+void Npc::removeDot(Tile t){
+    if(dots.empty()){
+        Logger::print(Logger::ERROR, "Dots (", npc.getName(), ") are empty");
+        return;
+    }
+    int index = 0;
+    for(int i = 0; i < dots.size(); i++){
+        if(dots[i] == t){
+            index = i;
+        }
+    }
+    dots.erase(dots.begin() + index);
+}
+
+void Npc::setPathing(bool b){
+    pathing = b;
+}
+
+bool& Npc::getPathing(){
+    return pathing;
 }

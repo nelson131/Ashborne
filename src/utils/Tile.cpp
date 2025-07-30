@@ -27,7 +27,7 @@ int Tile::getWorldY() const{
 
 bool Tile::isBlocked() const{
     for(TilemapLayer* t : sceneManager.getCurrentScene()->colliders){
-        return t->isBlocked(x, y);
+        return t->isBlocked(getWorldX(), getWorldY());
     }
     return false;
 }

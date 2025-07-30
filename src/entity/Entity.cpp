@@ -84,9 +84,6 @@ void Entity::update(){
             break;
         }
    }
-
-   textName.move(position.x - camera.get().x, position.y - camera.get().y - 40);
-   textId.move(position.x - camera.get().x, position.y - camera.get().y - 20);
 }
 
 void Entity::render(){
@@ -98,10 +95,11 @@ void Entity::render(){
     };
 
     if(isDebugMode){
+        textName.move(position.x - camera.get().x, position.y - camera.get().y - 40);
+        textId.move(position.x - camera.get().x, position.y - camera.get().y - 20);   
         textName.render(eHolder.getRenderer(), flagName.c_str());
         textId.render(eHolder.getRenderer(), std::to_string(flagId).c_str());
     }
-
     if(isAnimated){
         animation.play(activeAnim, srcRect);
     }
