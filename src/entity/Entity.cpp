@@ -58,14 +58,19 @@ void Entity::update(){
 
    for(TilemapLayer* t : sceneManager.getCurrentScene()->colliders){
         if(hasCollider(t)){
-            if(velocity.x > 0){
-                position.x = (int)(position.x / 32) * 32;
-            }
-            if(velocity.x < 0){
-                position.x = (int)(position.x / 32 + 1) * 32;
-            }
-            hitbox.x = position.x;
+            snapToTileX();
             break;
+        }
+   }
+
+   for(const auto& [id, entity] : eHolder.get()){
+        if(!entity) continue;
+        if(entity == this) continue;
+        if(position.getDistance(entity->position) <= vr){
+            if(hasColliderWith(entity)){
+                snapToTileX();
+                break;
+            }
         }
    }
 
@@ -74,14 +79,19 @@ void Entity::update(){
 
    for(TilemapLayer* t : sceneManager.getCurrentScene()->colliders){
         if(hasCollider(t)){
-            if(velocity.y > 0){
-                position.y = (int)(position.y / 32) * 32;
-            }
-            if(velocity.y < 0){
-                position.y = (int)(position.y / 32 + 1) * 32;
-            }
-            hitbox.y = position.y;
+            snapToTileY();
             break;
+        }
+   }
+
+   for(const auto& [id, entity] : eHolder.get()){
+        if(!entity) continue;
+        if(entity == this) continue;
+        if(position.getDistance(entity->position) <= vr){
+            if(hasColliderWith(entity)){
+                snapToTileY();
+                break;
+            }
         }
    }
 
@@ -117,6 +127,26 @@ void Entity::kill(Entity& e){
     SDL_DestroyTexture(texture);
     eHolder.remove(&e);
     delete &e;
+}
+
+void Entity::snapToTileX(){
+    if(velocity.x > 0){
+        position.x = (int)(position.x / 32) * 32;
+    }
+    if(velocity.x < 0){
+        position.x = (int)(position.x / 32 + 1) * 32;
+    }
+    hitbox.x = position.x;
+}
+
+void Entity::snapToTileY(){
+    if(velocity.y > 0){
+        position.y = (int)(position.y / 32) * 32;
+    }
+    if(velocity.y < 0){
+        position.y = (int)(position.y / 32 + 1) * 32;
+    }
+    hitbox.y = position.y;
 }
 
 Entity::Relationship& Entity::getRelationship(){
@@ -284,6 +314,28 @@ bool Entity::hasCollider(TilemapLayer* t){
         || t->isBlocked(x2, y1);
 }
 
+bool Entity::hasColliderWith(Entity* e){
+    int left1, left2;
+    int right1, right2;
+    int top1, top2;
+    int bottom1, bottom2;
+
+    left1 = hitbox.x;
+    right1 = hitbox.x + hitbox.w;
+    top1 = hitbox.y;
+    bottom1 = hitbox.y + hitbox.h;
+
+    left2 = e->hitbox.x;
+    right2 = e->hitbox.x + e->hitbox.w;
+    top2 = e->hitbox.y;
+    bottom2 = e->hitbox.y + e->hitbox.h;
+
+    if(bottom1 <= top2 || top1 >= bottom2) return false;
+    if(right1 <= left2 || left1 >= right2) return false;
+
+    return true;
+}
+
 void Entity::setFOV(float f){
     fov = f;
 }
@@ -309,19 +361,19 @@ Entity* EntityHolder::findEntityById(int id){
 }
 
 int EntityHolder::getIdBy(const Entity* e) const{
-    for(size_t i = 0; i < eHolder.get().size(); i++){
-        if(eHolder.get()[i] == e){
-            return static_cast<int>(i);
+    for(const auto& [id, entity] : eHolder.holder){
+        if(entity == e){
+            return id;
         }
     }
-    Logger::print(Logger::ERROR, "Failed to id by entity");
+    Logger::print(Logger::ERROR, "Failed to find id by entity");
     return -1;
 }
 
 std::string EntityHolder::getNameBy(const Entity* e) const{
-    for(size_t i = 0; i < eHolder.get().size(); i++){
-        if(eHolder.get()[i]->getName() == e->getName()){
-            return eHolder.get()[i]->getName();
+    for(const auto& [id, entity] : eHolder.holder){
+        if(entity && entity->getName() == e->getName()){
+            return entity->getName();
         }
     }
     Logger::print(Logger::ERROR, "Failed to find name by entity");

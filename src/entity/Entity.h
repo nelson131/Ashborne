@@ -68,6 +68,7 @@ class Entity {
     int getMagicResistance() const;
 
     bool hasCollider(TilemapLayer* t);
+    bool hasColliderWith(Entity* e);
 
     void setFOV(float f);
     bool inView(Entity* e);
@@ -95,6 +96,9 @@ class Entity {
     int width, height;
 
     void setTexture();
+
+    void snapToTileX();
+    void snapToTileY();
 
     std::array<int, 12> stats;
 
