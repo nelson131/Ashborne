@@ -52,16 +52,20 @@ class Entity {
     Inventory inventory;
 
     void setDefaultStats();
-    void setStats(const std::array<int, 7> s);
+    void setStats(const std::array<int, 12> s);
     void updateStats();
 
     int getHP() const;
     int getMana() const;
-    int getMS() const;
-    int getPDamage() const;
-    int getMDamage() const;
-    int getPRes() const;
-    int getMRes() const;
+    int getMoveSpeed() const;
+    int getStrength() const;
+    int getAgility() const;
+    int getIntelligence() const;
+    int getAttackSpeed() const;
+    int getPhysicalDamage() const;
+    int getMagicDamage() const;
+    int getPhysicalResistance() const;
+    int getMagicResistance() const;
 
     bool hasCollider(TilemapLayer* t);
 
@@ -92,7 +96,7 @@ class Entity {
 
     void setTexture();
 
-    std::array<int, 7> stats;
+    std::array<int, 12> stats;
 
     Animation::Type activeAnim;
 

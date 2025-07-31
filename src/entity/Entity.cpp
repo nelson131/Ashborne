@@ -87,8 +87,8 @@ void Entity::update(){
 
    if(velocity.x != 0 || velocity.y != 0){
         velocity = velocity.getNormalized();
-        velocity.x *= getMS();
-        velocity.y *= getMS();
+        velocity.x *= getMoveSpeed();
+        velocity.y *= getMoveSpeed();
    }
 }
 
@@ -198,19 +198,34 @@ void Entity::setActiveAnim(Animation::Type &type){
 }
 
 void Entity::setDefaultStats(){
-    stats = {300, 200, 4, 10, 0, 0, 0};
+    stats = {120, 100, 4, 1, 1, 1, 0, 50, 10, 0, 0, 0};
 }
 
-void Entity::setStats(const std::array<int, 7> s){
+void Entity::setStats(const std::array<int, 12> s){
     for(int i = 0; i < stats.size(); i++){
         stats[i] = s[i];
     }
 }
 
 void Entity::updateStats(){
-    for(int i = 0; i < stats.size(); i++){
-        stats[i] += inventory.getStats()[i];
-    }
+    const std::array<int, 10>& invStats = inventory.getStats();
+    stats[3] += invStats[0]; // Strength
+    stats[4] += invStats[1]; // Agility
+    stats[5] += invStats[2]; // Intelligence
+    stats[6] += invStats[3]; // Armor
+    stats[2] += invStats[4]; // Movespeed
+    stats[7] += invStats[5]; // Attack speed
+    stats[8] += invStats[6]; // Physical damage
+    stats[9] += invStats[7]; // Magic damage
+    stats[10] += invStats[8]; // Physical resistance
+    stats[11] += invStats[9]; // Magical resistance
+
+    // HP
+    stats[0] += 22 * stats[3];
+    // Mana
+    stats[1] += 12 * stats[5];
+    // Attack speed
+    stats[7] += stats[4];
 }
 
 int Entity::getHP() const{
@@ -221,24 +236,40 @@ int Entity::getMana() const{
     return stats[1];
 }
 
-int Entity::getMS() const{
+int Entity::getMoveSpeed() const{
     return stats[2];
 }
 
-int Entity::getPDamage() const{
+int Entity::getStrength() const{
     return stats[3];
 }
 
-int Entity::getMDamage() const{
+int Entity::getAgility() const{
     return stats[4];
 }
 
-int Entity::getPRes() const{
+int Entity::getIntelligence() const{
     return stats[5];
 }
 
-int Entity::getMRes() const{
+int Entity::getAttackSpeed() const{
     return stats[6];
+}
+
+int Entity::getPhysicalDamage() const{
+    return stats[7];
+}
+
+int Entity::getMagicDamage() const{
+    return stats[8];
+}
+
+int Entity::getPhysicalResistance() const{
+    return stats[9];
+}
+
+int Entity::getMagicResistance() const{
+    return stats[10];
 }
 
 bool Entity::hasCollider(TilemapLayer* t){

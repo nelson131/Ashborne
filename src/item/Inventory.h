@@ -10,17 +10,17 @@ class Inventory {
     public:
     Inventory();
 
+    void update();
+
     std::list<Item>& getInventory();
     void add(Item &item);
     void remove(Item &item);
 
-    std::array<int, 7>& getStats();
+    std::array<int, 10>& getStats();
 
     private:
-    std::array<int, 7> stats;
+    std::array<int, 10> stats;
     std::list<Item> inventory;
-
-    void update();
 };
 
 #endif

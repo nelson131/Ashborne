@@ -64,5 +64,5 @@ void Player::handleInput(){
 }
 
 float Player::getSpeed() const{
-    return static_cast<float>(player.getMS());
+    return static_cast<float>(player.getMoveSpeed());
 }

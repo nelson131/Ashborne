@@ -6,29 +6,6 @@
 #include <set>
 #include <memory>
 
-/*
-    OLD
-    parameters meanings:
-    1. HP
-    2. Mana
-    3. Movespeed
-    4. Phys damage
-    5. Magic damage
-    6. Phys res
-    7. Magic res
-
-    NEW
-    parameters meanings:
-    1. Strength
-    2. Agility
-    3. Intelligence
-    4. Movespeed
-    5. Attack (Phys damage)
-    6. Magic (Magic damage)
-    7. Physical resistance
-    8. Magic resistance
-*/
-
 class Csv;
 
 struct Item
@@ -36,7 +13,7 @@ struct Item
     std::string name;
     std::string desc;
     int id;
-    std::array<int, 7> parameters;
+    std::array<int, 10> parameters;
     bool isEquipable;
 
     bool operator==(const Item& other) const {

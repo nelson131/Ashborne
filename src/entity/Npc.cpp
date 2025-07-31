@@ -28,10 +28,15 @@ void Npc::update(){
             npc.velocity = {0, 0};
             return;
         }
+
         npc.velocity = {0, 0};
         Tile t = dots[index];
         float dx = t.getWorldX() - npc.position.x;
         float dy = t.getWorldY() - npc.position.y;
+
+        if(t.isBlocked()){
+            pathing = false;
+        }
 
         if(std::abs(dx) < 1.0f && std::abs(dy) < 1.0f){
             npc.position.x = t.getWorldX();
@@ -41,22 +46,21 @@ void Npc::update(){
         }
 
         if(t.getWorldX() > npc.position.x){
-            npc.velocity.x += npc.getMS();
+            npc.velocity.x += npc.getMoveSpeed();
         } else if(t.getWorldX() < npc.position.x){
-            npc.velocity.x -= npc.getMS();
+            npc.velocity.x -= npc.getMoveSpeed();
         } else {
             npc.velocity.x = 0;
         }
 
         if(t.getWorldY() > npc.position.y){
-            npc.velocity.y += npc.getMS();
+            npc.velocity.y += npc.getMoveSpeed();
         } else if(t.getWorldY() < npc.position.y){
-            npc.velocity.y -= npc.getMS();
+            npc.velocity.y -= npc.getMoveSpeed();
         } else {
             npc.velocity.y = 0;
         }
     }
-    Logger::print(Logger::DEBUG, "Current dot: ", index);
     npc.update();
 }
 
