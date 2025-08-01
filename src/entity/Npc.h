@@ -2,6 +2,7 @@
 #define NPC_H
 
 #include "Entity.h"
+#include "Behavior.h"
 #include "../utils/Tile.h"
 
 class Npc {
@@ -9,7 +10,7 @@ class Npc {
     public:
     Npc();
 
-    void spawn(float x, float y, int& w, int& h, const char *pathToTexture, std::string entityName, Entity::Relationship relationship, bool isVisible, bool isCollisible, bool isAnimated, bool debugMode);
+    void spawn(float x, float y, int& w, int& h, const char *pathToTexture, std::string entityName, bool isVisible, bool isCollisible, bool isAnimated, bool debugMode);
     void update();
     void render();
     void kill();
@@ -17,24 +18,9 @@ class Npc {
     void addToInventory(Item& item);
     void removeFromInventory(Item& item);
 
-    bool scanTargets();
-    bool inView();
-
-    std::vector<Tile>& getDots();
-    void addDot(Tile t);
-    void removeDot(Tile t);
-
-    void setPathing(bool b);
-    bool& getPathing();
-
     private:
     Entity npc;
-
-    int index = 0;
-
-    bool pathing;
-    std::vector<Tile> dots;
-
+    Behavior behavior;
 };
 
 #endif

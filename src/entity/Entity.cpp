@@ -19,7 +19,7 @@ Entity::Entity(){
 
 }
 
-void Entity::create(float x, float y, int& w, int& h, const char *pathToTexture, std::string entityName, Relationship r, bool visible, bool collisible, bool animated, bool debugMode){
+void Entity::create(float x, float y, int& w, int& h, const char *pathToTexture, std::string entityName, bool visible, bool collisible, bool animated, bool debugMode){
     width = w * SCALE;
     height = h * SCALE;
     
@@ -33,7 +33,6 @@ void Entity::create(float x, float y, int& w, int& h, const char *pathToTexture,
     flagName = entityName;
     flagId = eHolder.getUniqueId();
     file = pathToTexture;
-    rel = r;
     isVisible = visible;
     isCollidable = collisible;
     isAnimated = animated;
@@ -186,14 +185,6 @@ void Entity::snapToEntity(Entity::Axis axis, Entity* e){
             }
             hitbox.y = position.y;
     }
-}
-
-Entity::Relationship& Entity::getRelationship(){
-    return rel;
-}
-
-void Entity::setRelationship(Entity::Relationship &r){
-    rel = r;
 }
 
 void Entity::setVisible(bool b){
@@ -381,14 +372,6 @@ bool Entity::hasColliderWith(Entity* e){
     if(bottom1 <= top2 || top1 >= bottom2) return false;
     if(right1 <= left2 || left1 >= right2) return false;
 
-    return true;
-}
-
-void Entity::setFOV(float f){
-    fov = f;
-}
-
-bool Entity::inView(Entity* e){
     return true;
 }
 

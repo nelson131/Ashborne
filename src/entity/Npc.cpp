@@ -11,57 +11,28 @@ Npc::Npc(){
 
 }
 
-void Npc::spawn(float x, float y, int& w, int& h, const char *pathToTexture, std::string entityName, Entity::Relationship relationship, bool isVisible, bool isCollisible, bool isAnimated, bool debugMode){
+void Npc::spawn(float x, float y, int& w, int& h, const char *pathToTexture, std::string entityName, bool isVisible, bool isCollisible, bool isAnimated, bool debugMode){
     npc.create(
         x, y,
         w, h,
         pathToTexture,
         entityName,
-        relationship,
         isVisible, isCollisible, isAnimated,
         debugMode
     );
+    behavior.init(&npc);
+
+    behavior.setPathing(true);
+    behavior.addDot(Tile(4, 2, 64));
+    behavior.addDot(Tile(0, 2, 64));
+    behavior.addDot(Tile(2, 2, 64));
+    
+    behavior.setVisionRadius(200);
 }
 
 void Npc::update(){
-    if(pathing){
-        if(index >= dots.size()){
-            npc.velocity = {0, 0};
-            return;
-        }
-
-        npc.velocity = {0, 0};
-        Tile t = dots[index];
-        float dx = t.getWorldX() - npc.position.x;
-        float dy = t.getWorldY() - npc.position.y;
-
-        if(t.isBlocked()){
-            pathing = false;
-        }
-
-        if(std::abs(dx) < 1.0f && std::abs(dy) < 1.0f){
-            npc.position.x = t.getWorldX();
-            npc.position.y = t.getWorldY();
-            index++;
-            return;
-        }
-
-        if(t.getWorldX() > npc.position.x){
-            npc.velocity.x += npc.getMoveSpeed();
-        } else if(t.getWorldX() < npc.position.x){
-            npc.velocity.x -= npc.getMoveSpeed();
-        } else {
-            npc.velocity.x = 0;
-        }
-
-        if(t.getWorldY() > npc.position.y){
-            npc.velocity.y += npc.getMoveSpeed();
-        } else if(t.getWorldY() < npc.position.y){
-            npc.velocity.y -= npc.getMoveSpeed();
-        } else {
-            npc.velocity.y = 0;
-        }
-    }
+    behavior.updateVision();
+    behavior.updatePathing();
     npc.update();
 }
 
@@ -81,39 +52,4 @@ void Npc::addToInventory(Item& item){
 void Npc::removeFromInventory(Item& item){
     npc.inventory.remove(item);
     npc.updateStats();
-}
-
-bool Npc::scanTargets(){
-    //scan around logic
-    return false;
-}
-
-std::vector<Tile>& Npc::getDots(){
-    return dots;
-}
-
-void Npc::addDot(Tile t){
-    dots.push_back(t);
-}
-
-void Npc::removeDot(Tile t){
-    if(dots.empty()){
-        Logger::print(Logger::ERROR, "Dots (", npc.getName(), ") are empty");
-        return;
-    }
-    int index = 0;
-    for(int i = 0; i < dots.size(); i++){
-        if(dots[i] == t){
-            index = i;
-        }
-    }
-    dots.erase(dots.begin() + index);
-}
-
-void Npc::setPathing(bool b){
-    pathing = b;
-}
-
-bool& Npc::getPathing(){
-    return pathing;
 }
