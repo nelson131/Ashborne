@@ -30,7 +30,7 @@ class Config {
                 return res;
             }
         }
-        Logger::print(Logger::ERROR, "Failed to find message from config");
+        Logger::print(Logger::ERROR, "Failed to find message from config: ", keyTitle, " | ", keyMessage);
         return T{};
     }
 };

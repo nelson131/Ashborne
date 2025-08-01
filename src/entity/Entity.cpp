@@ -19,9 +19,9 @@ Entity::Entity(){
 
 }
 
-void Entity::create(float x, float y, const char *pathToTexture, std::string entityName, Relationship r, bool visible, bool collisible, bool animated, bool debugMode){
-    width = 32 * SCALE;
-    height = 32 * SCALE;
+void Entity::create(float x, float y, int& w, int& h, const char *pathToTexture, std::string entityName, Relationship r, bool visible, bool collisible, bool animated, bool debugMode){
+    width = w * SCALE;
+    height = h * SCALE;
     
     position.x = x;
     position.y = y;
@@ -52,54 +52,67 @@ void Entity::create(float x, float y, const char *pathToTexture, std::string ent
     setDefaultStats();
 }
 
-void Entity::update(){
-   position.x += velocity.x;
-   hitbox.x = position.x;
+void Entity::update() {
+    Vector nextPosition = position;
 
-   for(TilemapLayer* t : sceneManager.getCurrentScene()->colliders){
-        if(hasCollider(t)){
-            snapToTileX();
+    nextPosition.x += velocity.x;
+    hitbox.x = nextPosition.x;
+
+    bool collidedX = false;
+
+    for (TilemapLayer* t : sceneManager.getCurrentScene()->colliders) {
+        if (hasCollider(t)) {
+            collidedX = true;
             break;
         }
-   }
+    }
 
-   for(const auto& [id, entity] : eHolder.get()){
-        if(!entity) continue;
-        if(entity == this) continue;
-        if(position.getDistance(entity->position) <= vr){
-            if(hasColliderWith(entity)){
-                snapToTileX();
+    if (!collidedX) {
+        for (const auto& [id, entity] : eHolder.get()) {
+            if (!entity || entity == this) continue;
+            if (hasColliderWith(entity)) {
+                collidedX = true;
                 break;
             }
         }
-   }
+    }
 
-   position.y += velocity.y;
-   hitbox.y = position.y;
+    if (!collidedX) {
+        position.x = nextPosition.x;
+    } else {
+        velocity.x = 0;
+        hitbox.x = position.x;
+    }
 
-   for(TilemapLayer* t : sceneManager.getCurrentScene()->colliders){
-        if(hasCollider(t)){
-            snapToTileY();
+    nextPosition = position;
+    nextPosition.y += velocity.y;
+    hitbox.y = nextPosition.y;
+
+    bool collidedY = false;
+
+    for (TilemapLayer* t : sceneManager.getCurrentScene()->colliders) {
+        if (hasCollider(t)) {
+            collidedY = true;
             break;
         }
-   }
+    }
 
-   for(const auto& [id, entity] : eHolder.get()){
-        if(!entity) continue;
-        if(entity == this) continue;
-        if(position.getDistance(entity->position) <= vr){
-            if(hasColliderWith(entity)){
-                snapToTileY();
+    if (!collidedY) {
+        for (const auto& [id, entity] : eHolder.get()) {
+            if (!entity || entity == this) continue;
+            if (hasColliderWith(entity)) {
+                collidedY = true;
                 break;
             }
         }
-   }
+    }
 
-   if(velocity.x != 0 || velocity.y != 0){
-        velocity = velocity.getNormalized();
-        velocity.x *= getMoveSpeed();
-        velocity.y *= getMoveSpeed();
-   }
+    if (!collidedY) {
+        position.y = nextPosition.y;
+    } else {
+        velocity.y = 0;
+        hitbox.y = position.y;
+    }
 }
 
 void Entity::render(){
@@ -129,24 +142,50 @@ void Entity::kill(Entity& e){
     delete &e;
 }
 
-void Entity::snapToTileX(){
-    if(velocity.x > 0){
-        position.x = (int)(position.x / 32) * 32;
+void Entity::snapToTile(Entity::Axis axis){
+    const int TILE_SIZE = 32 * SCALE;
+    switch(axis){
+        case Axis::X:
+            if(velocity.x > 0){
+                position.x = ((int)((hitbox.x + hitbox.w) / TILE_SIZE)) * TILE_SIZE - hitbox.w - 1;
+            }
+            if(velocity.x < 0){
+                position.x = ((int)(hitbox.x / TILE_SIZE) + 1) * TILE_SIZE;
+            }
+            hitbox.x = position.x;
+            break;
+        case Axis::Y:
+            if(velocity.y > 0){
+                position.y = ((int)((hitbox.y + hitbox.h) / TILE_SIZE)) * TILE_SIZE - hitbox.w - 1;
+            }
+            if(velocity.y < 0){
+                position.x = ((int)(hitbox.x / TILE_SIZE) + 1) * TILE_SIZE;
+            }
+            hitbox.x = position.x;
+            break;
     }
-    if(velocity.x < 0){
-        position.x = (int)(position.x / 32 + 1) * 32;
-    }
-    hitbox.x = position.x;
 }
 
-void Entity::snapToTileY(){
-    if(velocity.y > 0){
-        position.y = (int)(position.y / 32) * 32;
+void Entity::snapToEntity(Entity::Axis axis, Entity* e){
+    switch(axis){
+        case Axis::X:
+            if(velocity.x > 0){
+                position.x = e->hitbox.x - hitbox.w - 1;
+            }
+            if(velocity.x < 0){
+                position.x = e->hitbox.x + e->hitbox.w + 1;
+            }
+            hitbox.x = position.x;
+            break;
+        case Axis::Y:
+            if(velocity.y > 0){
+                position.y = e->hitbox.y - hitbox.h - 1;
+            }
+            if(velocity.y < 0){
+                position.y = e->hitbox.y + e->hitbox.h + 1;
+            }
+            hitbox.y = position.y;
     }
-    if(velocity.y < 0){
-        position.y = (int)(position.y / 32 + 1) * 32;
-    }
-    hitbox.y = position.y;
 }
 
 Entity::Relationship& Entity::getRelationship(){
@@ -167,6 +206,11 @@ void Entity::setCollisible(bool b){
 
 void Entity::setDebugMode(bool b){
     isDebugMode = b;
+}
+
+void Entity::setHitbox(float w, float h){
+    hitbox.w = w;
+    hitbox.h = h;
 }
 
 void Entity::setTexture(){
@@ -308,10 +352,14 @@ bool Entity::hasCollider(TilemapLayer* t){
     float x2 = hitbox.x + hitbox.w - 1;
     float y2 = hitbox.y + hitbox.h - 1;
 
-    return t->isBlocked(x1, y1)
-        || t->isBlocked(x2, y2)
-        || t->isBlocked(x1, y2)
-        || t->isBlocked(x2, y1);
+    for(int y = y1; y <= y2; y++){
+        for(int x = x1; x <= x2; x++){
+            if(t->isBlocked(x, y)){
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 bool Entity::hasColliderWith(Entity* e){

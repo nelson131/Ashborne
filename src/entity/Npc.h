@@ -9,7 +9,7 @@ class Npc {
     public:
     Npc();
 
-    void spawn(float x, float y, const char *pathToTexture, std::string entityName, Entity::Relationship relationship, bool isVisible, bool isCollisible, bool isAnimated, bool debugMode);
+    void spawn(float x, float y, int& w, int& h, const char *pathToTexture, std::string entityName, Entity::Relationship relationship, bool isVisible, bool isCollisible, bool isAnimated, bool debugMode);
     void update();
     void render();
     void kill();

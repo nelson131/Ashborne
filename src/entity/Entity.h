@@ -24,7 +24,7 @@ class Entity {
         PLAYER
     };
 
-    void create(float x, float y, const char *pathToTexture, std::string entityName, Relationship relationship, bool isVisible, bool isCollisible, bool isAnimated, bool debugMode);
+    void create(float x, float y, int& w, int& h, const char *pathToTexture, std::string entityName, Relationship relationship, bool isVisible, bool isCollisible, bool isAnimated, bool debugMode);
     void update();
     void render();
     void kill(Entity& e);
@@ -35,6 +35,8 @@ class Entity {
     void setVisible(bool b);
     void setCollisible(bool b);
     void setDebugMode(bool b);
+
+    void setHitbox(float w, float h);
 
     std::string getName() const;
     int getId() const;
@@ -97,14 +99,20 @@ class Entity {
 
     void setTexture();
 
-    void snapToTileX();
-    void snapToTileY();
+    enum class Axis {
+        X, Y
+    };
+
+    void snapToTile(Axis axis);
+    void snapToEntity(Axis axis, Entity* e);
 
     std::array<int, 12> stats;
 
     Animation::Type activeAnim;
 
-    float vr = Config::parse<float>("npc_info", "absolute_view_range");
+    float cr = Config::parse<float>("entity_info", "collision_range");
+
+    float vr = Config::parse<float>("entity_info", "absolute_view_range");
     float fov;
 };
 

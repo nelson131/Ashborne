@@ -29,7 +29,10 @@ class Player {
     SDL_Texture *texture;
     SDL_Rect srcR, destR;
     
-    const char *texturePath = "assets/playertestanim.png";
+    const char *texturePath = "assets/player.png";
+
+    int width = Config::parse<int>("player_info", "width");
+    int height = Config::parse<int>("player_info", "height");
 
     int screenWidth = Config::parse<int>("game_info", "screen_width");
     int screenHeight = Config::parse<int>("game_info", "screen_height");

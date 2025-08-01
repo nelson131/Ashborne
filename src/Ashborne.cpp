@@ -53,8 +53,11 @@ void Ashborne::init(const char *title, int x, int y, int width, int height, bool
 
     itemHolder.init();
     
+    int w = 32;
+    int h = 32;
+
     Tile t(2, 0, 64);
-    npc.spawn(t.getWorldX(), t.getWorldY(), "assets/playertest.png", "npc", Entity::Relationship::NEUTRAL, true, true, false, true);
+    npc.spawn(t.getWorldX(), t.getWorldY(), w, h, "assets/playertest.png", "npc", Entity::Relationship::NEUTRAL, true, true, false, true);
 
     npc.setPathing(true);
     npc.addDot(Tile(4, 2, 64));

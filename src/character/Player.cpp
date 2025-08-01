@@ -14,9 +14,9 @@ Player::Player(){
 }
 
 void Player::init(SDL_Renderer *renderer){
-    player.create(0, 0, texturePath, "Player", Entity::Relationship::PLAYER, true, true, true, true);
+    player.create(0, 0, width, height, texturePath, "Player", Entity::Relationship::PLAYER, true, true, true, true);
 
-    player.animation.fps(300);
+    player.animation.fps(200);
     player.animation.add(Animation::Type::IDLE, 3);
 
     if(player.hasDebugMode()){

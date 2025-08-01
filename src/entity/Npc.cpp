@@ -11,9 +11,10 @@ Npc::Npc(){
 
 }
 
-void Npc::spawn(float x, float y, const char *pathToTexture, std::string entityName, Entity::Relationship relationship, bool isVisible, bool isCollisible, bool isAnimated, bool debugMode){
+void Npc::spawn(float x, float y, int& w, int& h, const char *pathToTexture, std::string entityName, Entity::Relationship relationship, bool isVisible, bool isCollisible, bool isAnimated, bool debugMode){
     npc.create(
         x, y,
+        w, h,
         pathToTexture,
         entityName,
         relationship,
