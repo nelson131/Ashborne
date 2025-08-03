@@ -17,21 +17,17 @@ class Entity {
     public:
     Entity();
 
-    void create(float x, float y, int& w, int& h, const char *pathToTexture, std::string entityName, bool isVisible, bool isCollisible, bool isAnimated, bool debugMode);
+    void create(float x, float y, int& w, int& h, const char *pathToTexture, std::string entityName, bool isAnimated, bool debugMode);
     void update();
     void render();
     void kill(Entity& e);
 
-    void setVisible(bool b);
-    void setCollisible(bool b);
     void setDebugMode(bool b);
 
     void setHitbox(float w, float h);
 
     std::string getName() const;
     int getId() const;
-    bool hasVisible() const;
-    bool hasCollisible() const;
     bool hasDebugMode() const;
 
     int& getWidth();
@@ -77,7 +73,7 @@ class Entity {
     std::string flagName;
     int flagId;
     const char *file;
-    bool isVisible, isCollidable, isDebugMode, isAnimated;
+    bool isDebugMode, isAnimated;
 
     int width, height;
 

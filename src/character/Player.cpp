@@ -14,7 +14,7 @@ Player::Player(){
 }
 
 void Player::init(SDL_Renderer *renderer){
-    player.create(0, 0, width, height, texturePath, "Player", true, true, true, true);
+    player.create(0, 0, width, height, texturePath, "Player", true, true);
 
     player.animation.fps(200);
     player.animation.add(Animation::Type::IDLE, 3);

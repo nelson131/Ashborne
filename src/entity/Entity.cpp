@@ -19,7 +19,7 @@ Entity::Entity(){
 
 }
 
-void Entity::create(float x, float y, int& w, int& h, const char *pathToTexture, std::string entityName, bool visible, bool collisible, bool animated, bool debugMode){
+void Entity::create(float x, float y, int& w, int& h, const char *pathToTexture, std::string entityName, bool animated, bool debugMode){
     width = w * SCALE;
     height = h * SCALE;
     
@@ -33,8 +33,6 @@ void Entity::create(float x, float y, int& w, int& h, const char *pathToTexture,
     flagName = entityName;
     flagId = eHolder.getUniqueId();
     file = pathToTexture;
-    isVisible = visible;
-    isCollidable = collisible;
     isAnimated = animated;
     isDebugMode = debugMode;
     
@@ -187,14 +185,6 @@ void Entity::snapToEntity(Entity::Axis axis, Entity* e){
     }
 }
 
-void Entity::setVisible(bool b){
-    isVisible = b;
-}
-
-void Entity::setCollisible(bool b){
-    isCollidable = b;
-}
-
 void Entity::setDebugMode(bool b){
     isDebugMode = b;
 }
@@ -236,14 +226,6 @@ std::string Entity::getName() const{
 
 int Entity::getId() const{
     return flagId;
-}
-
-bool Entity::hasVisible() const{
-    return isVisible;
-}
-
-bool Entity::hasCollisible() const{
-    return isCollidable;
 }
 
 bool Entity::hasDebugMode() const{

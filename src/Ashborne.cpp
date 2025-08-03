@@ -57,7 +57,7 @@ void Ashborne::init(const char *title, int x, int y, int width, int height, bool
     int h = 32;
 
     Tile t(2, 0, 64);
-    npc.spawn(t.getWorldX(), t.getWorldY(), w, h, "assets/playertest.png", "npc", true, true, false, true);
+    npc.spawn(t.getWorldX(), t.getWorldY(), w, h, "assets/playertest.png", "npc", false, true);
 }
 
 void Ashborne::eventManager(){
