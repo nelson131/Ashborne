@@ -41,9 +41,10 @@ void Entity::create(float x, float y, int& w, int& h, const char *pathToTexture,
     setTexture();
 
     if(debugMode){
-        Logger::print(Logger::DEBUG, "Debug mode (", flagName, ") is active");
+        loadHitbox();
         textName.ikuyo("assets/fonts/Roboto-Black.ttf");
         textId.ikuyo("assets/fonts/Roboto-Black.ttf");
+        Logger::print(Logger::DEBUG, "Debug mode (", flagName, ") is active");
     }
 
     setDefaultStats();
@@ -53,7 +54,7 @@ void Entity::update() {
     Vector nextPosition = position;
 
     nextPosition.x += velocity.x;
-    hitbox.x = nextPosition.x;
+    hitbox.x = nextPosition.x + hitboxOffsetX;
 
     bool collidedX = false;
 
@@ -78,12 +79,12 @@ void Entity::update() {
         position.x = nextPosition.x;
     } else {
         velocity.x = 0;
-        hitbox.x = position.x;
+        hitbox.x = position.x + hitboxOffsetX;
     }
 
     nextPosition = position;
     nextPosition.y += velocity.y;
-    hitbox.y = nextPosition.y;
+    hitbox.y = nextPosition.y + hitboxOffsetY;
 
     bool collidedY = false;
 
@@ -108,7 +109,7 @@ void Entity::update() {
         position.y = nextPosition.y;
     } else {
         velocity.y = 0;
-        hitbox.y = position.y;
+        hitbox.y = position.y + hitboxOffsetY;
     }
 }
 
@@ -120,17 +121,27 @@ void Entity::render(){
         height
     };
 
-    if(isDebugMode){
-        textName.move(position.x - camera.get().x, position.y - camera.get().y - 40);
-        textId.move(position.x - camera.get().x, position.y - camera.get().y - 20);   
-        textName.render(eHolder.getRenderer(), flagName.c_str());
-        textId.render(eHolder.getRenderer(), std::to_string(flagId).c_str());
-    }
     if(isAnimated){
         animation.play(activeAnim, srcRect);
     }
 
     SDL_RenderCopy(eHolder.getRenderer(), texture, &srcRect, &destRect);
+
+    if(isDebugMode){
+        destHitbox = {
+            static_cast<int>(hitbox.x - camera.get().x),
+            static_cast<int>(hitbox.y - camera.get().y),
+            hitbox.w,
+            hitbox.h
+        };
+
+        textName.move(position.x - camera.get().x, position.y - camera.get().y - 40);
+        textId.move(position.x - camera.get().x, position.y - camera.get().y - 20);   
+        textName.render(eHolder.getRenderer(), flagName.c_str());
+        textId.render(eHolder.getRenderer(), std::to_string(flagId).c_str());
+        
+        SDL_RenderCopy(eHolder.getRenderer(), hitboxTexture, NULL, &destHitbox);
+    }
 }
 
 void Entity::kill(Entity& e){
@@ -189,9 +200,14 @@ void Entity::setDebugMode(bool b){
     isDebugMode = b;
 }
 
-void Entity::setHitbox(float w, float h){
-    hitbox.w = w;
-    hitbox.h = h;
+void Entity::setHitboxSizeCentered(float w, float h){
+    hitbox.w = w * SCALE;
+    hitbox.h = h * SCALE;
+    hitboxOffsetX = (width - w * SCALE) / 2.0f;
+    hitboxOffsetY = (height - h * SCALE) / 2.0f;
+    
+    hitbox.x = position.x + hitboxOffsetX;
+    hitbox.y = position.y + hitboxOffsetY;
 }
 
 void Entity::setTexture(){
@@ -204,20 +220,35 @@ void Entity::setTexture(){
     SDL_Surface *surface = IMG_Load(file);
     if(!surface){
         Logger::print(Logger::ERROR, "Failed to load entity surface: ", SDL_GetError());
-        exit(1);
+        return;
     }
 
     if(!eHolder.getRenderer()){
         Logger::print(Logger::ERROR, "EntityHolder renderer is nullptr");
-        exit(-1);
+        return;
     }
 
     texture = SDL_CreateTextureFromSurface(eHolder.getRenderer(), surface);
     SDL_FreeSurface(surface);
     if(!texture){
         Logger::print(Logger::ERROR, "Failed to load entity texture: ", IMG_GetError());
-        exit(1);
+        return;
     }
+}
+
+void Entity::loadHitbox(){
+    if(hitboxTexture != nullptr){
+        SDL_DestroyTexture(hitboxTexture);
+        hitboxTexture = nullptr;
+    }
+    SDL_Surface* surface = IMG_Load("assets/hitbox.png");
+    if(!surface) return;
+    if(!eHolder.getRenderer()){
+        Logger::print(Logger::ERROR, "Failed to load renderer");
+        return;
+    }
+    hitboxTexture = SDL_CreateTextureFromSurface(eHolder.getRenderer(), surface);
+    SDL_FreeSurface(surface);
 }
 
 std::string Entity::getName() const{

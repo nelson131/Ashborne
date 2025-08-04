@@ -24,7 +24,7 @@ class Entity {
 
     void setDebugMode(bool b);
 
-    void setHitbox(float w, float h);
+    void setHitboxSizeCentered(float w, float h);
 
     std::string getName() const;
     int getId() const;
@@ -61,13 +61,14 @@ class Entity {
     Vector position;
     Vector velocity;
 
-    SDL_Rect hitbox;
+    SDL_Rect destHitbox, hitbox;
     SDL_Rect srcRect, destRect;
 
     private:
     Text textName;
     Text textId;
     SDL_Texture *texture;
+    SDL_Texture *hitboxTexture;
     int SCALE = Config::parse<float>("game_info", "scale");
 
     std::string flagName;
@@ -78,6 +79,10 @@ class Entity {
     int width, height;
 
     void setTexture();
+    void loadHitbox();
+
+    float hitboxOffsetX = 0;
+    float hitboxOffsetY = 0;
 
     enum class Axis {
         X, Y
