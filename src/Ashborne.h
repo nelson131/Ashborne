@@ -26,7 +26,6 @@ class Ashborne {
     private:
     Player player;
     TilemapLayer tilemap;
-    Npc npc;
 
     SDL_Window *window;
     SDL_Renderer *renderer;

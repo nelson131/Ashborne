@@ -16,10 +16,10 @@
 EntityHolder eHolder;
 
 Entity::Entity(){
-
+    hitboxTexture = nullptr;
 }
 
-void Entity::create(float x, float y, int& w, int& h, const char *pathToTexture, std::string entityName, bool animated, bool debugMode){
+void Entity::create(float x, float y, int& w, int& h, const char* pathToTexture, std::string entityName, bool animated, bool debugMode){
     width = w * SCALE;
     height = h * SCALE;
     
@@ -216,7 +216,6 @@ void Entity::setTexture(){
         SDL_DestroyTexture(texture);
         texture = nullptr;
     }
-
     SDL_Surface *surface = IMG_Load(file);
     if(!surface){
         Logger::print(Logger::ERROR, "Failed to load entity surface: ", SDL_GetError());
@@ -263,8 +262,16 @@ bool Entity::hasDebugMode() const{
     return isDebugMode;
 }
 
+void Entity::setWidth(int w){
+    width = w;
+}
+
 int& Entity::getWidth(){
     return width;
+}
+
+void Entity::setHeight(int h){
+    height = h;
 }
 
 int& Entity::getHeight(){

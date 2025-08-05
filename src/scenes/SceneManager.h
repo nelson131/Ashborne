@@ -5,15 +5,18 @@
 #include <SDL2/SDL.h>
 #include <list>
 #include <set>
-#include <memory>
+#include <vector>
 #include "../Tilemap.h"
 #include "../utils/Logger.h"
+
+class Npc;
 
 struct Scene {
     const char *name;
     int id;
     std::list<TilemapLayer> layers;
     std::set<TilemapLayer*> colliders;
+    std::vector<Npc> npcs;
 
     bool operator<(const Scene &other) const {
         return id < other.id;
@@ -25,23 +28,27 @@ class SceneManager {
     public:
     SceneManager();
 
-    void scenesInit(SDL_Renderer *r);
+    void init(SDL_Renderer* r);
+    void update();
     void ikuyo();
 
     void setCurrentScene(Scene *scene);
     Scene *getCurrentScene();
-    const Scene* findSceneById(int id) const;
+    Scene* findSceneById(int id);
 
     std::set<Scene*>& getHolder();
 
-    Scene Testroom;
-
     private:
+    void loadNPCs();
     const char *transform(const char *name);
+
+    const float SCALE = Config::parse<float>("game_info", "scale");
 
     SDL_Renderer *renderer;
     Scene *currentScene = nullptr;
     std::set<Scene*> holder;
+
+    Scene Testroom;
 
     TilemapLayer layer1;
     TilemapLayer layer2;

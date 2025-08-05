@@ -26,6 +26,10 @@ void Behavior::setPathing(bool b){
     pathing = b;
 }
 
+bool& Behavior::getPathing(){
+    return pathing;
+}
+
 void Behavior::updatePathing(){
     if(!pathing){
         Logger::print(Logger::ERROR, "Failed to update pathing cause pathing were disabled");
@@ -43,7 +47,7 @@ void Behavior::updatePathing(){
     float dy = t.getWorldY() - entity->position.y;
 
     if(t.isBlocked()){
-        pathing - false;
+        pathing = false;
     }
 
     if(std::abs(dx) < 1.0f && std::abs(dy) < 1.0f){

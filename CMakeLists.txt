@@ -37,7 +37,6 @@ add_executable(Ashborne
  src/utils/Tile.h
  src/scenes/SceneManager.cpp
  src/scenes/SceneManager.h
- src/scenes/SceneHolder.cpp
  src/item/Inventory.cpp
  src/item/Inventory.h
  src/item/ItemHolder.cpp

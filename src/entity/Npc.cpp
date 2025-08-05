@@ -11,28 +11,26 @@ Npc::Npc(){
 
 }
 
-void Npc::spawn(float x, float y, int& w, int& h, const char *pathToTexture, std::string entityName, bool isAnimated, bool debugMode){
+void Npc::spawn(){
     npc.create(
-        x, y,
-        w, h,
-        pathToTexture,
-        entityName,
-        isAnimated,
-        debugMode
+        spawnX, spawnY,
+        width, height,
+        path.c_str(),
+        name,
+        animated,
+        debugmode
     );
-    behavior.init(&npc);
 
-    behavior.setPathing(true);
-    behavior.addDot(Tile(4, 2, 64));
-    behavior.addDot(Tile(0, 2, 64));
-    behavior.addDot(Tile(2, 2, 64));
-    
-    behavior.setVisionRadius(200);
+    behavior.init(&npc);
 }
 
 void Npc::update(){
     behavior.updateVision();
-    behavior.updatePathing();
+
+    if(behavior.getPathing()){
+        behavior.updatePathing();
+    }
+    
     npc.update();
 }
 
@@ -42,6 +40,36 @@ void Npc::render(){
 
 void Npc::kill(){
     npc.kill(npc);
+}
+
+void Npc::setSpawnPars(float& x, float& y, int& w, int& h, std::string p, std::string& n, bool& anim, bool& debug){
+    spawnX = x;
+    spawnY = y;
+    width = w;
+    height = h;
+    path = p;
+    name = n;
+    animated = anim;
+    debugmode = debug;
+}
+
+Entity& Npc::getEntity(){
+    return npc;
+}
+
+Behavior& Npc::getBehavior(){
+    return behavior;
+}
+
+void Npc::setBehavior(bool p, float visionRadius){
+    behavior.setPathing(p);
+    behavior.setVisionRadius(visionRadius);
+}
+
+void Npc::addDots(std::vector<Vector> d){
+    for(int i = 0; i < d.size(); i++){
+        behavior.addDot(Tile(d[i].x, d[i].y, width * SCALE));
+    }
 }
 
 void Npc::addToInventory(Item& item){

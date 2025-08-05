@@ -17,7 +17,7 @@ class Entity {
     public:
     Entity();
 
-    void create(float x, float y, int& w, int& h, const char *pathToTexture, std::string entityName, bool isAnimated, bool debugMode);
+    void create(float x, float y, int& w, int& h, const char* pathToTexture, std::string entityName, bool isAnimated, bool debugMode);
     void update();
     void render();
     void kill(Entity& e);
@@ -30,7 +30,10 @@ class Entity {
     int getId() const;
     bool hasDebugMode() const;
 
+    void setWidth(int w);
     int& getWidth();
+
+    void setHeight(int h);
     int& getHeight();
 
     Animation animation;
@@ -73,7 +76,7 @@ class Entity {
 
     std::string flagName;
     int flagId;
-    const char *file;
+    const char*  file;
     bool isDebugMode, isAnimated;
 
     int width, height;

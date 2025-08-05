@@ -22,6 +22,7 @@ class Behavior {
     void setRelationship(Relationship r);
 
     void setPathing(bool b);
+    bool& getPathing();
     void updatePathing();
     void addDot(Tile t);
     void removeDot(Tile t);
@@ -42,7 +43,7 @@ class Behavior {
     Relationship rel;
 
     bool pathing;
-    int pathingIndex;
+    int pathingIndex = 0;
     std::vector<Tile> dots;
 
     int SCALE = Config::parse<float>("game_info", "scale");

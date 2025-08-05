@@ -46,18 +46,12 @@ void Ashborne::init(const char *title, int x, int y, int width, int height, bool
 
     eHolder.init(renderer);
 
-    sceneManager.scenesInit(renderer);
-    sceneManager.setCurrentScene(&sceneManager.Testroom);
+    sceneManager.init(renderer);
+    sceneManager.setCurrentScene(sceneManager.findSceneById(0));
 
     player.init(renderer);
 
     itemHolder.init();
-    
-    int w = 32;
-    int h = 32;
-
-    Tile t(2, 0, 64);
-    npc.spawn(t.getWorldX(), t.getWorldY(), w, h, "assets/playertest.png", "npc", false, true);
 }
 
 void Ashborne::eventManager(){
@@ -77,7 +71,6 @@ void Ashborne::render(){
     //...
     sceneManager.ikuyo();
     player.display(renderer);
-    npc.render();
     //...
     SDL_RenderPresent(renderer);
 }
@@ -87,7 +80,7 @@ void Ashborne::update(){
 
     player.handleInput();
     player.update();
-    npc.update();
+    sceneManager.update();
 
     //std::cout << count << std::endl;
 }
