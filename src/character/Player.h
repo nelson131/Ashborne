@@ -5,6 +5,7 @@
 #include <SDL2/SDL_image.h>
 #include <iostream>
 #include <array>
+#include "../entity/Behavior.h"
 #include "../utils/Config.h"
 #include "../utils/Cursor.h"
 #include "../entity/Entity.h"
@@ -24,12 +25,15 @@ class Player {
 
     private:
     Entity player;
+    Behavior behavior;
     Cursor cursor;
 
     SDL_Texture *texture;
     SDL_Rect srcR, destR;
     
     const char *texturePath = "assets/player.png";
+
+    float SCALE = Config::parse<float>("game_info", "scale");
 
     int width = Config::parse<int>("player_info", "width");
     int height = Config::parse<int>("player_info", "height");

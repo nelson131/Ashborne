@@ -46,20 +46,27 @@ class Entity {
     void setStats(const std::array<int, 12> s);
     void updateStats();
 
-    int getHP() const;
-    int getMana() const;
-    int getMoveSpeed() const;
-    int getStrength() const;
-    int getAgility() const;
-    int getIntelligence() const;
-    int getAttackSpeed() const;
-    int getPhysicalDamage() const;
-    int getMagicDamage() const;
-    int getPhysicalResistance() const;
-    int getMagicResistance() const;
+    int& getHP();
+    int& getMana();
+    int& getMoveSpeed();
+    int& getStrength();
+    int& getAgility();
+    int& getIntelligence();
+    int& getArmor();
+    int& getAttackSpeed();
+    int& getPhysicalDamage();
+    int& getMagicDamage();
+    int& getPhysicalResistance();
+    int& getMagicResistance();
 
     bool hasCollider(TilemapLayer* t);
     bool hasColliderWith(Entity* e);
+
+    enum class Interaction {
+        ATTACK
+    }
+
+    void interactWith(Interaction interact, Entity* e);
 
     Vector position;
     Vector velocity;
@@ -99,6 +106,8 @@ class Entity {
     Animation::Type activeAnim;
 
     float cr = Config::parse<float>("entity_info", "collision_range");
+
+    float interactionRange = 300;
 };
 
 #endif

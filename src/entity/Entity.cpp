@@ -313,48 +313,52 @@ void Entity::updateStats(){
     stats[7] += stats[4];
 }
 
-int Entity::getHP() const{
+int& Entity::getHP(){
     return stats[0];
 }
 
-int Entity::getMana() const{
+int& Entity::getMana(){
     return stats[1];
 }
 
-int Entity::getMoveSpeed() const{
+int& Entity::getMoveSpeed(){
     return stats[2];
 }
 
-int Entity::getStrength() const{
+int& Entity::getStrength(){
     return stats[3];
 }
 
-int Entity::getAgility() const{
+int& Entity::getAgility(){
     return stats[4];
 }
 
-int Entity::getIntelligence() const{
+int& Entity::getIntelligence(){
     return stats[5];
 }
 
-int Entity::getAttackSpeed() const{
+int& Entity::getArmor(){
     return stats[6];
 }
 
-int Entity::getPhysicalDamage() const{
+int& Entity::getAttackSpeed(){
     return stats[7];
 }
 
-int Entity::getMagicDamage() const{
+int& Entity::getPhysicalDamage(){
     return stats[8];
 }
 
-int Entity::getPhysicalResistance() const{
+int& Entity::getMagicDamage(){
     return stats[9];
 }
 
-int Entity::getMagicResistance() const{
+int& Entity::getPhysicalResistance(){
     return stats[10];
+}
+
+int& Entity::getMagicResistance(){
+    return stats[11];
 }
 
 bool Entity::hasCollider(TilemapLayer* t){
@@ -393,6 +397,20 @@ bool Entity::hasColliderWith(Entity* e){
     if(right1 <= left2 || left1 >= right2) return false;
 
     return true;
+}
+
+void Entity::interactWith(Interaction interact, Entity* e2){
+    if(this->position.getDistance(e2->position) >= interactionRange){
+        Logger::print(Logger::DEBUG, "Not in range");
+        return;
+    }
+    switch(interact){
+        case Interaction::ATTACK:
+            e2->getHP() -= (this->getPhysicalDamage() - (e2->getArmor() * 0.5) - (e2->getPhysicalResistance() * 0.3));
+            break;
+        default:
+            break;
+    }
 }
 
 EntityHolder::EntityHolder(){

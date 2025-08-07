@@ -23,6 +23,10 @@ void Player::init(SDL_Renderer *renderer){
     if(player.hasDebugMode()){
         cursor.init();
     }
+
+    behavior.init();
+    behavior.setPathing(false);
+    behavior.setVisionRadius(160 * SCALE);
 }
 
 void Player::display(SDL_Renderer *renderer){
@@ -38,7 +42,7 @@ void Player::display(SDL_Renderer *renderer){
 void Player::update(){
     player.update();
     camera.update(player.position.x, player.position.y, player.getWidth());
-    
+    behavior.updateVision();
 
     if(player.hasDebugMode()){
         cursor.update();
@@ -61,6 +65,9 @@ void Player::handleInput(){
     }
     if(keys[SDL_SCANCODE_D]){
         player.velocity.x += getSpeed();
+    }
+    if(keys[SDL_SCANCODE_SPACE]){
+        
     }
 }
 
