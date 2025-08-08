@@ -63,8 +63,9 @@ class Entity {
     bool hasColliderWith(Entity* e);
 
     enum class Interaction {
-        ATTACK
-    }
+        ATTACK,
+        DIALOG
+    };
 
     void interactWith(Interaction interact, Entity* e);
 

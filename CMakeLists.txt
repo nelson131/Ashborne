@@ -35,6 +35,8 @@ add_executable(Ashborne
  src/utils/Cursor.cpp
  src/utils/Tile.cpp
  src/utils/Tile.h
+ src/utils/Timer.h
+ src/utils/Timer.cpp
  src/scenes/SceneManager.cpp
  src/scenes/SceneManager.h
  src/item/Inventory.cpp

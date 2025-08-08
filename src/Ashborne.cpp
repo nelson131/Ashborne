@@ -78,7 +78,7 @@ void Ashborne::render(){
 void Ashborne::update(){
     count++;
 
-    player.handleInput();
+    player.handleInputKeyboard();
     player.update();
     sceneManager.update();
 

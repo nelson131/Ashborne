@@ -8,6 +8,7 @@
 #include "../entity/Behavior.h"
 #include "../utils/Config.h"
 #include "../utils/Cursor.h"
+#include "../utils/Timer.h"
 #include "../entity/Entity.h"
 #include "../Camera.h"
 
@@ -19,7 +20,7 @@ class Player {
     void init(SDL_Renderer *renderer);
     void display(SDL_Renderer *renderer);
     void update();
-    void handleInput();
+    void handleInputKeyboard();
     
     void updateMousePos();
 
@@ -27,6 +28,7 @@ class Player {
     Entity player;
     Behavior behavior;
     Cursor cursor;
+    Timer timer;
 
     SDL_Texture *texture;
     SDL_Rect srcR, destR;
@@ -41,7 +43,7 @@ class Player {
     int screenWidth = Config::parse<int>("game_info", "screen_width");
     int screenHeight = Config::parse<int>("game_info", "screen_height");
 
-    float getSpeed() const;
+    float getSpeed();
 };
 
 #endif

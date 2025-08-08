@@ -24,7 +24,7 @@ void Player::init(SDL_Renderer *renderer){
         cursor.init();
     }
 
-    behavior.init();
+    behavior.init(&player);
     behavior.setPathing(false);
     behavior.setVisionRadius(160 * SCALE);
 }
@@ -50,7 +50,7 @@ void Player::update(){
 }
 
 
-void Player::handleInput(){
+void Player::handleInputKeyboard(){
     const Uint8 *keys = SDL_GetKeyboardState(NULL);
     player.velocity = {0, 0};
 
@@ -66,11 +66,14 @@ void Player::handleInput(){
     if(keys[SDL_SCANCODE_D]){
         player.velocity.x += getSpeed();
     }
-    if(keys[SDL_SCANCODE_SPACE]){
-        
+
+    Uint32 mouseState = SDL_GetMouseState(NULL, NULL);
+    if(mouseState & SDL_BUTTON(SDL_BUTTON_LEFT)){
+        if(timer.elapsedTime() <= 1) return;
+        timer.start();
     }
 }
 
-float Player::getSpeed() const{
+float Player::getSpeed(){
     return static_cast<float>(player.getMoveSpeed());
 }
