@@ -69,8 +69,15 @@ void Player::handleInputKeyboard(){
 
     Uint32 mouseState = SDL_GetMouseState(NULL, NULL);
     if(mouseState & SDL_BUTTON(SDL_BUTTON_LEFT)){
-        if(timer.elapsedTime() <= 1) return;
+        if(timer.elapsedTime() < 1) return;
         timer.start();
+        for(Entity* e : behavior.getInRadius()){
+            Tile ct = Tile::worldToTile(cursor.getWorldX(), cursor.getWorldY(), e->getWidth());
+            Tile et = Tile::worldToTile(e->position.x, e->position.y, e->getWidth());
+            if(ct.getTileX() == et.getTileX() && ct.getTileY() == et.getTileY()){
+                player.interactWith(Entity::Interaction::ATTACK, e);
+            }
+        }
     }
 }
 

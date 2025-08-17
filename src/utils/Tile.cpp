@@ -36,6 +36,14 @@ Tile Tile::worldToTile(int worldX, int worldY, int size){
     return Tile(worldX / size, worldY / size, size);
 }
 
+int Tile::worldToTileX(int worldX, int size){
+    return worldX / size;    
+}
+
+int Tile::worldToTileY(int worldY, int size){
+    return worldY / size;
+}
+
 int Tile::tileToWorldX(Tile& t){
     return t.getWorldX();
 }

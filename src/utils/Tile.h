@@ -19,6 +19,9 @@ class Tile {
     bool isBlocked() const;
 
     static Tile worldToTile(int worldX, int worldY, int size);
+    static int worldToTileX(int worldX, int size);
+    static int worldToTileY(int worldY, int size);
+    
     static int tileToWorldX(Tile& t);
     static int tileToWorldY(Tile& t);
 

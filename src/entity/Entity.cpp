@@ -406,7 +406,9 @@ void Entity::interactWith(Interaction interact, Entity* e2){
     }
     switch(interact){
         case Interaction::ATTACK:
+            Logger::print(Logger::DEBUG, "hp before: ", e2->getHP());
             e2->getHP() -= (this->getPhysicalDamage() - (e2->getArmor() * 0.5) - (e2->getPhysicalResistance() * 0.3));
+            Logger::print(Logger::DEBUG, "hp after: ", e2->getHP(), " by damage ", (this->getPhysicalDamage() - (e2->getArmor() * 0.5) - (e2->getPhysicalResistance() * 0.3)));
             break;
         default:
             break;

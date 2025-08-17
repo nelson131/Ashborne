@@ -61,6 +61,16 @@
         "thread": "cpp",
         "cinttypes": "cpp",
         "typeinfo": "cpp",
-        "map": "cpp"
+        "map": "cpp",
+        "charconv": "cpp",
+        "chrono": "cpp",
+        "optional": "cpp",
+        "format": "cpp",
+        "queue": "cpp",
+        "ranges": "cpp",
+        "span": "cpp",
+        "stdfloat": "cpp",
+        "text_encoding": "cpp",
+        "variant": "cpp"
     }
 }
