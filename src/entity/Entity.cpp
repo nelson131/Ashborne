@@ -47,7 +47,7 @@ void Entity::create(float x, float y, int& w, int& h, const char* pathToTexture,
         Logger::print(Logger::DEBUG, "Debug mode (", flagName, ") is active");
     }
 
-    setDefaultStats();
+    this->attributes.setDefaultStats();
 }
 
 void Entity::update() {
@@ -167,9 +167,9 @@ void Entity::snapToTile(Entity::Axis axis){
                 position.y = ((int)((hitbox.y + hitbox.h) / TILE_SIZE)) * TILE_SIZE - hitbox.w - 1;
             }
             if(velocity.y < 0){
-                position.x = ((int)(hitbox.x / TILE_SIZE) + 1) * TILE_SIZE;
+                position.y = ((int)(hitbox.x / TILE_SIZE) + 1) * TILE_SIZE;
             }
-            hitbox.x = position.x;
+            hitbox.y = position.y;
             break;
     }
 }
@@ -282,83 +282,12 @@ void Entity::setActiveAnim(Animation::Type &type){
     activeAnim = type;
 }
 
-void Entity::setDefaultStats(){
-    stats = {120, 100, 4, 1, 1, 1, 0, 50, 10, 0, 0, 0};
+Inventory* Entity::getInventory(){
+    return &inventory;
 }
 
-void Entity::setStats(const std::array<int, 12> s){
-    for(int i = 0; i < stats.size(); i++){
-        stats[i] = s[i];
-    }
-}
-
-void Entity::updateStats(){
-    const std::array<int, 10>& invStats = inventory.getStats();
-    stats[3] += invStats[0]; // Strength
-    stats[4] += invStats[1]; // Agility
-    stats[5] += invStats[2]; // Intelligence
-    stats[6] += invStats[3]; // Armor
-    stats[2] += invStats[4]; // Movespeed
-    stats[7] += invStats[5]; // Attack speed
-    stats[8] += invStats[6]; // Physical damage
-    stats[9] += invStats[7]; // Magic damage
-    stats[10] += invStats[8]; // Physical resistance
-    stats[11] += invStats[9]; // Magical resistance
-
-    // HP
-    stats[0] += 22 * stats[3];
-    // Mana
-    stats[1] += 12 * stats[5];
-    // Attack speed
-    stats[7] += stats[4];
-}
-
-int& Entity::getHP(){
-    return stats[0];
-}
-
-int& Entity::getMana(){
-    return stats[1];
-}
-
-int& Entity::getMoveSpeed(){
-    return stats[2];
-}
-
-int& Entity::getStrength(){
-    return stats[3];
-}
-
-int& Entity::getAgility(){
-    return stats[4];
-}
-
-int& Entity::getIntelligence(){
-    return stats[5];
-}
-
-int& Entity::getArmor(){
-    return stats[6];
-}
-
-int& Entity::getAttackSpeed(){
-    return stats[7];
-}
-
-int& Entity::getPhysicalDamage(){
-    return stats[8];
-}
-
-int& Entity::getMagicDamage(){
-    return stats[9];
-}
-
-int& Entity::getPhysicalResistance(){
-    return stats[10];
-}
-
-int& Entity::getMagicResistance(){
-    return stats[11];
+Attributes* Entity::getAttributes(){
+    return &attributes;
 }
 
 bool Entity::hasCollider(TilemapLayer* t){
@@ -406,9 +335,9 @@ void Entity::interactWith(Interaction interact, Entity* e2){
     }
     switch(interact){
         case Interaction::ATTACK:
-            Logger::print(Logger::DEBUG, "hp before: ", e2->getHP());
-            e2->getHP() -= (this->getPhysicalDamage() - (e2->getArmor() * 0.5) - (e2->getPhysicalResistance() * 0.3));
-            Logger::print(Logger::DEBUG, "hp after: ", e2->getHP(), " by damage ", (this->getPhysicalDamage() - (e2->getArmor() * 0.5) - (e2->getPhysicalResistance() * 0.3)));
+            Logger::print(Logger::DEBUG, "hp before: ", e2->getAttributes()->getHP());
+            e2->getAttributes()->getHP() -= (this->attributes.getPhysicalDamage() - (e2->getAttributes()->getArmor() * 0.5) - (e2->getAttributes()->getPhysicalResistance() * 0.3));
+            Logger::print(Logger::DEBUG, "hp after: ", e2->getAttributes()->getHP());
             break;
         default:
             break;

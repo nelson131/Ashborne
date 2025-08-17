@@ -73,11 +73,11 @@ void Npc::addDots(std::vector<Vector> d){
 }
 
 void Npc::addToInventory(Item& item){
-    npc.inventory.add(item);
-    npc.updateStats();
+    npc.getInventory()->add(item);
+    npc.getAttributes()->updateStats();
 }
 
 void Npc::removeFromInventory(Item& item){
-    npc.inventory.remove(item);
-    npc.updateStats();
+    npc.getInventory()->remove(item);
+    npc.getAttributes()->updateStats();
 }

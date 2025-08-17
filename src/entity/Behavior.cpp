@@ -58,17 +58,17 @@ void Behavior::updatePathing(){
     }
 
     if(t.getWorldX() > entity->position.x){
-        entity->velocity.x += entity->getMoveSpeed();
+        entity->velocity.x += entity->getAttributes()->getMoveSpeed();
     } else if(t.getWorldX() < entity->position.x){
-        entity->velocity.x -= entity->getMoveSpeed();
+        entity->velocity.x -= entity->getAttributes()->getMoveSpeed();
     } else {
         entity->velocity.x = 0;
     }
 
     if(t.getWorldY() > entity->position.y){
-        entity->velocity.y += entity->getMoveSpeed();
+        entity->velocity.y += entity->getAttributes()->getMoveSpeed();
     } else if(t.getWorldY() < entity->position.y){
-        entity->velocity.y -= entity->getMoveSpeed();
+        entity->velocity.y -= entity->getAttributes()->getMoveSpeed();
     } else {
         entity->velocity.y = 0;
     }

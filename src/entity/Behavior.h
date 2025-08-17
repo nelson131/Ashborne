@@ -41,12 +41,12 @@ class Behavior {
     private:
     Entity* entity;
     Relationship rel;
+    int SCALE = Config::parse<float>("game_info", "scale");
 
     bool pathing;
     int pathingIndex = 0;
     std::vector<Tile> dots;
 
-    int SCALE = Config::parse<float>("game_info", "scale");
     float visionRadius;
     std::vector<Entity*> inRadius;
 };

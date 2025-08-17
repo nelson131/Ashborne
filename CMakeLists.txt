@@ -54,6 +54,8 @@ add_executable(Ashborne
  src/entity/Npc.h
  src/entity/Behavior.cpp
  src/entity/Behavior.h
+ src/entity/Attributes.h
+ src/entity/Attributes.cpp
  )
 
 target_link_libraries(Ashborne

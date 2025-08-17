@@ -5,6 +5,7 @@
 #include <SDL2/SDL.h>
 #include <array>
 #include "Animation.h"
+#include "Attributes.h"
 #include "../Tilemap.h"
 #include "../alg/Vector.h"
 #include "../TextureManager.h"
@@ -40,24 +41,8 @@ class Entity {
 
     void setActiveAnim(Animation::Type &type);
 
-    Inventory inventory;
-
-    void setDefaultStats();
-    void setStats(const std::array<int, 12> s);
-    void updateStats();
-
-    int& getHP();
-    int& getMana();
-    int& getMoveSpeed();
-    int& getStrength();
-    int& getAgility();
-    int& getIntelligence();
-    int& getArmor();
-    int& getAttackSpeed();
-    int& getPhysicalDamage();
-    int& getMagicDamage();
-    int& getPhysicalResistance();
-    int& getMagicResistance();
+    Inventory* getInventory();
+    Attributes* getAttributes();
 
     bool hasCollider(TilemapLayer* t);
     bool hasColliderWith(Entity* e);
@@ -76,6 +61,9 @@ class Entity {
     SDL_Rect srcRect, destRect;
 
     private:
+    Inventory inventory;
+    Attributes attributes;
+
     Text textName;
     Text textId;
     SDL_Texture *texture;

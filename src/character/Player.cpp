@@ -82,5 +82,5 @@ void Player::handleInputKeyboard(){
 }
 
 float Player::getSpeed(){
-    return static_cast<float>(player.getMoveSpeed());
+    return static_cast<float>(player.getAttributes()->getMoveSpeed());
 }
