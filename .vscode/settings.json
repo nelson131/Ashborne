@@ -72,6 +72,7 @@
         "stdfloat": "cpp",
         "text_encoding": "cpp",
         "variant": "cpp",
-        "forward_list": "cpp"
+        "forward_list": "cpp",
+        "any": "cpp"
     }
 }

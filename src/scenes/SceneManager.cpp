@@ -107,7 +107,11 @@ void SceneManager::loadNPCs(){
 
             hasObject = false;
             object = Npc{};
-            sceneId, width, height, x, y, name, filePath, visionr = 0;
+            sceneId = 0; width = 0; height = 0;
+            x = 0; y = 0;
+            name.clear();
+            filePath.clear();
+            visionr = 0;
             dots.clear();
             continue;
         }

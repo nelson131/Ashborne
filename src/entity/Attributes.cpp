@@ -6,12 +6,17 @@ Attributes::Attributes(){
 
 }
 
-void Attributes::init(Entity* e){
-    this->entity = e;
-    this->inv = e->getInventory();
+void Attributes::init(Entity& e){
+    this->entity = &e;
+    std::cout << entity->getName() << std::endl;
+    this->inv = entity->getInventory();
+    if(!inv){
+        Logger::print(Logger::ERROR, "Attributes inv is null dudee: ", this->entity->getName());
+        return;
+    }
 }
 
-const std::array<int, 12> Attributes::getStats(){
+const std::array<int, 12>& Attributes::getStats(){
     return stats;
 }
 
@@ -26,6 +31,10 @@ void Attributes::setStats(const std::array<int, 12> s){
 }
 
 void Attributes::updateStats(){
+    if(!this->inv){
+        Logger::print(Logger::ERROR, "INV in attributes is null dude");
+        return;
+    }
     const std::array<int, 10>& invStats = inv->getStats();
     stats[3] += invStats[0]; // Strength
     stats[4] += invStats[1]; // Agility

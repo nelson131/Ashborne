@@ -22,6 +22,7 @@ void Npc::spawn(){
     );
 
     behavior.init(&npc);
+    npc.velocity = {0, 0};
 }
 
 void Npc::update(){

@@ -47,6 +47,7 @@ void Entity::create(float x, float y, int& w, int& h, const char* pathToTexture,
         Logger::print(Logger::DEBUG, "Debug mode (", flagName, ") is active");
     }
 
+    this->attributes.init(*this);
     this->attributes.setDefaultStats();
 }
 

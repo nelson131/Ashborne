@@ -9,9 +9,9 @@ class Entity;
 class Attributes {
     public:
     Attributes();
-    void init(Entity* e);
+    void init(Entity& e);
 
-    const std::array<int, 12> getStats();
+    const std::array<int, 12>& getStats();
     void setDefaultStats();
     void setStats(const std::array<int, 12> s);
     void updateStats();
