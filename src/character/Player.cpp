@@ -1,6 +1,3 @@
-#include <iostream>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
 #include "Player.h"
 #include "../TextureManager.h"
 #include "../utils/Config.h"
@@ -8,6 +5,9 @@
 #include "../scenes/SceneManager.h"
 #include "../Camera.h"
 #include "../utils/Tile.h"
+#include <iostream>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 
 Player::Player(){
 
@@ -17,8 +17,9 @@ void Player::init(SDL_Renderer *renderer){
     player.create(0, 0, width, height, texturePath, "Player", true, true);
     player.setHitboxSizeCentered(22, 47);
 
-    player.animation.fps(200);
-    player.animation.add(Animation::Type::IDLE, 3);
+    player.getAnim().fps(200);
+    player.getAnim().setup("player");
+    player.getAnim().setActive(player.getAnim().toTypeFrom("IDLE_UP"));
 
     if(player.hasDebugMode()){
         cursor.init();

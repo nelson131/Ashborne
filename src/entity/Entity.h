@@ -1,9 +1,6 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include <iostream>
-#include <SDL2/SDL.h>
-#include <array>
 #include "Animation.h"
 #include "Attributes.h"
 #include "../Tilemap.h"
@@ -12,6 +9,9 @@
 #include "../item/Inventory.h"
 #include "../utils/Text.h"
 #include "../Camera.h"
+#include <iostream>
+#include <SDL2/SDL.h>
+#include <array>
 
 class Entity {
 
@@ -36,11 +36,8 @@ class Entity {
 
     void setHeight(int h);
     int& getHeight();
-
-    Animation animation;
-
-    void setActiveAnim(Animation::Type &type);
-
+    
+    Animation& getAnim();
     Inventory* getInventory();
     Attributes* getAttributes();
 
@@ -62,6 +59,7 @@ class Entity {
 
     private:
     Inventory inventory;
+    Animation animation;
     Attributes attributes;
 
     Text textName;
@@ -91,8 +89,6 @@ class Entity {
     void snapToEntity(Axis axis, Entity* e);
 
     std::array<int, 12> stats;
-
-    Animation::Type activeAnim;
 
     float cr = Config::parse<float>("entity_info", "collision_range");
 

@@ -1,8 +1,8 @@
+#include "Vector.h"
+#include "../utils/Logger.h"
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <cmath>
-#include "Vector.h"
-#include "../utils/Logger.h"
 
 Vector::Vector()
     : x(x), y(y)

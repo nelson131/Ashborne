@@ -1,13 +1,13 @@
 #ifndef SCENEMANAGER_H
 #define SCENEMANAGER_H
 
+#include "../Tilemap.h"
+#include "../utils/Logger.h"
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <list>
 #include <set>
 #include <vector>
-#include "../Tilemap.h"
-#include "../utils/Logger.h"
 
 class Npc;
 

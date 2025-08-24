@@ -8,7 +8,6 @@ Attributes::Attributes(){
 
 void Attributes::init(Entity& e){
     this->entity = &e;
-    std::cout << entity->getName() << std::endl;
     this->inv = entity->getInventory();
     if(!inv){
         Logger::print(Logger::ERROR, "Attributes inv is null dudee: ", this->entity->getName());

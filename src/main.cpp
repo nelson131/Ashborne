@@ -1,8 +1,8 @@
+#include "Ashborne.h"
+#include "utils/Config.h"
 #include <iostream>
 #include <SDL.h>
-#include "Ashborne.h"
 #include <memory>
-#include "utils/Config.h"
 
 std::unique_ptr<Ashborne> ashborne;
 std::unique_ptr<Config> config;

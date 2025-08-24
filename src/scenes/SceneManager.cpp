@@ -1,9 +1,9 @@
-#include <iostream>
-#include <SDL2/SDL.h>
-#include <set>
 #include "SceneManager.h"
 #include "../entity/Npc.h"
 #include "../utils/Logger.h"
+#include <iostream>
+#include <SDL2/SDL.h>
+#include <set>
 
 SceneManager sceneManager;
 

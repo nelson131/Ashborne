@@ -1,7 +1,3 @@
-#include <iostream>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <memory>
 #include "Ashborne.h"
 #include "character/Player.h"
 #include "Tilemap.h"
@@ -11,6 +7,10 @@
 #include "entity/Npc.h"
 #include "entity/Entity.h"
 #include "utils/Tile.h"
+#include <iostream>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <memory>
 
 Ashborne::Ashborne(){
 

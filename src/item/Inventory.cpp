@@ -1,8 +1,8 @@
+#include "Inventory.h"
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <list>
 #include <array>
-#include "Inventory.h"
 
 Inventory::Inventory(){
 

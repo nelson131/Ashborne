@@ -1,16 +1,16 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <iostream>
-#include <array>
 #include "../entity/Behavior.h"
 #include "../utils/Config.h"
 #include "../utils/Cursor.h"
 #include "../utils/Timer.h"
 #include "../entity/Entity.h"
 #include "../Camera.h"
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <iostream>
+#include <array>
 
 class Player {
 

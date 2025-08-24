@@ -9,7 +9,7 @@ class TextureManager {
     public:
     TextureManager();
     
-    void load(const char *pathToFIle, SDL_Renderer *renderer);
+    static SDL_Texture* load(const char *pathToFIle, SDL_Renderer *renderer);
 
 };
 

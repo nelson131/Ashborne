@@ -1,14 +1,14 @@
 #ifndef ASHBORNE_H
 #define ASHBORNE_H
 
-#include <iostream>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <memory>
 #include "character/Player.h"
 #include "Tilemap.h"
 #include "scenes/SceneManager.h"
 #include "entity/Npc.h"
+#include <iostream>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <memory>
 
 class Ashborne {
     

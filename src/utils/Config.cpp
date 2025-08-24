@@ -1,6 +1,6 @@
+#include "Config.h"
 #include <iostream>
 #include <fstream>
-#include "Config.h"
 
 Config::Config(){
 

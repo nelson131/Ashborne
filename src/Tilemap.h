@@ -1,11 +1,11 @@
 #ifndef TILEMAP_H
 #define TILEMAP_H
 
+#include "utils/Logger.h"
+#include "utils/Config.h"
 #include <iostream>
 #include <vector>
 #include <SDL2/SDL.h>
-#include "utils/Logger.h"
-#include "utils/Config.h"
 
 #define TILE_EMPTY 0
 

@@ -1,8 +1,3 @@
-#include <iostream>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-#include <cmath>
-#include <unordered_map>
 #include "Entity.h"
 #include "EntityHolder.h"
 #include "Animation.h"
@@ -12,6 +7,11 @@
 #include "../TextureManager.h"
 #include "../utils/Text.h"
 #include "../Camera.h"
+#include <iostream>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
+#include <cmath>
+#include <unordered_map>
 
 EntityHolder eHolder;
 
@@ -123,7 +123,7 @@ void Entity::render(){
     };
 
     if(isAnimated){
-        animation.play(activeAnim, srcRect);
+        animation.play(srcRect, texture);
     }
 
     SDL_RenderCopy(eHolder.getRenderer(), texture, &srcRect, &destRect);
@@ -279,8 +279,8 @@ int& Entity::getHeight(){
     return height;
 }
 
-void Entity::setActiveAnim(Animation::Type &type){
-    activeAnim = type;
+Animation& Entity::getAnim(){
+    return animation;
 }
 
 Inventory* Entity::getInventory(){

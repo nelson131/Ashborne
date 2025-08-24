@@ -1,10 +1,10 @@
+#include "Tilemap.h"
+#include "Camera.h"
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <fstream>
 #include <sstream>
-#include "Tilemap.h"
-#include "Camera.h"
 
 TilemapLayer::TilemapLayer(){
     
