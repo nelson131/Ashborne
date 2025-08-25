@@ -17,7 +17,7 @@ struct AnimSet {
     AnimType type;
     SDL_Texture* texture;
     std::string path;
-    int cells;
+    int width, height, y, fps, cells;
     bool isFlipped;
 
     bool operator<(const AnimSet& other) const{

@@ -4,6 +4,7 @@
 #include "../utils/Logger.h"
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <unordered_map>
 
 Animation::Animation(){
@@ -48,35 +49,50 @@ void Animation::setup(std::string name){
                 std::string key = line.substr(0, pos);
                 std::string value = line.substr(pos + 1);
                 if(value.empty()) continue;
+                if(key == "WIDTH"){
+                    result.width = std::stoi(value);
+                    continue;
+                }
+                if(key == "HEIGHT"){
+                    result.height = std::stoi(value);
+                    continue;
+                }
+                if(key == "SRCRECT-Y"){
+                    result.y = std::stoi(value);
+                    continue;
+                }
+
                 result.isFlipped = (value[0] == 'f');
                 if(value[0] == 'f'){
                     size_t bpos = value.find("->");
                     if(bpos != std::string::npos){
-                        result.type = toTypeFrom(key);
-
                         std::string k = value.substr(bpos + 2);
                         AnimType t = toTypeFrom(k);
                         for(const AnimSet& set : keeper){
                             if(set.type == t){
-                                result.path = set.path;
-                                result.cells = set.cells;
-                                result.texture = TextureManager::load(result.path.c_str(), eHolder.getRenderer());
+                                result = set;
+                                result.type = toTypeFrom(key);
                                 keeper.insert(result);
                                 continue;
                             }
                         }
                     }
                 } else {
-                    size_t bpos = value.find('|');
-                    if(bpos != std::string::npos){
-                        int cells = std::stoi(value.substr(0, bpos));
-                        std::string path = value.substr(bpos + 1);
-                        result.type = toTypeFrom(key);
-                        result.path = "assets/" + path;
-                        result.cells = cells;
-                        result.texture = TextureManager::load(result.path.c_str(), eHolder.getRenderer());
-                        keeper.insert(result);
+                    std::vector<std::string> pars;
+                    std::stringstream str(value);
+                    std::string par;
+
+                    while(std::getline(str, par, '|')){
+                        pars.push_back(par);
                     }
+                    int cells = std::stoi(pars[0]);
+                    int fps = std::stoi(pars[1]);
+                    result.type = toTypeFrom(key);
+                    result.path = "assets/" + pars[2];
+                    result.fps = fps;
+                    result.cells = cells;
+                    result.texture = TextureManager::load(result.path.c_str(), eHolder.getRenderer());
+                    keeper.insert(result);
                 }
             }
         }
@@ -104,7 +120,8 @@ void Animation::play(SDL_Rect &srcRect, SDL_Texture*& t, SDL_RendererFlip& flip)
         }
 
         t = set.texture;
-        srcRect = {0, 0, 32, 32};
+        frameTime = set.fps;
+        srcRect = {0, set.y, set.width, set.height};
     }
 
     if(!frameTime || frameTime < 0){
@@ -117,11 +134,6 @@ void Animation::play(SDL_Rect &srcRect, SDL_Texture*& t, SDL_RendererFlip& flip)
     }
 
     srcRect.x = currentFrame * 32;
-    srcRect.y = 25;
-
-    srcRect.w = 32;
-    srcRect.h = 34;
-
     lastAnim = active;
 }
 
