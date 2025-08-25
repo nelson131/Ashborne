@@ -52,15 +52,17 @@ void Animation::setup(std::string name){
                 if(value[0] == 'f'){
                     size_t bpos = value.find("->");
                     if(bpos != std::string::npos){
+                        result.type = toTypeFrom(key);
+
                         std::string k = value.substr(bpos + 2);
                         AnimType t = toTypeFrom(k);
-                        result.type = t;
                         for(const AnimSet& set : keeper){
                             if(set.type == t){
                                 result.path = set.path;
                                 result.cells = set.cells;
                                 result.texture = TextureManager::load(result.path.c_str(), eHolder.getRenderer());
                                 keeper.insert(result);
+                                continue;
                             }
                         }
                     }
@@ -81,7 +83,7 @@ void Animation::setup(std::string name){
     }
 }
 
-void Animation::play(SDL_Rect &srcRect, SDL_Texture*& t){
+void Animation::play(SDL_Rect &srcRect, SDL_Texture*& t, SDL_RendererFlip& flip){
     Uint32 now = SDL_GetTicks();
 
     if(keeper.empty()){
@@ -90,11 +92,18 @@ void Animation::play(SDL_Rect &srcRect, SDL_Texture*& t){
     }
 
     if(lastAnim != active){
-        if(!findSetBy(active).texture){
+        AnimSet set = findSetBy(active);
+        if(!set.texture){
             Logger::print(Logger::ERROR, "Failed to play anim cause texture in set is null");
             return;   
         }
-        t = findSetBy(active).texture;
+        if(set.isFlipped){
+            flip = SDL_FLIP_HORIZONTAL;
+        } else {
+            flip = SDL_FLIP_NONE;
+        }
+
+        t = set.texture;
         srcRect = {0, 0, 32, 32};
     }
 
@@ -106,11 +115,12 @@ void Animation::play(SDL_Rect &srcRect, SDL_Texture*& t){
         currentFrame = (currentFrame + 1) % findSetBy(active).cells;
         lastFrameTime = now;
     }
+
     srcRect.x = currentFrame * 32;
-    srcRect.y = 0;
+    srcRect.y = 25;
 
     srcRect.w = 32;
-    srcRect.h = 32;
+    srcRect.h = 34;
 
     lastAnim = active;
 }

@@ -34,7 +34,7 @@ class Animation {
 
     std::set<AnimSet>& getKeeper();
     void setup(std::string name);
-    void play(SDL_Rect &srcRect, SDL_Texture*& t);
+    void play(SDL_Rect &srcRect, SDL_Texture*& t, SDL_RendererFlip& flip);
 
     AnimType getActive();
     void setActive(AnimType anim);

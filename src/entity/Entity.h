@@ -66,7 +66,8 @@ class Entity {
     Text textId;
     SDL_Texture *texture;
     SDL_Texture *hitboxTexture;
-    int SCALE = Config::parse<float>("game_info", "scale");
+    SDL_RendererFlip flip;
+    int SCALE = 2;
 
     std::string flagName;
     int flagId;

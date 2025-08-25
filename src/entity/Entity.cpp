@@ -123,10 +123,12 @@ void Entity::render(){
     };
 
     if(isAnimated){
-        animation.play(srcRect, texture);
+        animation.play(srcRect, texture, flip);
     }
 
-    SDL_RenderCopy(eHolder.getRenderer(), texture, &srcRect, &destRect);
+    if(!flip) flip = SDL_FLIP_NONE;
+
+    SDL_RenderCopyEx(eHolder.getRenderer(), texture, &srcRect, &destRect, 0.0, nullptr, flip);
 
     if(isDebugMode){
         destHitbox = {
