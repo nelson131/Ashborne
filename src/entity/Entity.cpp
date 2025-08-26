@@ -25,6 +25,7 @@ void Entity::create(float x, float y, int& w, int& h, const char* pathToTexture,
     
     position.x = x;
     position.y = y;
+    velocity = {0, 0};
     destRect.w = width;
     destRect.h = height;
     hitbox.w = destRect.w;
@@ -37,7 +38,6 @@ void Entity::create(float x, float y, int& w, int& h, const char* pathToTexture,
     isDebugMode = debugMode;
     
     eHolder.add(this);
-
     setTexture();
 
     if(debugMode){
@@ -47,11 +47,22 @@ void Entity::create(float x, float y, int& w, int& h, const char* pathToTexture,
         Logger::print(Logger::DEBUG, "Debug mode (", flagName, ") is active");
     }
 
+    if(animated){
+        this->animation.setup(flagName);
+        this->animation.setActive(this->animation.toTypeFrom("IDLE_DOWN"));
+    }
+
     this->attributes.init(*this);
     this->attributes.setDefaultStats();
 }
 
 void Entity::update() {
+    handleAnims();
+    if(velocity.x != 0 || velocity.y != 0){
+        lastDirX = velocity.x;
+        lastDirY = velocity.y;
+    }
+
     Vector nextPosition = position;
 
     nextPosition.x += velocity.x;
@@ -148,12 +159,13 @@ void Entity::render(){
 }
 
 void Entity::kill(Entity& e){
+    // pretty bad business ->
     SDL_DestroyTexture(texture);
     eHolder.remove(&e);
     delete &e;
 }
 
-void Entity::snapToTile(Entity::Axis axis){
+void Entity::snapToTile(Axis axis){
     const int TILE_SIZE = 32 * SCALE;
     switch(axis){
         case Axis::X:
@@ -177,7 +189,7 @@ void Entity::snapToTile(Entity::Axis axis){
     }
 }
 
-void Entity::snapToEntity(Entity::Axis axis, Entity* e){
+void Entity::snapToEntity(Axis axis, Entity* e){
     switch(axis){
         case Axis::X:
             if(velocity.x > 0){
@@ -196,6 +208,49 @@ void Entity::snapToEntity(Entity::Axis axis, Entity* e){
                 position.y = e->hitbox.y + e->hitbox.h + 1;
             }
             hitbox.y = position.y;
+    }
+}
+
+void Entity::handleAnims(){
+    if(!isAnimated) return;
+
+    // Activation idle anims when entity stops ->
+    if(velocity.x == 0 && velocity.y == 0){
+        if(lastDirX == 0 && lastDirY > 0){
+            this->animation.setActive(this->animation.toTypeFrom("IDLE_DOWN"));
+            return;
+        }
+        if(lastDirX == 0 && lastDirY < 0){
+            this->animation.setActive(this->animation.toTypeFrom("IDLE_UP"));
+            return;
+        }
+        if(lastDirX > 0){
+            this->animation.setActive(this->animation.toTypeFrom("IDLE_RIGHT"));
+            return;
+        }
+        if(lastDirX < 0){
+            this->animation.setActive(this->animation.toTypeFrom("IDLE_LEFT"));
+            return;
+        }
+        this->animation.setActive(this->animation.toTypeFrom("IDLE_RIGHT"));
+    }
+
+    // Activation run anims when entity moves ->
+    if(velocity.x == 0 && velocity.y > 0){
+        this->animation.setActive(this->animation.toTypeFrom("RUN_DOWN"));
+        return;
+    }
+    if(velocity.x == 0 && velocity.y < 0){
+        this->animation.setActive(this->animation.toTypeFrom("RUN_UP"));
+        return;
+    }
+    if(velocity.x > 0){
+        this->animation.setActive(this->animation.toTypeFrom("RUN_RIGHT"));
+        return;
+    }
+    if(velocity.x < 0){
+        this->animation.setActive(this->animation.toTypeFrom("RUN_LEFT"));
+        return;
     }
 }
 

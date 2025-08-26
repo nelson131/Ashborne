@@ -10,7 +10,10 @@ enum class AnimType {
     IDLE_DOWN,
     IDLE_LEFT,
     IDLE_RIGHT,
-    RUNY
+    RUN_UP,
+    RUN_DOWN,
+    RUN_LEFT,
+    RUN_RIGHT
 };
 
 struct AnimSet {
@@ -29,8 +32,6 @@ class Animation {
 
     public:
     Animation();
-
-    void fps(int fps);
 
     std::set<AnimSet>& getKeeper();
     void setup(std::string name);

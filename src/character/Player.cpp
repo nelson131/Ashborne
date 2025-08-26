@@ -16,9 +16,6 @@ Player::Player(){
 void Player::init(SDL_Renderer *renderer){
     player.create(0, 0, width, height, texturePath, "Player", true, true);
     player.setHitboxSizeCentered(22, 47);
-    player.getAnim().fps(200);
-    player.getAnim().setup("player");
-    player.getAnim().setActive(player.getAnim().toTypeFrom("IDLE_LEFT"));
 
     if(player.hasDebugMode()){
         cursor.init();

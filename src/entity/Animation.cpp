@@ -11,10 +11,6 @@ Animation::Animation(){
 
 }
 
-void Animation::fps(int fps){
-    frameTime = fps;
-}
-
 std::set<AnimSet>& Animation::getKeeper(){
     return keeper; 
 }
@@ -61,8 +57,8 @@ void Animation::setup(std::string name){
                     result.y = std::stoi(value);
                     continue;
                 }
-
-                result.isFlipped = (value[0] == 'f');
+                
+                result.isFlipped = false;
                 if(value[0] == 'f'){
                     size_t bpos = value.find("->");
                     if(bpos != std::string::npos){
@@ -71,6 +67,7 @@ void Animation::setup(std::string name){
                         for(const AnimSet& set : keeper){
                             if(set.type == t){
                                 result = set;
+                                result.isFlipped = true;
                                 result.type = toTypeFrom(key);
                                 keeper.insert(result);
                                 continue;
@@ -132,7 +129,7 @@ void Animation::play(SDL_Rect &srcRect, SDL_Texture*& t, SDL_RendererFlip& flip)
         currentFrame = (currentFrame + 1) % findSetBy(active).cells;
         lastFrameTime = now;
     }
-
+    
     srcRect.x = currentFrame * 32;
     lastAnim = active;
 }
@@ -150,7 +147,11 @@ AnimType Animation::toTypeFrom(std::string key){
         {"IDLE_UP", AnimType::IDLE_UP},
         {"IDLE_DOWN", AnimType::IDLE_DOWN},
         {"IDLE_LEFT", AnimType::IDLE_LEFT},
-        {"IDLE_RIGHT", AnimType::IDLE_RIGHT}
+        {"IDLE_RIGHT", AnimType::IDLE_RIGHT},
+        {"RUN_UP", AnimType::RUN_UP},
+        {"RUN_DOWN", AnimType::RUN_DOWN},
+        {"RUN_LEFT", AnimType::RUN_LEFT},
+        {"RUN_RIGHT", AnimType::RUN_RIGHT}
     };
     auto it = table.find(key);
     if(it != table.end()){

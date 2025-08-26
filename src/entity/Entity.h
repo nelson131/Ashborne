@@ -13,6 +13,10 @@
 #include <SDL2/SDL.h>
 #include <array>
 
+enum class Axis {
+    X, Y
+};
+
 class Entity {
 
     public:
@@ -82,12 +86,12 @@ class Entity {
     float hitboxOffsetX = 0;
     float hitboxOffsetY = 0;
 
-    enum class Axis {
-        X, Y
-    };
-
     void snapToTile(Axis axis);
     void snapToEntity(Axis axis, Entity* e);
+
+    void handleAnims();
+    int lastDirX = 0;
+    int lastDirY = 0;
 
     std::array<int, 12> stats;
 
