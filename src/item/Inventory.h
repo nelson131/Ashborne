@@ -16,10 +16,10 @@ class Inventory {
     void add(Item &item);
     void remove(Item &item);
 
-    std::array<int, 10>& getStats();
+    std::array<int, 11>& getStats();
 
     private:
-    std::array<int, 10> stats;
+    std::array<int, 11> stats;
     std::list<Item> inventory;
 };
 

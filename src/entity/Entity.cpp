@@ -387,6 +387,10 @@ bool Entity::hasColliderWith(Entity* e){
 }
 
 void Entity::interactWith(Interaction interact, Entity* e2){
+    if(attributes.getAttackRange() * SCALE != interactionRange){
+        interactionRange = attributes.getAttackRange() * SCALE;
+    }
+    
     if(this->position.getDistance(e2->position) >= interactionRange){
         Logger::print(Logger::DEBUG, "Not in range");
         return;

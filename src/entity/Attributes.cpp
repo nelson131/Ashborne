@@ -15,15 +15,15 @@ void Attributes::init(Entity& e){
     }
 }
 
-const std::array<int, 12>& Attributes::getStats(){
+const std::array<int, 13>& Attributes::getStats(){
     return stats;
 }
 
 void Attributes::setDefaultStats(){
-    stats = {120, 100, 4, 1, 1, 1, 0, 50, 10, 0, 0, 0};
+    stats = {120, 100, 4, 1, 1, 1, 0, 50, 70, 10, 0, 0, 0};
 }
 
-void Attributes::setStats(const std::array<int, 12> s){
+void Attributes::setStats(const std::array<int, 13> s){
     for(int i = 0; i < stats.size(); i++){
         stats[i] = s[i];
     }
@@ -34,7 +34,7 @@ void Attributes::updateStats(){
         Logger::print(Logger::ERROR, "INV in attributes is null dude");
         return;
     }
-    const std::array<int, 10>& invStats = inv->getStats();
+    const std::array<int, 11>& invStats = inv->getStats();
     stats[3] += invStats[0]; // Strength
     stats[4] += invStats[1]; // Agility
     stats[5] += invStats[2]; // Intelligence

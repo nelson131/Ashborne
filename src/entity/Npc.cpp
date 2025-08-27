@@ -26,7 +26,7 @@ void Npc::spawn(){
 }
 
 void Npc::update(){
-    behavior.updateVision();
+    behavior.getVision().update();
 
     if(behavior.getPathing()){
         behavior.updatePathing();
@@ -64,7 +64,7 @@ Behavior& Npc::getBehavior(){
 
 void Npc::setBehavior(bool p, float visionRadius){
     behavior.setPathing(p);
-    behavior.setVisionRadius(visionRadius);
+    behavior.getVision().setRange(visionRadius);
 }
 
 void Npc::addDots(std::vector<Vector> d){

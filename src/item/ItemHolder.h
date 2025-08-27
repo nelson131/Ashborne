@@ -13,7 +13,7 @@ struct Item
     std::string name;
     std::string desc;
     int id;
-    std::array<int, 10> parameters;
+    std::array<int, 11> parameters;
     bool isEquipable;
 
     bool operator==(const Item& other) const {

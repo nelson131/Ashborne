@@ -11,9 +11,9 @@ class Attributes {
     Attributes();
     void init(Entity& e);
 
-    const std::array<int, 12>& getStats();
+    const std::array<int, 13>& getStats();
     void setDefaultStats();
-    void setStats(const std::array<int, 12> s);
+    void setStats(const std::array<int, 13> s);
     void updateStats();
 
     int& getHP() { return stats[0]; }
@@ -24,16 +24,17 @@ class Attributes {
     int& getIntelligence() { return stats[5]; }
     int& getArmor() { return stats[6]; }
     int& getAttackSpeed() { return stats[7]; }
-    int& getPhysicalDamage() { return stats[8]; }
-    int& getMagicDamage() { return stats[9]; }
-    int& getPhysicalResistance() { return stats[10]; }
-    int& getMagicResistance() { return stats[11]; }
+    int& getAttackRange() { return stats[8]; }
+    int& getPhysicalDamage() { return stats[9]; }
+    int& getMagicDamage() { return stats[10]; }
+    int& getPhysicalResistance() { return stats[11]; }
+    int& getMagicResistance() { return stats[12]; }
 
     private:
     Entity* entity;
     Inventory* inv;
 
-    std::array<int, 12> stats;
+    std::array<int, 13> stats;
 };
 
 #endif

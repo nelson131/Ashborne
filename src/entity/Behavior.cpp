@@ -11,7 +11,12 @@ Behavior::Behavior(){
 }
 
 void Behavior::init(Entity* e){
-    entity = e;
+    this->entity = e;
+    vision.init(entity);
+}
+
+Vision& Behavior::getVision(){
+    return vision;
 }
 
 Behavior::Relationship& Behavior::getRelationship(){
@@ -94,52 +99,4 @@ void Behavior::removeDot(Tile t){
 
 std::vector<Tile>& Behavior::getDots(){
     return dots;
-}
-
-void Behavior::setVisionRadius(float f){
-    visionRadius = f * SCALE;
-}
-
-float Behavior::getVisionRadius(){
-    return visionRadius / SCALE;
-}
-
-float& Behavior::getVisionRadiusReal(){
-    return visionRadius;
-}
-
-void Behavior::updateVision(){
-    for(const auto& [id, e] : eHolder.get()){
-        if(!e || e == entity) continue;
-        if(entity->position.getDistance(e->position) <= visionRadius){
-            if(contains(e)) continue;
-            inRadius.push_back(e);
-        } else if(contains(e)){
-            removeFromRadius(e);
-        }
-    }
-}
-
-void Behavior::addToRadius(Entity* e){
-    inRadius.push_back(e);
-}
-
-void Behavior::removeFromRadius(Entity* e){
-    for(size_t i = 0; i < inRadius.size(); i++){
-        if(inRadius[i] == e){
-            inRadius.erase(inRadius.begin() + i);
-            i--;
-        }
-    }
-}
-
-bool Behavior::contains(Entity* e){
-    for(size_t i = 0; i < inRadius.size(); i++){
-        if(inRadius[i] == e) return true;
-    }
-    return false;
-}
-
-std::vector<Entity*>& Behavior::getInRadius(){
-    return inRadius;
 }

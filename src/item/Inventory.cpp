@@ -30,6 +30,6 @@ void Inventory::remove(Item &item){
     update();
 }
 
-std::array<int, 10>& Inventory::getStats(){
+std::array<int, 11>& Inventory::getStats(){
     return stats;
 }

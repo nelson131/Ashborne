@@ -22,8 +22,7 @@ void Player::init(SDL_Renderer *renderer){
     }
 
     behavior.init(&player);
-    behavior.setPathing(false);
-    behavior.setVisionRadius(160 * SCALE);
+    behavior.getVision().setRange(160);
 }
 
 void Player::display(SDL_Renderer *renderer){
@@ -39,7 +38,7 @@ void Player::display(SDL_Renderer *renderer){
 void Player::update(){
     player.update();
     camera.update(player.position.x, player.position.y, player.getWidth());
-    behavior.updateVision();
+    behavior.getVision().update();
 
     if(player.hasDebugMode()){
         cursor.update();
@@ -68,7 +67,7 @@ void Player::handleInputKeyboard(){
     if(mouseState & SDL_BUTTON(SDL_BUTTON_LEFT)){
         if(timer.elapsedTime() < 1) return;
         timer.start();
-        for(Entity* e : behavior.getInRadius()){
+        for(Entity* e : behavior.getVision().getInRange()){
             Tile ct = Tile::worldToTile(cursor.getWorldX(), cursor.getWorldY(), e->getWidth());
             Tile et = Tile::worldToTile(e->position.x, e->position.y, e->getWidth());
             if(ct.getTileX() == et.getTileX() && ct.getTileY() == et.getTileY()){

@@ -2,6 +2,7 @@
 #define BEHAVIOR_H
 
 #include "Entity.h"
+#include "Vision.h"
 #include "../utils/Tile.h"
 #include <vector>
 
@@ -18,9 +19,12 @@ class Behavior {
 
     void init(Entity* e);
 
+    Vision& getVision();
+
     Relationship& getRelationship();
     void setRelationship(Relationship r);
 
+    // Pathing system funcs ->
     void setPathing(bool b);
     bool& getPathing();
     void updatePathing();
@@ -28,27 +32,16 @@ class Behavior {
     void removeDot(Tile t);
     std::vector<Tile>& getDots();
 
-    void setVisionRadius(float f);
-    float getVisionRadius();
-    float& getVisionRadiusReal();
-
-    void updateVision();
-    void addToRadius(Entity* e);
-    void removeFromRadius(Entity* e);
-    bool contains(Entity* e);
-    std::vector<Entity*>& getInRadius();
-
     private:
+    Vision vision;
+
     Entity* entity;
     Relationship rel;
     int SCALE = Config::parse<float>("game_info", "scale");
 
-    bool pathing;
+    bool pathing = false;
     int pathingIndex = 0;
     std::vector<Tile> dots;
-
-    float visionRadius;
-    std::vector<Entity*> inRadius;
 };
 
 #endif

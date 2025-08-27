@@ -71,7 +71,7 @@ class Entity {
     SDL_Texture *texture;
     SDL_Texture *hitboxTexture;
     SDL_RendererFlip flip;
-    int SCALE = 2;
+    int SCALE = Config::parse<float>("game_info", "scale");
 
     std::string flagName;
     int flagId;
@@ -97,7 +97,7 @@ class Entity {
 
     float cr = Config::parse<float>("entity_info", "collision_range");
 
-    float interactionRange = 300;
+    float interactionRange = 120;
 };
 
 #endif
