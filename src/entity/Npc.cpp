@@ -40,7 +40,7 @@ void Npc::render(){
 }
 
 void Npc::kill(){
-    npc.kill(npc);
+    npc.kill();
 }
 
 void Npc::setSpawnPars(float& x, float& y, int& w, int& h, std::string p, std::string& n, bool& anim, bool& debug){

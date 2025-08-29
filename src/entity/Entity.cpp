@@ -158,11 +158,11 @@ void Entity::render(){
     }
 }
 
-void Entity::kill(Entity& e){
+void Entity::kill(){
     // pretty bad business ->
     SDL_DestroyTexture(texture);
-    eHolder.remove(&e);
-    delete &e;
+    eHolder.remove(this);
+    delete this;
 }
 
 void Entity::snapToTile(Axis axis){

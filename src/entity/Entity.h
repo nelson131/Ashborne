@@ -25,7 +25,7 @@ class Entity {
     void create(float x, float y, int& w, int& h, const char* pathToTexture, std::string entityName, bool isAnimated, bool debugMode);
     void update();
     void render();
-    void kill(Entity& e);
+    void kill();
 
     void setDebugMode(bool b);
 

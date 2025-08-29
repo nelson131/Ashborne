@@ -32,6 +32,8 @@ class Behavior {
     void removeDot(Tile t);
     std::vector<Tile>& getDots();
 
+    // Pursuit system funcs ->
+
     private:
     Vision vision;
 
