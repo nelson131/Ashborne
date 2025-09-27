@@ -6,6 +6,7 @@
 #include "item/ItemHolder.h"
 #include "entity/Npc.h"
 #include "entity/Entity.h"
+#include "ui/UIManager.h"
 #include "utils/Tile.h"
 #include <iostream>
 #include <SDL2/SDL.h>
@@ -52,6 +53,8 @@ void Ashborne::init(const char *title, int x, int y, int width, int height, bool
     player.init(renderer);
 
     itemHolder.init();
+
+    uiManager.init(UIManager::InitType::PLAYER, nullptr);
 }
 
 void Ashborne::eventManager(){
@@ -71,6 +74,7 @@ void Ashborne::render(){
     //...
     sceneManager.ikuyo();
     player.display(renderer);
+    uiManager.render();
     //...
     SDL_RenderPresent(renderer);
 }

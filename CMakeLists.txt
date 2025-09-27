@@ -58,6 +58,10 @@ add_executable(Ashborne
  src/entity/Attributes.h
  src/entity/Vision.cpp
  src/entity/Vision.h
+ src/ui/UI.cpp
+ src/ui/UI.h
+ src/ui/UIManager.cpp
+ src/ui/UIManager.h
  )
 
 target_link_libraries(Ashborne
@@ -69,3 +73,7 @@ target_link_libraries(Ashborne
 add_custom_command(TARGET Ashborne POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
     ${CMAKE_SOURCE_DIR}/assets $<TARGET_FILE_DIR:Ashborne>/assets)
+
+add_custom_command(TARGET Ashborne POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_SOURCE_DIR}/resources $<TARGET_FILE_DIR:Ashborne>/resources)
