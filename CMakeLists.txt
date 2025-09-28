@@ -48,6 +48,7 @@ add_executable(Ashborne
  src/entity/Entity.h
  src/entity/Entity.cpp
  src/entity/EntityHolder.h
+ src/entity/EntityHolder.cpp
  src/entity/Animation.h
  src/entity/Animation.cpp
  src/entity/Npc.cpp

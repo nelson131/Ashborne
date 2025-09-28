@@ -36,9 +36,7 @@ int main(int, char**){
         if(frameDelay > frameTime){
             SDL_Delay(frameDelay - frameTime);
         }
-        
     }
-
     ashborne->exit();
 
     return 0;
