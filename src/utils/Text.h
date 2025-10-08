@@ -2,6 +2,7 @@
 #define TEXT_H
 
 #include "Logger.h"
+#include "../alg/Vector.h"
 #include <SDL2/SDL_ttf.h>
 
 class Text {
@@ -10,9 +11,11 @@ class Text {
 
     void ikuyo(const char *path);
     void render(SDL_Renderer *renderer, const char *message);
-    void move(float x, float y);
-    void clear();
     void quit();
+
+    void move(float x, float y);
+    void put(const Vector& v);
+    void clear();
     SDL_Texture *create(SDL_Renderer *renderer, const char *message);
 
     private:

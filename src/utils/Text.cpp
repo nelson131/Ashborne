@@ -44,6 +44,11 @@ void Text::move(float x, float y){
     rect.y = y;
 }
 
+void Text::put(const Vector& v){
+    rect.x = v.x;
+    rect.y = v.y;
+}
+
 void Text::clear(){
     if(texture){
         SDL_DestroyTexture(texture);
