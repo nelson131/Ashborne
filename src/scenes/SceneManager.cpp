@@ -11,31 +11,93 @@ SceneManager::SceneManager(){
     
 }
 
-void SceneManager::init(SDL_Renderer* r){
-    renderer = r;
-    //Test room ->
-    Testroom.name = "Test Room";
-    Testroom.id = 0;
-    Testroom.layers.clear();
+void SceneManager::init(SDL_Renderer* r, int id){
+    this->renderer = r;
 
-    layer1.init(false);
-    layer1.load("assets/floor/grass.png", renderer, 3);
-    layer1.setFromCSV(transform(Testroom.name), "layer1");
+    std::ifstream file("resources/scenes.ini");
+    if(!file.is_open()){
+        Logger::print(Logger::ERROR, "Failed to open scenes.ini");
+        return;
+    }
 
-    layer2.init(true);
-    layer2.load("assets/tilemaptest.png", renderer, 2);
-    layer2.setFromCSV(transform(Testroom.name), "layer2");
-        
-    Testroom.layers.push_back(layer1);
-    Testroom.layers.push_back(layer2);
-        
-    Testroom.colliders.insert(&layer2);
+    std::string line = "";
 
-    getHolder().insert(&Testroom);
-    // ^^^
+    Scene result = {};
+    int sceneId = -1;
+    std::string sceneName = "";
+    bool hasObject = false;
 
-    loadNPCs();
-    Logger::print(Logger::SUCCESS, "Scene manager initialized");
+    TilemapLayer layer = {};
+    std::string csvName = "";
+    int size = 0;
+    bool hasLayer = false;
+    while(getline(file, line)){
+        if(line[0] == '#' || line.empty()) continue;
+        if(line[0] == ';' && !hasLayer){
+            result.name = sceneName.c_str();
+            result.id = sceneId;
+            sceneManager.holder.push_back(result);
+            Logger::print(Logger::SUCCESS, "Scene -> ", result.name, " has been initializated");
+            return;
+        }
+        if(line[0] == '['){
+            line.erase(0, 1);
+            line.erase(line.size() - 1);
+            int lineId = std::stoi(line);
+            if(id == lineId){
+                hasObject = true;
+                sceneId = lineId;
+            } else {
+                hasObject = false;
+            }
+            continue;
+        }
+        if(hasObject){
+            if(line[0] == '>'){
+                hasLayer = true;
+                line.erase(0, 1);
+                line.erase(line.size() - 1);
+                line.erase(0, 1);
+                csvName = line;
+            }
+            if(line[1] == ';'){
+                layer.setFromCSV(transform(sceneName.c_str()), csvName.c_str());
+                result.layers.push_back(layer);
+                if(layer.isCollidable()) result.colliders.push_back(layer);
+                layer = {};
+                hasLayer = false;
+                continue;
+            }
+            size_t pos = line.find("=");
+            if(pos != std::string::npos){
+                std::string key = line.substr(0, pos);
+                std::string value = line.substr(pos + 1);
+                if(hasLayer){
+                    if(key[0] == ' ') key.erase(0, 1);
+                    if(key == "collidable"){
+                        if(value == "true"){
+                            layer.init(true);
+                            continue;
+                        }
+                        layer.init(false);
+                    }
+                    if(key == "size"){
+                        size = std::stoi(value);
+                        continue;
+                    }
+                    if(key == "path"){
+                        layer.load(value.c_str(), this->renderer, size);
+                        continue;
+                    }
+                }
+
+                if(key == "name"){
+                    sceneName = value;
+                    continue;
+                }
+            }
+        }
+    }
 }
 
 void SceneManager::update(){
@@ -58,9 +120,9 @@ void SceneManager::ikuyo(){
     }
 }
 
-Scene* SceneManager::findSceneById(int id){
-    for(Scene *scene : holder){
-        if(scene->id == id){
+Scene& SceneManager::findSceneById(int id){
+    for(Scene &scene : sceneManager.holder){
+        if(scene.id == id){
             return scene;
         }
     }
@@ -68,17 +130,18 @@ Scene* SceneManager::findSceneById(int id){
     exit(1);
 }
 
-Scene *SceneManager::getCurrentScene(){
+Scene* SceneManager::getCurrentScene(){
     return sceneManager.currentScene;
 }
 
-void SceneManager::setCurrentScene(Scene *scene) {
-    sceneManager.currentScene = scene;
-    for(Npc& npc : scene->npcs){
+void SceneManager::setCurrentScene(Scene& scene) {
+    sceneManager.currentScene = &scene;
+    loadNPCs();
+    for(Npc& npc : scene.npcs){
         npc.spawn();
     }
-
-    Logger::print(Logger::INFO, "Current scene is: ", scene->name);
+    
+    Logger::print(Logger::INFO, "Current scene is: ", scene.name);
 }
 
 void SceneManager::loadNPCs(){
@@ -87,8 +150,14 @@ void SceneManager::loadNPCs(){
         Logger::print(Logger::ERROR, "Failed to find npc.ini file");
         return;
     }
+    if(currentScene == nullptr){
+        Logger::print(Logger::ERROR, "Failed to load npcs cause current scene is nullptr");
+        return;
+    }
+    int sceneId = currentScene->id;
+
     Npc object;
-    int sceneId, width, height;
+    int width, height;
     float x, y;
     std::string name, filePath;
     bool animated, debugmode, pathing;
@@ -103,7 +172,7 @@ void SceneManager::loadNPCs(){
             object.setSpawnPars(x, y, width, height, filePath, name, animated, debugmode);
             object.setBehavior(pathing, visionr);
             if(pathing) object.addDots(dots);
-            findSceneById(sceneId)->npcs.push_back(object);
+            findSceneById(sceneId).npcs.push_back(object);
 
             hasObject = false;
             object = Npc{};
@@ -183,7 +252,7 @@ void SceneManager::loadNPCs(){
     }
 }
 
-std::set<Scene*>& SceneManager::getHolder(){
+std::vector<Scene>& SceneManager::getHolder(){
     return sceneManager.holder;
 }
 

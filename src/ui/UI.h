@@ -1,9 +1,14 @@
 #ifndef UI_H
 #define UI_H
 
+#include "UIModule.h"
 #include "../alg/Vector.h"
 #include <SDL2/SDL.h>
 #include <string>
+
+struct Container {
+    std::vector<UIModule::Image> images;
+};
 
 class UI {
     public:
@@ -13,14 +18,13 @@ class UI {
     void render();
 
     std::string title = "";
-    std::string texturePath = "";
     int id = -1;
     bool locked = true;
     bool visible = true;
-    SDL_Texture* texture;
 
     Vector position = {0, 0};
-    Vector size = {0, 0};
+
+    Container container;
 
     private:
     SDL_Rect destRect = {0, 0, 0, 0};

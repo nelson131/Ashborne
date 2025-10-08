@@ -6,8 +6,6 @@
 #include <set>
 #include <memory>
 
-class Csv;
-
 struct Item
 {
     std::string name;

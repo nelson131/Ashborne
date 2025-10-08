@@ -47,13 +47,13 @@ void Ashborne::init(const char *title, int x, int y, int width, int height, bool
 
     eHolder.init(renderer);
 
-    sceneManager.init(renderer);
+    sceneManager.init(renderer, 0);
     sceneManager.setCurrentScene(sceneManager.findSceneById(0));
 
     player.init(renderer);
 
     itemHolder.init();
-
+    
     uiManager.init(UIManager::InitType::PLAYER, nullptr);
 }
 

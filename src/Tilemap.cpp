@@ -10,8 +10,8 @@ TilemapLayer::TilemapLayer(){
     
 }
 
-void TilemapLayer::init(bool collisible){
-    isCollidable = collisible;
+void TilemapLayer::init(bool coll){
+    this->collidable = coll;
 }
 
 void TilemapLayer::render(SDL_Renderer *renderer){
@@ -123,7 +123,7 @@ void TilemapLayer::load(const  char *filePath, SDL_Renderer *renderer, int tiles
 }
 
 bool TilemapLayer::isBlocked(float x, float y){
-    if(!isCollidable){
+    if(!isCollidable()){
         Logger::print(Logger::ERROR, "Tried to check a blocked tile but tilemap is not collidable");
         return false;
     }
@@ -140,4 +140,8 @@ bool TilemapLayer::isBlocked(float x, float y){
     if(tileX < 0 || tileX >= map[0].size()) return false;
 
     return map[tileY][tileX] != TILE_EMPTY;
+}
+
+bool& TilemapLayer::isCollidable(){
+    return this->collidable;
 }

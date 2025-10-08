@@ -14,7 +14,7 @@ class TilemapLayer {
     public:
     TilemapLayer();
 
-    void init(bool collisble);
+    void init(bool coll);
 
     void load(const char *filePath, SDL_Renderer *renderer, int tilesSize);
     void render(SDL_Renderer *renderer);
@@ -23,6 +23,7 @@ class TilemapLayer {
     void debug();
 
     bool isBlocked(float x, float y);
+    bool& isCollidable();
 
     int id;
     bool operator<(const TilemapLayer& other) const {
@@ -36,7 +37,7 @@ class TilemapLayer {
     int tilesPerRow;
     int SCALE = Config::parse<float>("game_info", "scale");
 
-    bool isCollidable;
+    bool collidable = false;
 };
 
 #endif

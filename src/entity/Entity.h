@@ -45,7 +45,7 @@ class Entity {
     Inventory* getInventory();
     Attributes* getAttributes();
 
-    bool hasCollider(TilemapLayer* t);
+    bool hasCollider(TilemapLayer& t);
     bool hasColliderWith(Entity* e);
 
     enum class Interaction {

@@ -31,11 +31,14 @@ void UIManager::init(InitType type, const char* title){
         return;
     }
 
-    std::string line;
-
     UI result = {};
     std::string objectTitle = "";
+
+    UIModule::Image img = {};
+
+    std::string line;
     bool hasObject = false;
+    bool hasModule = false;
     while(getline(file, line)){
         if(line[0] == '#' || line.empty()) continue;
         if(line[0] == '['){
@@ -48,26 +51,42 @@ void UIManager::init(InitType type, const char* title){
             }
             else hasObject = true;
         }
-        if(hasObject){
-            if(line[0] == ';'){
-                std::vector<UI>* pointStash = nullptr;
-                switch (type){
-                    case InitType::PLAYER:
-                        pointStash = &uiManager.stash.player;
-                        break;
-                    case InitType::WORLD:
-                        pointStash = &uiManager.stash.world;
-                        break;
-                    default:
-                        break;
-                }
-                result.init();
-                pointStash->push_back(result);
-                result = {};
-                hasObject = false;
+        if(line[0] == '>'){
+            hasModule = true;
 
-                if(title == nullptr){
-                    return;
+            std::string moduleTitle = line;
+            moduleTitle.erase(0, 1);
+            moduleTitle.erase(0, 1);
+            moduleTitle.erase(objectTitle.size() - 1);
+        }
+        if(hasObject){
+            if(line[1] == ';' && hasModule){
+                result.container.images.push_back(img);
+                continue;
+            }
+            if(line[0] == ';'){
+                if(!hasModule){
+                    std::vector<UI>* pointStash = nullptr;
+                    switch(type){
+                        case InitType::PLAYER:
+                            pointStash = &uiManager.stash.player;
+                            break;
+                        case InitType::WORLD:
+                            pointStash = &uiManager.stash.world;
+                            break;
+                        default:
+                            break;
+                    }
+                    result.init();
+                    pointStash->push_back(result);
+
+                    result= {};
+                    hasObject = false;
+                    if(title != nullptr){
+                        return;
+                    }
+                } else {
+                    hasModule = false;
                 }
             }
             size_t npos = line.find("=");
@@ -75,16 +94,33 @@ void UIManager::init(InitType type, const char* title){
                 std::string key = line.substr(0, npos);
                 std::string value = line.substr(npos + 1);
 
+                // UI Module parsing >>
+                if(hasModule){
+                    key.erase(0, 1);
+                    if(key == "position"){
+                        size_t bpos = value.find("|");
+                        if(bpos != std::string::npos){
+                            float x = std::stof(value.substr(0, bpos));
+                            float y = std::stof(value.substr(bpos + 1));
+                            img.local.x = x;
+                            img.local.y = y;
+                            continue;
+                        }
+                    }
+                    if(key == "texture"){
+                        img.texturePath = value;
+                        continue;
+                    }
+                }
+
+                // Main UI settings parsing >>
                 if(key == "is-static"){
                     result.locked = (value == "true");
                     continue;
                 }
-                if(key == "size"){
-                    size_t bpos = value.find("|");
-                    if(bpos != std::string::npos){
-                        result.size.x = std::stof(value.substr(0, bpos));
-                        result.size.y = std::stof(value.substr(bpos + 1));
-                    }
+                if(key == "visible"){
+                    if(value == "true" || value.empty()) result.visible = true;
+                    else result.visible = false;
                     continue;
                 }
                 if(key == "vector"){
@@ -95,26 +131,17 @@ void UIManager::init(InitType type, const char* title){
                     }
                     continue;
                 }
-                if(key == "texture-path"){
-                    result.texturePath = "assets/" + value;
-                    continue;
-                }
             }
         }
     }
-
-    /*
-    test.id = 1;
-    test.title = "test";
-    test.texturePath = "assets/playertest.png";
-    test.size = {200, 200};
-    test.visible = true;
-
-    test.init(); */
 }
 
 void UIManager::update(){
 
+}
+
+void UIManager::handle(){
+    
 }
 
 void UIManager::render(){

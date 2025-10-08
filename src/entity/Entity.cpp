@@ -68,7 +68,7 @@ void Entity::update() {
 
     bool collidedX = false;
 
-    for (TilemapLayer* t : sceneManager.getCurrentScene()->colliders) {
+    for (TilemapLayer& t : sceneManager.getCurrentScene()->colliders) {
         if (hasCollider(t)) {
             collidedX = true;
             break;
@@ -98,7 +98,7 @@ void Entity::update() {
 
     bool collidedY = false;
 
-    for (TilemapLayer* t : sceneManager.getCurrentScene()->colliders) {
+    for (TilemapLayer& t : sceneManager.getCurrentScene()->colliders) {
         if (hasCollider(t)) {
             collidedY = true;
             break;
@@ -346,7 +346,7 @@ Attributes* Entity::getAttributes(){
     return &attributes;
 }
 
-bool Entity::hasCollider(TilemapLayer* t){
+bool Entity::hasCollider(TilemapLayer& t){
     float x1 = hitbox.x;
     float y1 = hitbox.y;
     float x2 = hitbox.x + hitbox.w - 1;
@@ -354,7 +354,7 @@ bool Entity::hasCollider(TilemapLayer* t){
 
     for(int y = y1; y <= y2; y++){
         for(int x = x1; x <= x2; x++){
-            if(t->isBlocked(x, y)){
+            if(t.isBlocked(x, y)){
                 return true;
             }
         }

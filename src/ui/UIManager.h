@@ -22,9 +22,12 @@ class UIManager {
 
     void init(InitType type, const char* name);
     void update();
+    void handle();
     void render();
 
     Stash stash;
+
+    private:
 };
 
 extern UIManager uiManager;

@@ -5,22 +5,17 @@
 #include "../utils/Logger.h"
 #include <iostream>
 #include <SDL2/SDL.h>
-#include <list>
-#include <set>
 #include <vector>
+#include <string>
 
 class Npc;
 
 struct Scene {
-    const char *name;
+    std::string name;
     int id;
-    std::list<TilemapLayer> layers;
-    std::set<TilemapLayer*> colliders;
+    std::vector<TilemapLayer> layers;
+    std::vector<TilemapLayer> colliders;
     std::vector<Npc> npcs;
-
-    bool operator<(const Scene &other) const {
-        return id < other.id;
-    }
 };
 
 class SceneManager {
@@ -28,15 +23,15 @@ class SceneManager {
     public:
     SceneManager();
 
-    void init(SDL_Renderer* r);
+    void init(SDL_Renderer* r, int id);
     void update();
     void ikuyo();
 
-    void setCurrentScene(Scene *scene);
-    Scene *getCurrentScene();
-    Scene* findSceneById(int id);
+    void setCurrentScene(Scene& scene);
+    Scene* getCurrentScene();
+    Scene& findSceneById(int id);
 
-    std::set<Scene*>& getHolder();
+    std::vector<Scene>& getHolder();
 
     private:
     void loadNPCs();
@@ -46,7 +41,7 @@ class SceneManager {
 
     SDL_Renderer *renderer;
     Scene *currentScene = nullptr;
-    std::set<Scene*> holder;
+    std::vector<Scene> holder;
 
     Scene Testroom;
 
