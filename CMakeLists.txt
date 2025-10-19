@@ -63,6 +63,8 @@ add_executable(Ashborne
  src/ui/UI.h
  src/ui/UIManager.cpp
  src/ui/UIManager.h
+ src/ui/UIModule.cpp
+ src/ui/UIModule.h
  )
 
 target_link_libraries(Ashborne

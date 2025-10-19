@@ -354,17 +354,17 @@ void Entity::createAttributes(){
 }
 
 Animation* Entity::getAnim(){
-    if(animation.get() == nullptr) Logger::print(Logger::ERROR, "Trying to get animation module but anim is nullptr");
+    if(animation.get() == nullptr) Logger::print(Logger::ERROR, "Animation (", flagName, ") is nullptr");
     return animation.get();
 }
 
 Inventory* Entity::getInventory(){
-    if(animation.get() == nullptr) Logger::print(Logger::ERROR, "Trying to get inventory module but inv is nullptr");
+    if(inventory.get() == nullptr) Logger::print(Logger::ERROR, "Inventory (", flagName, ") is nullptr");
     return inventory.get();
 }
 
 Attributes* Entity::getAttributes(){
-    if(animation.get() == nullptr) Logger::print(Logger::ERROR, "Trying to get attributes module but attr is nullptr");
+    if(attributes.get() == nullptr) Logger::print(Logger::ERROR, "Attributes (", flagName, ") is nullptr");
     return attributes.get();
 }
 

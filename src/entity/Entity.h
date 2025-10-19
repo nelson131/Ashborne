@@ -62,9 +62,9 @@ class Entity {
     SDL_Rect srcRect, destRect;
 
     private:
-    std::unique_ptr<Inventory> inventory;
-    std::unique_ptr<Animation> animation;
-    std::unique_ptr<Attributes> attributes;
+    std::shared_ptr<Inventory> inventory;
+    std::shared_ptr<Animation> animation;
+    std::shared_ptr<Attributes> attributes;
 
     void createAnimation();
     void createInventory();

@@ -14,12 +14,8 @@ class TilemapLayer {
     public:
     TilemapLayer();
 
-<<<<<<< HEAD
-    void init(bool coll);
-=======
-    void init(bool collisble);
+    void init(bool collidable);
     void render(SDL_Renderer *renderer);
->>>>>>> 4194dfb (refactoring entity class)
 
     void load(const char *filePath, SDL_Renderer *renderer, int tilesSize);
 

@@ -10,8 +10,8 @@ TilemapLayer::TilemapLayer(){
     
 }
 
-void TilemapLayer::init(bool coll){
-    this->collidable = coll;
+void TilemapLayer::init(bool collidable){
+    this->collidable = collidable;
 }
 
 void TilemapLayer::render(SDL_Renderer *renderer){

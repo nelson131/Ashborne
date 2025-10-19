@@ -11,6 +11,8 @@
 namespace UIModule {
 
     struct Base {
+        Base();
+        virtual ~Base();
         SDL_Renderer* renderer = eHolder.getRenderer(); 
 
         Vector local = {0, 0};
