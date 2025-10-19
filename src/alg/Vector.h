@@ -62,6 +62,8 @@ class Vector {
     float dsin(float& f);
     float cos(float& f);
     float dcos(float& f);
+
+    float MDistance(const Vector v);
 };
 
 

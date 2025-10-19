@@ -73,6 +73,8 @@
         "text_encoding": "cpp",
         "variant": "cpp",
         "forward_list": "cpp",
-        "any": "cpp"
+        "any": "cpp",
+        "hash_map": "cpp",
+        "hash_set": "cpp"
     }
 }

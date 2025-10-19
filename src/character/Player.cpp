@@ -14,7 +14,7 @@ Player::Player(){
 }
 
 void Player::init(SDL_Renderer *renderer){
-    player.create(0, 0, width, height, texturePath, "Player", true, true);
+    player.create(Vector(0, 0), Vector(width, height), texturePath, "Player", true, true, true);
     player.setHitboxSizeCentered(22, 47);
 
     if(player.hasDebugMode()){

@@ -74,6 +74,8 @@ void ItemHolder::init(){
             }
         }
     }
+    
+    Logger::print(Logger::SUCCESS, "Item holder initialized");
 }
 
 std::set<Item>& ItemHolder::get() const{

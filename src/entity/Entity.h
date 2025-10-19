@@ -22,7 +22,7 @@ class Entity {
     public:
     Entity();
 
-    void create(float x, float y, int& w, int& h, const char* pathToTexture, std::string entityName, bool isAnimated, bool debugMode);
+    void create(const Vector position, const Vector size, const char* pathToTexture, std::string entityName, bool isLiving, bool isAnimated, bool debugMode);
     void update();
     void render();
     void kill();
@@ -40,8 +40,8 @@ class Entity {
 
     void setHeight(int h);
     int& getHeight();
-    
-    Animation& getAnim();
+
+    Animation* getAnim();
     Inventory* getInventory();
     Attributes* getAttributes();
 
@@ -62,9 +62,13 @@ class Entity {
     SDL_Rect srcRect, destRect;
 
     private:
-    Inventory inventory;
-    Animation animation;
-    Attributes attributes;
+    std::unique_ptr<Inventory> inventory;
+    std::unique_ptr<Animation> animation;
+    std::unique_ptr<Attributes> attributes;
+
+    void createAnimation();
+    void createInventory();
+    void createAttributes();
 
     Text textName;
     Text textId;
@@ -76,7 +80,7 @@ class Entity {
     std::string flagName;
     int flagId;
     const char*  file;
-    bool isDebugMode, isAnimated;
+    bool isDebugMode;
 
     int width, height;
 

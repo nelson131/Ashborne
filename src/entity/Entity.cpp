@@ -17,12 +17,13 @@ Entity::Entity(){
     hitboxTexture = nullptr;
 }
 
-void Entity::create(float x, float y, int& w, int& h, const char* pathToTexture, std::string entityName, bool animated, bool debugMode){
-    width = w * SCALE;
-    height = h * SCALE;
+void Entity::create(const Vector position, const Vector size, const char* pathToTexture, std::string entityName, bool isLiving, bool isAnimated, bool hasDebugMode){
+    width = size.x * SCALE;
+    height = size.y * SCALE;
     
-    position.x = x;
-    position.y = y;
+    this->position.x = position.x;
+    this->position.y = position.y;
+    
     velocity = {0, 0};
     destRect.w = width;
     destRect.h = height;
@@ -32,26 +33,32 @@ void Entity::create(float x, float y, int& w, int& h, const char* pathToTexture,
     flagName = entityName;
     flagId = eHolder.getUniqueId();
     file = pathToTexture;
-    isAnimated = animated;
-    isDebugMode = debugMode;
-    
-    eHolder.add(this);
+    isDebugMode = hasDebugMode;
+
     setTexture();
 
-    if(debugMode){
+    if(hasDebugMode){
         loadHitbox();
         textName.ikuyo("assets/fonts/Roboto-Black.ttf");
         textId.ikuyo("assets/fonts/Roboto-Black.ttf");
         Logger::print(Logger::DEBUG, "Debug mode (", flagName, ") is active");
     }
 
-    if(animated){
-        this->animation.setup(flagName);
-        this->animation.setActive(this->animation.toTypeFrom("IDLE_DOWN"));
+    if(isAnimated){
+        createAnimation();
+        animation->setup(flagName);
+        animation->setActive(animation->toTypeFrom("IDLE_DOWN"));
     }
 
-    this->attributes.init(*this);
-    this->attributes.setDefaultStats();
+    if(isLiving){
+        createInventory();
+        createAttributes();
+
+        attributes->init(*this);
+        attributes->setDefaultStats();
+    }
+
+    eHolder.add(this);
 }
 
 void Entity::update() {
@@ -131,8 +138,8 @@ void Entity::render(){
         height
     };
 
-    if(isAnimated){
-        animation.play(srcRect, texture, flip);
+    if(animation){
+        animation->play(srcRect, texture, flip);
     }
 
     if(!flip) flip = SDL_FLIP_NONE;
@@ -210,44 +217,44 @@ void Entity::snapToEntity(Axis axis, Entity* e){
 }
 
 void Entity::handleAnims(){
-    if(!isAnimated) return;
+    if(!animation) return;
 
     // Activation idle anims when entity stops ->
     if(velocity.x == 0 && velocity.y == 0){
         if(lastDirX == 0 && lastDirY > 0){
-            this->animation.setActive(this->animation.toTypeFrom("IDLE_DOWN"));
+            this->animation->setActive(this->animation->toTypeFrom("IDLE_DOWN"));
             return;
         }
         if(lastDirX == 0 && lastDirY < 0){
-            this->animation.setActive(this->animation.toTypeFrom("IDLE_UP"));
+            this->animation->setActive(this->animation->toTypeFrom("IDLE_UP"));
             return;
         }
         if(lastDirX > 0){
-            this->animation.setActive(this->animation.toTypeFrom("IDLE_RIGHT"));
+            this->animation->setActive(this->animation->toTypeFrom("IDLE_RIGHT"));
             return;
         }
         if(lastDirX < 0){
-            this->animation.setActive(this->animation.toTypeFrom("IDLE_LEFT"));
+            this->animation->setActive(this->animation->toTypeFrom("IDLE_LEFT"));
             return;
         }
-        this->animation.setActive(this->animation.toTypeFrom("IDLE_RIGHT"));
+        this->animation->setActive(this->animation->toTypeFrom("IDLE_RIGHT"));
     }
 
     // Activation run anims when entity moves ->
     if(velocity.x == 0 && velocity.y > 0){
-        this->animation.setActive(this->animation.toTypeFrom("RUN_DOWN"));
+        this->animation->setActive(this->animation->toTypeFrom("RUN_DOWN"));
         return;
     }
     if(velocity.x == 0 && velocity.y < 0){
-        this->animation.setActive(this->animation.toTypeFrom("RUN_UP"));
+        this->animation->setActive(this->animation->toTypeFrom("RUN_UP"));
         return;
     }
     if(velocity.x > 0){
-        this->animation.setActive(this->animation.toTypeFrom("RUN_RIGHT"));
+        this->animation->setActive(this->animation->toTypeFrom("RUN_RIGHT"));
         return;
     }
     if(velocity.x < 0){
-        this->animation.setActive(this->animation.toTypeFrom("RUN_LEFT"));
+        this->animation->setActive(this->animation->toTypeFrom("RUN_LEFT"));
         return;
     }
 }
@@ -334,16 +341,31 @@ int& Entity::getHeight(){
     return height;
 }
 
-Animation& Entity::getAnim(){
-    return animation;
+void Entity::createAnimation(){
+    animation = std::make_unique<Animation>();
+}
+
+void Entity::createInventory(){
+    inventory = std::make_unique<Inventory>();
+}
+
+void Entity::createAttributes(){
+    attributes = std::make_unique<Attributes>();
+}
+
+Animation* Entity::getAnim(){
+    if(animation.get() == nullptr) Logger::print(Logger::ERROR, "Trying to get animation module but anim is nullptr");
+    return animation.get();
 }
 
 Inventory* Entity::getInventory(){
-    return &inventory;
+    if(animation.get() == nullptr) Logger::print(Logger::ERROR, "Trying to get inventory module but inv is nullptr");
+    return inventory.get();
 }
 
 Attributes* Entity::getAttributes(){
-    return &attributes;
+    if(animation.get() == nullptr) Logger::print(Logger::ERROR, "Trying to get attributes module but attr is nullptr");
+    return attributes.get();
 }
 
 bool Entity::hasCollider(TilemapLayer& t){
@@ -385,8 +407,8 @@ bool Entity::hasColliderWith(Entity* e){
 }
 
 void Entity::interactWith(Interaction interact, Entity* e2){
-    if(attributes.getAttackRange() * SCALE != interactionRange){
-        interactionRange = attributes.getAttackRange() * SCALE;
+    if(attributes->getAttackRange() * SCALE != interactionRange){
+        interactionRange = attributes->getAttackRange() * SCALE;
     }
     
     if(this->position.getDistance(e2->position) >= interactionRange){
@@ -396,7 +418,7 @@ void Entity::interactWith(Interaction interact, Entity* e2){
     switch(interact){
         case Interaction::ATTACK:
             Logger::print(Logger::DEBUG, "hp before: ", e2->getAttributes()->getHP());
-            e2->getAttributes()->getHP() -= (this->attributes.getPhysicalDamage() - (e2->getAttributes()->getArmor() * 0.5) - (e2->getAttributes()->getPhysicalResistance() * 0.3));
+            e2->getAttributes()->getHP() -= (this->attributes->getPhysicalDamage() - (e2->getAttributes()->getArmor() * 0.5) - (e2->getAttributes()->getPhysicalResistance() * 0.3));
             Logger::print(Logger::DEBUG, "hp after: ", e2->getAttributes()->getHP());
             break;
         default:

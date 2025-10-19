@@ -195,3 +195,7 @@ float Vector::cos(float& f){
 float Vector::dcos(float& f){
     return acos(f) * (180.0 / M_PI);
 }
+
+float Vector::MDistance(const Vector v){
+    return fabs(this->x - v.x) + fabs(this->y - v.y);
+}

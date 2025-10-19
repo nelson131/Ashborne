@@ -89,6 +89,10 @@ void TilemapLayer::setFromCSV(const char *csvName, const char *keyTitle){
     map = result;
 }
 
+std::vector<std::vector<int>> TilemapLayer::get(){
+    return this->map;
+}
+
 void TilemapLayer::debug(){
     if(map.empty()){
         Logger::print(Logger::ERROR, "Map is empty");

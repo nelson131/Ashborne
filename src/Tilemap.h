@@ -14,12 +14,19 @@ class TilemapLayer {
     public:
     TilemapLayer();
 
+<<<<<<< HEAD
     void init(bool coll);
+=======
+    void init(bool collisble);
+    void render(SDL_Renderer *renderer);
+>>>>>>> 4194dfb (refactoring entity class)
 
     void load(const char *filePath, SDL_Renderer *renderer, int tilesSize);
-    void render(SDL_Renderer *renderer);
+
     void set(std::vector<std::vector<int>> &mapSet);
     void setFromCSV(const char *csvName, const char *keyTitle);
+    std::vector<std::vector<int>> get();
+
     void debug();
 
     bool isBlocked(float x, float y);

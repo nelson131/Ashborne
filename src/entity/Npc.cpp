@@ -13,10 +13,11 @@ Npc::Npc(){
 
 void Npc::spawn(){
     npc.create(
-        spawnX, spawnY,
-        width, height,
+        Vector(spawnX, spawnY),
+        Vector(width, height),
         path.c_str(),
         name,
+        true,
         animated,
         debugmode
     );
