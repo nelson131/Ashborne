@@ -21,7 +21,7 @@ int main(int, char**){
     int WINDOW_WIDTH = config->parse<int>("game_info", "screen_width");
     int WINDOW_HEIGHT = config->parse<int>("game_info", "screen_height");
 
-    Logger::print(Logger::DEBUG, "Current game version: ", config->parse<std::string>("game_info", "version"));
+    Logger::print(Logger::INFO, "Version -> ", config->parse<std::string>("game_info", "version"));
 
     ashborne->init("Ashborne", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, false);
     while(ashborne->isRunning()){

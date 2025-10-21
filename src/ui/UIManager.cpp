@@ -34,7 +34,11 @@ void UIManager::init(InitType type, const char* title){
     UI result = {};
     std::string objectTitle = "";
 
-    UIModule::Image img = {};
+    std::string moduleTitle = "";
+    Vector position = {0, 0};
+    Vector size = {0, 0};
+    std::string fuck = "";
+    std::string message = "";
 
     std::string line;
     bool hasObject = false;
@@ -61,32 +65,45 @@ void UIManager::init(InitType type, const char* title){
         }
         if(hasObject){
             if(line[1] == ';' && hasModule){
-                result.container.images.push_back(img);
-                continue;
+                hasModule = false;
+                if(moduleTitle == "image"){
+                    auto* img = result.addModule<UIModule::Image>();
+                    img->local = position;
+                    img->size = size;
+                    img->texturePath = fuck;
+                    img->init();
+                    continue;
+                }
+                if(moduleTitle == "message"){
+                    auto* msg = result.addModule<UIModule::Message>();
+                    msg->local = position;
+                    msg->size = size;
+                    msg->font = fuck;
+                    msg->content = message;
+                    msg->init();
+                    continue;
+                }
             }
-            if(line[0] == ';'){
-                if(!hasModule){
-                    std::vector<UI>* pointStash = nullptr;
-                    switch(type){
-                        case InitType::PLAYER:
-                            pointStash = &uiManager.stash.player;
-                            break;
-                        case InitType::WORLD:
-                            pointStash = &uiManager.stash.world;
-                            break;
-                        default:
-                            break;
-                    }
-                    result.init();
-                    pointStash->push_back(result);
+            if(line[0] == ';' && !hasModule){
+                std::vector<UI>* pointStash = nullptr;
+                switch(type){
+                    case InitType::PLAYER:
+                        pointStash = &uiManager.stash.player;
+                        break;
+                    case InitType::WORLD:
+                        pointStash = &uiManager.stash.world;
+                        break;
+                    default:
+                        break;
+                }
+                result.init();
+                pointStash->push_back(std::move(result));
 
-                    result= {};
-                    hasObject = false;
-                    if(title != nullptr){
-                        return;
-                    }
-                } else {
-                    hasModule = false;
+                result= {};
+                hasObject = false;
+                if(title != nullptr){
+                    Logger::print(Logger::SUCCESS, "UI (", objectTitle, ") has been initialized");
+                    return;
                 }
             }
             size_t npos = line.find("=");
@@ -97,18 +114,31 @@ void UIManager::init(InitType type, const char* title){
                 // UI Module parsing >>
                 if(hasModule){
                     key.erase(0, 1);
+
                     if(key == "position"){
                         size_t bpos = value.find("|");
                         if(bpos != std::string::npos){
                             float x = std::stof(value.substr(0, bpos));
                             float y = std::stof(value.substr(bpos + 1));
-                            img.local.x = x;
-                            img.local.y = y;
+                            position = {x, y};
                             continue;
                         }
                     }
-                    if(key == "texture"){
-                        img.texturePath = value;
+                    if(key == "size"){
+                        size_t bpos = value.find("|");
+                        if(bpos != std::string::npos){
+                            float w = std::stof(value.substr(0, bpos));
+                            float h = std::stof(value.substr(bpos + 1));
+                            size = {w, h};
+                            continue;
+                        }
+                    }
+                    if(key == "texture" || key == "font"){
+                        fuck = value;
+                        continue;
+                    }
+                    if(key == "message"){
+                        message = value;
                         continue;
                     }
                 }
@@ -134,26 +164,20 @@ void UIManager::init(InitType type, const char* title){
             }
         }
     }
+    Logger::print(Logger::SUCCESS, "UI has been initialized");
+    Logger::print(Logger::ERROR, uiManager.stash.player.size(), "|", uiManager.stash.player[0].position.x, ";", uiManager.stash.player[0].position.y);
 }
 
 void UIManager::update(){
-
-}
-
-void UIManager::handle(){
-    
+    for(int i = 0; i < uiManager.stash.player.size(); i++){
+        uiManager.stash.player[i].update();
+    }
 }
 
 void UIManager::render(){
     for(int i = 0; i < uiManager.stash.player.size(); i++){
         if(uiManager.stash.player[i].visible == true){
             uiManager.stash.player[i].render();
-        }
-    }
-
-    for(int i = 0; i < uiManager.stash.world.size(); i++){
-        if(uiManager.stash.world[i].visible == true){
-            uiManager.stash.world[i].render();
         }
     }
 }

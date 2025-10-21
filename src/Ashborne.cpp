@@ -85,6 +85,7 @@ void Ashborne::update(){
     player.handleInputKeyboard();
     player.update();
     sceneManager.update();
+    uiManager.update();
 
     //std::cout << count << std::endl;
 }

@@ -8,7 +8,7 @@ namespace UIModule {
     Base::Base(){}
     Base::~Base() = default;
 
-    void Base::init(const Vector v, const Vector size){}
+    void Base::init(){}
     void Base::update(Vector& relative){}
     void Base::render(){}
 

@@ -10,27 +10,31 @@ UI::UI(){
 }
 
 void UI::init(){
-    for(int i = 0; i < this->container.images.size(); i++){
-        
-    }
+
 }
 
 void UI::update(){
-
+    for(auto& module : container.modules){
+        if(!module){
+            Logger::print(Logger::ERROR, "Failed to update UI (", title, ") module");
+            continue;
+        }
+        module->update(position);
+    }
 }
 
 void UI::render(){
-    if(destRect.w == 0 || destRect.h == 0){
+    if(!visible) return;
 
+    for(auto& module : container.modules){
+        if(!module){
+            Logger::print(Logger::ERROR, "Failed to render UI (", title, ") module");
+            continue;
+        }
+        module->render();
     }
+}
 
-    int windowWidth, windowHeight;
-    SDL_GetRendererOutputSize(eHolder.getRenderer(), &windowWidth, &windowHeight);
-    if(locked){
-        destRect.x = static_cast<int>(this->position.x);
-        //destRect.y = static_cast<int>(windowHeight - this->size.y - this->position.y);
-    } else {
-        std::cout << "wtf" << std::endl;
-    }
-
+ContainerUI& UI::getContainer(){
+    return this->container;
 }

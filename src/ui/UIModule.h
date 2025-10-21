@@ -17,10 +17,11 @@ namespace UIModule {
 
         Vector local = {0, 0};
         Vector global = {0, 0};
+        Vector size = {0, 0};
         SDL_Rect destRect = {0, 0, 0, 0};
         SDL_Rect srcRect = {0, 0, 0, 0};
 
-        virtual void init(const Vector v, const Vector size);
+        virtual void init();
         virtual void update(Vector& relative);
         virtual void render();
     };
@@ -29,17 +30,25 @@ namespace UIModule {
         std::string texturePath = ""; 
         SDL_Texture *texture = nullptr;
 
-        void init(const Vector v, const Vector size) override {
-            this->local = v;
+        void init() override {
             destRect.w = size.x;
             srcRect.w = destRect.w;
             destRect.h = size.y;
             srcRect.h = destRect.h;
+
+            if(!texture){
+                Logger::print(Logger::ERROR, "Failed to load ImageUI cause texture path is nullptr");
+                return;
+            }
+            load();
         }
 
         void update(Vector& relative) override {
             global.x = relative.x + local.x;
-            global.y = relative.y - local.y;
+            global.y = relative.y + local.y;
+
+            destRect.x = global.x;
+            destRect.y = global.y;
         }
 
         void render() override {
@@ -51,6 +60,10 @@ namespace UIModule {
                 SDL_DestroyTexture(texture);
             }
             texture = TextureManager::load(texturePath.c_str(), this->renderer);
+            if(!texture){
+                Logger::print(Logger::ERROR, "Failed to load ui texture");
+                return;
+            }
         }
     };
 
@@ -59,8 +72,7 @@ namespace UIModule {
         std::string content = "";
         std::string font = "";
 
-        void init(const Vector v, const Vector size) override {
-            this->local = v;
+        void init() override {
             destRect.w = size.x;
             srcRect.w = destRect.w;
             destRect.h = size.y;
@@ -75,7 +87,7 @@ namespace UIModule {
 
         void update(Vector& relative) override {
             global.x = relative.x + local.x;
-            global.y = relative.y - local.y;
+            global.y = relative.y + local.y;
             text.put(global);
         }
 
