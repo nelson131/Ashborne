@@ -49,6 +49,7 @@ void UIManager::init(InitType type, const char* title){
             objectTitle = line;
             objectTitle.erase(0, 1);
             objectTitle.erase(objectTitle.size() - 1);
+            result.title = objectTitle;
             
             if(title != nullptr){
                 hasObject = (objectTitle == title);
@@ -58,10 +59,10 @@ void UIManager::init(InitType type, const char* title){
         if(line[0] == '>'){
             hasModule = true;
 
-            std::string moduleTitle = line;
+            moduleTitle = line;
             moduleTitle.erase(0, 1);
             moduleTitle.erase(0, 1);
-            moduleTitle.erase(objectTitle.size() - 1);
+            moduleTitle.erase(moduleTitle.size() - 1);
         }
         if(hasObject){
             if(line[1] == ';' && hasModule){
@@ -165,7 +166,6 @@ void UIManager::init(InitType type, const char* title){
         }
     }
     Logger::print(Logger::SUCCESS, "UI has been initialized");
-    Logger::print(Logger::ERROR, uiManager.stash.player.size(), "|", uiManager.stash.player[0].position.x, ";", uiManager.stash.player[0].position.y);
 }
 
 void UIManager::update(){

@@ -35,11 +35,6 @@ namespace UIModule {
             srcRect.w = destRect.w;
             destRect.h = size.y;
             srcRect.h = destRect.h;
-
-            if(!texture){
-                Logger::print(Logger::ERROR, "Failed to load ImageUI cause texture path is nullptr");
-                return;
-            }
             load();
         }
 
