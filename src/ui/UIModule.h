@@ -78,6 +78,14 @@ namespace UIModule {
                 return;
             }
             text.ikuyo(font.c_str());
+
+            if(content.empty()){
+                Logger::print(Logger::WARNING, "Content of messageUI is empty");
+                content = " ";
+            }
+            else {
+                content = Config::findSpecial(content);
+            }
         }
 
         void update(Vector& relative) override {

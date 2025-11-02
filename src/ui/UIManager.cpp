@@ -139,7 +139,7 @@ void UIManager::init(Stash::InitType type, const char* title){
                         fuck = value;
                         continue;
                     }
-                    if(key == "message"){
+                    if(key == "content"){
                         message = value;
                         continue;
                     }

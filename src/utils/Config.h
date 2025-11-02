@@ -10,7 +10,9 @@ class Config {
     
     public:
     Config();
+
     void init();
+    static std::string findSpecial(std::string content);
 
     template<typename T>
     static T parse(std::string keyTitle, std::string keyMessage){
