@@ -5,6 +5,7 @@
 #include <SDL2/SDL.h>
 #include <fstream>
 #include <memory>
+#include <unordered_map>
 
 UIManager uiManager;
 
@@ -12,13 +13,13 @@ UIManager::UIManager(){
 
 }
 
-void UIManager::init(InitType type, const char* title){
+void UIManager::init(Stash::InitType type, const char* title){
     std::string path = "resources/ui/";
     switch (type) {
-        case InitType::PLAYER:
+        case Stash::InitType::PLAYER:
             path += "player.ini";
             break;
-        case InitType::WORLD:
+        case Stash::InitType::WORLD:
             path += "world.ini";
             break;
         default:
@@ -88,10 +89,10 @@ void UIManager::init(InitType type, const char* title){
             if(line[0] == ';' && !hasModule){
                 std::vector<UI>* pointStash = nullptr;
                 switch(type){
-                    case InitType::PLAYER:
+                    case Stash::InitType::PLAYER:
                         pointStash = &uiManager.stash.player;
                         break;
-                    case InitType::WORLD:
+                    case Stash::InitType::WORLD:
                         pointStash = &uiManager.stash.world;
                         break;
                     default:
@@ -155,10 +156,23 @@ void UIManager::init(InitType type, const char* title){
                     continue;
                 }
                 if(key == "vector"){
-                    size_t bpos = value.find("|");
-                    if(bpos != std::string::npos){
-                        result.position.x = std::stof(value.substr(0, bpos));
-                        result.position.y = std::stof(value.substr(bpos + 1));
+                    if(value[0] == '*'){
+                        value.erase(0, 1);
+                        size_t bpos = value.find("|");
+                        if(bpos != std::string::npos){
+                            std::string first = value.substr(0, bpos);
+                            std::string second = value.substr(bpos + 1);
+                            ikuyoPosition(result.position, stash.toPosTypeFrom(first));
+                            ikuyoPosition(result.position, stash.toPosTypeFrom(second));
+                        } else {
+                            ikuyoPosition(result.position, stash.toPosTypeFrom(value));
+                        }
+                    } else {
+                        size_t bpos = value.find("|");
+                        if(bpos != std::string::npos){
+                            result.position.x = std::stof(value.substr(0, bpos));
+                            result.position.y = std::stof(value.substr(bpos + 1));
+                        }
                     }
                     continue;
                 }
@@ -182,6 +196,31 @@ void UIManager::render(){
     }
 }
 
+void UIManager::ikuyoPosition(Vector& position, Stash::PositionType type){
+    float windowHeight = Config::parse<float>("game_info", "screen_height");
+    float windowWidth = Config::parse<float>("game_info", "screen_width");
+    switch(type){
+        case Stash::PositionType::RIGHT:
+            position.x = windowWidth - position.x;
+            break;
+        case Stash::PositionType::LEFT:
+            position.x = position.x;
+            break;
+        case Stash::PositionType::TOP:
+            position.y = position.y;
+            break;
+        case Stash::PositionType::DOWN:
+            position.y = windowHeight - position.y;
+            break;
+        case Stash::PositionType::CENTER:
+            position.x += windowWidth/2 + position.x;
+            position.y += windowHeight/2 + position.y;
+            break;
+        default:
+            break;    
+    }
+}
+
 void Stash::turn(std::vector<UI> storage, bool status, int id){
     if(id == -1){
         for(int i = 0; i < storage.size(); i++){
@@ -193,5 +232,22 @@ void Stash::turn(std::vector<UI> storage, bool status, int id){
                 storage[i].visible = status;
             }
         }
+    }
+}
+
+Stash::PositionType Stash::toPosTypeFrom(std::string& value){
+    static std::unordered_map<std::string, PositionType> const table = {
+        {"RIGHT", PositionType::RIGHT},
+        {"LEFT", PositionType::LEFT},
+        {"TOP", PositionType::TOP},
+        {"DOWN", PositionType::DOWN},
+        {"CENTER", PositionType::CENTER}
+    };
+    auto it = table.find(value);
+    if(it != table.end()){
+        return it->second;
+    } else {
+        Logger::print(Logger::ERROR, "Failed to convert to animation type from string");
+        return PositionType::CENTER;
     }
 }

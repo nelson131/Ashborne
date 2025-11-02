@@ -54,7 +54,7 @@ void Ashborne::init(const char *title, int x, int y, int width, int height, bool
 
     itemHolder.init();
     
-    uiManager.init(UIManager::InitType::PLAYER, nullptr);
+    uiManager.init(Stash::InitType::PLAYER, nullptr);
 }
 
 void Ashborne::eventManager(){
