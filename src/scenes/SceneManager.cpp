@@ -120,28 +120,43 @@ void SceneManager::ikuyo(){
     }
 }
 
-Scene& SceneManager::findSceneById(int id){
-    for(Scene &scene : sceneManager.holder){
-        if(scene.id == id){
-            return scene;
-        }
-    }
-    Logger::print(Logger::ERROR, "Failed to find scene by id");
-    exit(1);
-}
-
 Scene* SceneManager::getCurrentScene(){
     return sceneManager.currentScene;
 }
 
-void SceneManager::setCurrentScene(Scene& scene) {
-    sceneManager.currentScene = &scene;
+Scene* SceneManager::findSceneByName(const char* name){
+    if(!name){
+        Logger::print(Logger::ERROR, "Failed to find scene by name cause name is nullptr");
+        return nullptr;
+    }
+
+    for(Scene& scene : sceneManager.holder){
+        if(scene.name == name){
+            return &scene;
+        }
+    }
+    Logger::print(Logger::ERROR, "Failed to find scene by name");
+    return nullptr;
+}
+
+Scene* SceneManager::findSceneById(int id){
+    for(Scene& scene : sceneManager.holder){
+        if(scene.id == id){
+            return &scene;
+        }
+    }
+    Logger::print(Logger::ERROR, "Failed to find scene by id");
+    return nullptr;
+}
+
+void SceneManager::setCurrentScene(Scene* scene) {
+    sceneManager.currentScene = scene;
     loadNPCs();
-    for(Npc& npc : scene.npcs){
+    for(Npc& npc : scene->npcs){
         npc.spawn();
     }
     
-    Logger::print(Logger::INFO, "Current scene is: ", scene.name);
+    Logger::print(Logger::INFO, "Current scene is: ", scene->name);
 }
 
 void SceneManager::loadNPCs(){
@@ -172,7 +187,7 @@ void SceneManager::loadNPCs(){
             object.setSpawnPars(x, y, width, height, filePath, name, animated, debugmode);
             object.setBehavior(pathing, visionr);
             if(pathing) object.addDots(dots);
-            findSceneById(sceneId).npcs.push_back(object);
+            findSceneById(sceneId)->npcs.push_back(object);
 
             hasObject = false;
             object = Npc{};

@@ -27,9 +27,10 @@ class SceneManager {
     void update();
     void ikuyo();
 
-    void setCurrentScene(Scene& scene);
+    void setCurrentScene(Scene* scene);
     Scene* getCurrentScene();
-    Scene& findSceneById(int id);
+    Scene* findSceneByName(const char* name);
+    Scene* findSceneById(int id);
 
     std::vector<Scene>& getHolder();
 
@@ -44,10 +45,6 @@ class SceneManager {
     std::vector<Scene> holder;
 
     Scene Testroom;
-
-    TilemapLayer layer1;
-    TilemapLayer layer2;
-    
 };
 
 extern SceneManager sceneManager;
