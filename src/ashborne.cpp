@@ -1,5 +1,7 @@
 #include "ashborne.hpp"
 
+#include <SDL2/SDL_video.h>
+
 #include "utils/error_handler.hpp"
 
 Ashborne::Ashborne() : window(nullptr), renderer(nullptr), run(false) {}
@@ -8,12 +10,13 @@ Error Ashborne::init(const char* title, size_t width, size_t height) {
     SDL_Init(SDL_INIT_VIDEO);
     SDL_Init(SDL_INIT_EVENTS);
 
-    window = SDL_CreateWindow(title, width, height, 0);
+    window = SDL_CreateWindow(title, SDL_WINDOWPOS_CENTERED,
+                              SDL_WINDOWPOS_CENTERED, width, height, 0);
     if (!window) {
         return ERR_NULLPTR_OBJECT;
     }
 
-    renderer = SDL_CreateRenderer(window, NULL);
+    renderer = SDL_CreateRenderer(window, -1, 0);
     if (!renderer) {
         return ERR_NULLPTR_OBJECT;
     }
@@ -25,7 +28,7 @@ Error Ashborne::init(const char* title, size_t width, size_t height) {
 void Ashborne::handle() {
     while (SDL_PollEvent(&event)) {
         switch (event.type) {
-            case SDL_EVENT_QUIT:
+            case SDL_QUIT:
                 run = false;
                 break;
             default:

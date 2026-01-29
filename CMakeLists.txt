@@ -3,15 +3,15 @@ set(CMAKE_CXX_COMPILER g++)
 project(Ashborne VERSION 0.1.0 LANGUAGES C CXX)
 
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(SDL3 REQUIRED sdl3)
-pkg_check_modules(SDL3_IMAGE REQUIRED sdl3-image)
-pkg_check_modules(SDL3_TTF REQUIRED sdl3-ttf)
+pkg_check_modules(SDL2 REQUIRED sdl2)
+pkg_check_modules(SDL2_IMAGE REQUIRED SDL2_image)
+pkg_check_modules(SDL2_TTF REQUIRED SDL2_ttf)
 
 include_directories(
-    ${SDL3_INCLUDE_DIRS}
-    /usr/include/SDL3
-    ${SDL3_TTF_INCLUDE_DIRS}
-    /usr/include/SDL3_ttf      
+    ${SDL2_INCLUDE_DIRS}
+    /usr/include/SDL2
+    ${SDL2_TTF_INCLUDE_DIRS}
+    /usr/include/SDL2_ttf      
 )
 
 add_executable(Ashborne
@@ -23,9 +23,9 @@ add_executable(Ashborne
  )
 
 target_link_libraries(Ashborne
-    ${SDL3_LIBRARIES}
-    ${SDL3_IMAGE_LIBRARIES}
-    ${SDL3_TTF_LIBRARIES}
+    ${SDL2_LIBRARIES}
+    ${SDL2_IMAGE_LIBRARIES}
+    ${SDL2_TTF_LIBRARIES}
 )
 
 add_custom_command(TARGET Ashborne POST_BUILD
