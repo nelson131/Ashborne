@@ -19,6 +19,7 @@ add_executable(Ashborne
  src/ashborne.cpp
  src/utils/error_handler.cpp
  src/utils/log.cpp
+ src/utils/config.cpp
  )
 
 target_link_libraries(Ashborne

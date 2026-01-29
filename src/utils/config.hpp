@@ -16,6 +16,9 @@ class Config {
             return T{};
         }
 
+        file.clear();
+        file.seekg(0);
+
         std::string line = "";
         bool        has_field = false;
         while (std::getline(file, line)) {
