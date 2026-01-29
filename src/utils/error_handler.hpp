@@ -15,7 +15,11 @@ enum Error {
     ERR_FILE_NOT_FOUND,
     // Config
     ERR_FAILED_CONVERT,
-    ERR_KEY_NOT_FOUND
+    ERR_KEY_NOT_FOUND,
+    // Texture
+    ERR_FAILED_LOAD_SURFACE,
+    ERR_FAILED_LOAD_TEXTURE,
+    ERR_TEXTURE_IS_NULLPTR
 };
 
 extern std::vector<const char*> error_messages;
