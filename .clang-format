@@ -1,0 +1,4 @@
+BasedOnStyle: Google
+InsertBraces: false
+IndentWidth: 4
+AlignConsecutiveDeclarations: true
