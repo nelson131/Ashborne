@@ -1,5 +1,7 @@
 #pragma once
 
+#include <SDL3/SDL.h>
+
 #include "utils/error_handler.hpp"
 
 class Ashborne {
@@ -17,5 +19,9 @@ class Ashborne {
     const bool& is_running() const;
 
    private:
+    SDL_Window*   window;
+    SDL_Renderer* renderer;
+    SDL_Event     event;
+
     bool run;
 };

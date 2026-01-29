@@ -12,7 +12,10 @@ enum Error {
     OK,
     ERR_NEGATIVE_NUM,
     ERR_NULLPTR_OBJECT,
-    ERR_FILE_NOT_FOUND
+    ERR_FILE_NOT_FOUND,
+    // Config
+    ERR_FAILED_CONVERT,
+    ERR_KEY_NOT_FOUND
 };
 
 extern std::vector<const char*> error_messages;
