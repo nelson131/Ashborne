@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+SceneManager scene_manager;
+
 SceneManager::SceneManager() {}
 
 Scene* SceneManager::create_scene(std::string name) {
