@@ -13,4 +13,6 @@ std::vector<const char*> error_messages{
     "Failed to find info in the config",
     "Failed to load the surface",
     "Failed to load the texture",
-    "Texture like an argument is nullptr object"};
+    "Texture like an argument is nullptr object",
+    "Failed to operate divide cause v.x or v.y is zero",
+    "Failed to operate vector cause vector is null"};

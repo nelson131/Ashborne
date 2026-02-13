@@ -19,7 +19,10 @@ enum Error {
     // Texture
     ERR_FAILED_LOAD_SURFACE,
     ERR_FAILED_LOAD_TEXTURE,
-    ERR_TEXTURE_IS_NULLPTR
+    ERR_TEXTURE_IS_NULLPTR,
+    // Vector
+    ERR_DIVIDE_ON_ZERO,
+    ERR_NULL_VECTOR
 };
 
 extern std::vector<const char*> error_messages;
