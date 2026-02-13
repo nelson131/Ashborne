@@ -8,6 +8,7 @@ std::vector<const char*> error_messages{
     "OK",
     "Number cant be negative",
     "Nullptr object",
+    "Failed to find: ",
     "Failed to find the file",
     "Failed to convert string in the config parser",
     "Failed to find info in the config",

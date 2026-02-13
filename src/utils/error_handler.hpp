@@ -12,6 +12,7 @@ enum Error {
     OK,
     ERR_NEGATIVE_NUM,
     ERR_NULLPTR_OBJECT,
+    ERR_SOMETHING_NOT_FOUND,
     ERR_FILE_NOT_FOUND,
     // Config
     ERR_FAILED_CONVERT,
