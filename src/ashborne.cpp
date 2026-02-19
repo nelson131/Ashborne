@@ -22,6 +22,10 @@ Error Ashborne::init(const char* title, size_t width, size_t height) {
     }
 
     run = true;
+
+    Error scene_error = scene_manager.init(renderer);
+    if (!scene_error) return scene_error;
+
     return NONE;
 }
 

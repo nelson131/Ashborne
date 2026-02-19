@@ -4,7 +4,9 @@
 
 SceneManager scene_manager;
 
-SceneManager::SceneManager() {}
+SceneManager::SceneManager() : renderer(nullptr) {}
+
+Error SceneManager::init(SDL_Renderer* renderer) { this->renderer = renderer; }
 
 Scene* SceneManager::create_scene(std::string name) {
     Scene scene;

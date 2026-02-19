@@ -2,6 +2,7 @@
 
 #include <SDL2/SDL.h>
 
+#include "scene/scene_manager.hpp"
 #include "utils/error_handler.hpp"
 
 class Ashborne {
